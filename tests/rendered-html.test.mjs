@@ -1,33 +1,20 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const developmentPreviewMeta =
-  /<meta(?=[^>]*\bname=["']codex-preview["'])(?=[^>]*\bcontent=["']development["'])[^>]*>/i;
-
-test("renders development preview metadata", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  const response = await worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
+test("packages the Worker and Sites runtime metadata", async () => {
+  const worker = await readFile(new URL("../dist/server/index.js", import.meta.url), "utf8");
+  const hosting = JSON.parse(
+    await readFile(new URL("../dist/.openai/hosting.json", import.meta.url), "utf8"),
+  );
+  const migration = await readFile(
+    new URL("../dist/.openai/drizzle/0000_peaceful_siren.sql", import.meta.url),
+    "utf8",
   );
 
-  assert.equal(response.status, 200);
-  assert.match(
-    response.headers.get("content-type") ?? "",
-    /^text\/html\b/i,
-  );
-  assert.match(await response.text(), developmentPreviewMeta);
+  assert.match(worker, /vinext/);
+  assert.match(hosting.project_id, /^appgprj_/);
+  assert.equal(hosting.d1, "DB");
+  assert.equal(hosting.r2, "BUCKET");
+  assert.match(migration, /CREATE TABLE `prompts`/);
 });

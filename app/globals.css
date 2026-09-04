@@ -64,7 +64,7 @@ html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--ink); color: var(--paper); font-family: Arial, Helvetica, sans-serif; font-size: 16px; }
 a { color: inherit; text-decoration: none; }
 button, input, textarea { font: inherit; }
-button, a { -webkit-tap-highlight-color: transparent; }
+button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--action); outline-offset: 3px; }
 main { min-height: 100vh; }
 
@@ -79,7 +79,6 @@ main { min-height: 100vh; }
 .account-pill { display: flex; align-items: center; gap: .45rem; color: var(--verify); font: 700 .75rem/1 "Courier New", monospace; }
 .account-pill svg { width: 16px; }
 .submit-button, .search-button, .copy-button, .submit-main { min-height: 44px; border: 2px solid var(--paper); border-radius: 0; background: var(--action); color: var(--ink); font: 900 .8rem/1 "Courier New", monospace; text-transform: uppercase; box-shadow: 3px 3px 0 var(--paper); }
-.submit-button:hover, .search-button:hover, .copy-button:hover, .submit-main:hover { transform: translate(-2px,-2px); background: var(--action); box-shadow: 5px 5px 0 var(--paper); }
 .system-notice { padding: .65rem 4vw; background: var(--success); color: var(--ink); text-align: center; font: 700 .8rem/1.3 "Courier New", monospace; }
 
 .hero-grid { display: grid; grid-template-columns: .92fr 1.08fr; min-height: 460px; border-bottom: 1px solid var(--line); }
@@ -112,16 +111,16 @@ main { min-height: 100vh; }
 .section-heading h2, .workflow-copy h2, .anatomy-panel h2, .expected-output h2 { margin: .35rem 0 0; font-size: clamp(2rem,3vw,3.7rem); line-height: 1; letter-spacing: -.04em; }
 .result-count { color: var(--steel); font: 700 .78rem/1 "Courier New", monospace; }
 .prompt-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
-.prompt-card { display: flex; min-height: 340px; flex-direction: column; padding: 1.35rem; border: 1px solid var(--line); background: var(--panel); transition: transform 160ms ease, border-color 160ms ease; }
+.prompt-card { display: flex; min-height: 340px; flex-direction: column; padding: 1.35rem; border: 1px solid var(--line); background: var(--panel); }
 .prompt-card:nth-child(2), .prompt-card:nth-child(5) { background: var(--prompt); color: var(--ink); border-color: var(--paper); }
 .prompt-card:nth-child(2) .model-list, .prompt-card:nth-child(5) .model-list { color: #252a53; }
-.prompt-card:hover { transform: translateY(-4px); border-color: var(--action); }
 .card-topline, .card-footer { display: flex; justify-content: space-between; align-items: center; gap: .75rem; }
 .verified, .community { display: inline-flex; align-items: center; gap: .35rem; font: 800 .68rem/1 "Courier New", monospace; text-transform: uppercase; }
 .verified { color: #3d987a; }
 .verified svg { width: 14px; }
 .community { color: var(--action); }
 .prompt-card h3 { margin: 2.1rem 0 .7rem; font-size: 1.65rem; line-height: 1.05; letter-spacing: -.035em; }
+.prompt-card h3 a { display: flex; align-items: center; min-height: 44px; }
 .prompt-card p { margin: 0; color: inherit; opacity: .8; line-height: 1.55; }
 .tag-row { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: 1.4rem; }
 .tag-row span { border-color: currentColor; border-radius: 0; font: 700 .66rem/1 "Courier New", monospace; }
@@ -165,7 +164,7 @@ main { min-height: 100vh; }
 footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1.2rem 6vw; border-top: 1px solid var(--line); color: var(--steel); font: 700 .7rem/1.4 "Courier New", monospace; text-transform: uppercase; }
 
 .detail-page, .lesson-page, .index-page { max-width: 1500px; margin: auto; }
-.back-link { display: inline-flex; align-items: center; gap: .5rem; margin-bottom: 3rem; color: var(--steel); font: 700 .75rem/1 "Courier New", monospace; text-transform: uppercase; }
+.back-link { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; margin-bottom: 3rem; color: var(--steel); font: 700 .75rem/1 "Courier New", monospace; text-transform: uppercase; }
 .back-link svg { width: 16px; }
 .detail-header { display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: end; }
 .detail-header h1, .index-page > h1, .lesson-page > h1, .form-intro h1 { max-width: 950px; margin: .65rem 0 1rem; font-size: clamp(3rem,7vw,7.5rem); line-height: .88; letter-spacing: -.065em; }
@@ -237,6 +236,17 @@ footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1.2r
 .submission-list p { margin: .3rem 0 0; color: var(--steel); }
 .status { align-self: center; padding: .45rem .65rem; border: 1px solid var(--action); color: var(--action); font: 800 .66rem/1 "Courier New", monospace; text-transform: uppercase; }
 
+.prompt-section, .workflow-panel, .learn-section, .trust-strip {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .submit-button:hover, .search-button:hover, .copy-button:hover, .submit-main:hover { transform: translate(-2px,-2px); background: var(--action); box-shadow: 5px 5px 0 var(--paper); }
+  .prompt-card { transition: transform 160ms ease, border-color 160ms ease; }
+  .prompt-card:hover { transform: translateY(-4px); border-color: var(--action); }
+}
+
 @media (max-width: 1050px) {
   .site-header { grid-template-columns: 1fr auto; }
   .primary-nav { display: none; }
@@ -251,15 +261,19 @@ footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1.2r
 }
 
 @media (max-width: 700px) {
-  .site-header { min-height: 64px; padding: 0 1rem; }
+  .site-header { min-height: 64px; padding: 0 1rem; background: var(--ink); backdrop-filter: none; }
+  .wordmark { display: inline-flex; align-items: center; min-height: 44px; }
   .nav-actions { gap: .5rem; }
   .icon-link, .account-pill span, .nav-actions .text-link { display: none; }
   .submit-button { padding: 0 .75rem; box-shadow: none; }
-  .zine-hero, .search-console { min-height: auto; padding: 3.5rem 1.2rem; }
+  .search-console { order: -1; min-height: auto; padding: 2.75rem 1.2rem; background: var(--ink); }
+  .zine-hero { min-height: auto; padding: 3.5rem 1.2rem; }
   .zine-hero h1 { font-size: clamp(3.2rem,16vw,5.2rem); }
   .sticker { top: 1rem; right: 1rem; font-size: .55rem; }
   .search-row { flex-direction: column; }
   .search-button { width: 100%; }
+  .category-rail button { min-height: 44px; }
+  .text-arrow { min-height: 44px; }
   .prompt-section, .learn-section, .index-page, .detail-page, .lesson-page, .form-page { padding: 3.5rem 1rem; }
   .section-heading, .profile-heading { align-items: start; flex-direction: column; }
   .prompt-grid, .lesson-grid, .detail-grid { grid-template-columns: 1fr; }

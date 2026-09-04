@@ -13,8 +13,59 @@ function parseRows<T>(result: DatabaseResult<T>): T[] {
   return result.results ?? [];
 }
 
-export async function ensureSeeded() {
+let seedPromise: Promise<void> | null = null;
+
+async function prepareDatabase() {
   const database = db();
+
+  await database.batch([
+    database.prepare(`CREATE TABLE IF NOT EXISTS prompts (
+      id TEXT PRIMARY KEY NOT NULL,
+      slug TEXT NOT NULL UNIQUE,
+      title TEXT NOT NULL,
+      promise TEXT NOT NULL,
+      prompt_text TEXT,
+      github_url TEXT,
+      asset_key TEXT,
+      category TEXT NOT NULL,
+      tags TEXT NOT NULL DEFAULT '[]',
+      difficulty TEXT NOT NULL DEFAULT 'beginner',
+      models TEXT NOT NULL DEFAULT '[]',
+      anatomy TEXT NOT NULL DEFAULT '[]',
+      example_output TEXT,
+      verified INTEGER NOT NULL DEFAULT 0,
+      quality_score INTEGER NOT NULL DEFAULT 0,
+      author_id TEXT NOT NULL DEFAULT 'plsprompt-team',
+      author_name TEXT NOT NULL DEFAULT 'PlsPrompt Team',
+      status TEXT NOT NULL DEFAULT 'draft',
+      tested_at TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    )`),
+    database.prepare(`CREATE TABLE IF NOT EXISTS lessons (
+      id TEXT PRIMARY KEY NOT NULL,
+      slug TEXT NOT NULL UNIQUE,
+      title TEXT NOT NULL,
+      eyebrow TEXT NOT NULL,
+      summary TEXT NOT NULL,
+      body TEXT NOT NULL,
+      level TEXT NOT NULL DEFAULT 'beginner',
+      minutes INTEGER NOT NULL DEFAULT 5,
+      published INTEGER NOT NULL DEFAULT 0,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    )`),
+    database.prepare(`CREATE TABLE IF NOT EXISTS prompt_saves (
+      id TEXT PRIMARY KEY NOT NULL,
+      prompt_id TEXT NOT NULL,
+      user_id TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    )`),
+    database.prepare("CREATE INDEX IF NOT EXISTS idx_prompts_status_quality ON prompts (status, verified, quality_score, created_at)"),
+    database.prepare("CREATE INDEX IF NOT EXISTS idx_prompts_author ON prompts (author_id, created_at)"),
+    database.prepare("CREATE INDEX IF NOT EXISTS idx_lessons_published ON lessons (published, created_at)"),
+  ]);
+
   const count = await database.prepare("SELECT COUNT(*) AS count FROM prompts").first<{ count: number }>();
   if ((count?.count ?? 0) > 0) return;
 
@@ -45,6 +96,14 @@ export async function ensureSeeded() {
       ),
   );
   await database.batch([...promptStatements, ...lessonStatements]);
+}
+
+export async function ensureSeeded() {
+  seedPromise ??= prepareDatabase().catch((error) => {
+    seedPromise = null;
+    throw error;
+  });
+  await seedPromise;
 }
 
 export async function getPublishedPrompts(): Promise<PromptRecord[]> {
@@ -103,4 +162,3 @@ export async function createPrompt(input: {
     ).run();
   return { id, slug, status: "review" };
 }
-
