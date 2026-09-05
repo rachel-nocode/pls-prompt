@@ -2,9 +2,16 @@ import { z } from "zod";
 import { repository } from "@/lib/data";
 import { apiError, privateHeaders, readBody, requireActor } from "@/lib/api";
 import { AppError } from "@/lib/repository";
+import { exerciseRules } from "@/lib/exercise-types";
 
 const id = z.string().min(1).max(160).nullable();
-const check = z.object({ question: z.string().trim().max(350), options: z.array(z.object({ id: z.string().min(1).max(20), text: z.string().trim().max(350) })).min(2).max(4), correct: z.string().min(1).max(20), explanation: z.string().trim().max(600) }).refine(data => new Set(data.options.map(option => option.id)).size === data.options.length && data.options.some(option => option.id === data.correct), "Choose distinct options and a valid correct answer.");
+const ruleIds = exerciseRules.map(rule => rule.id) as [typeof exerciseRules[number]["id"], ...typeof exerciseRules[number]["id"][]];
+const check = z.object({
+  kind: z.literal("prompt-completion"), goal: z.string().trim().max(350), prefix: z.string().trim().max(700), suffix: z.string().trim().max(350),
+  placeholder: z.string().trim().max(180), hints: z.array(z.string().trim().min(1).max(250)).max(4),
+  criteria: z.array(z.object({ id: z.string().min(1).max(40), label: z.string().trim().max(180), rule: z.enum(ruleIds), hint: z.string().trim().max(250) })).min(1).max(4),
+  referenceAnswer: z.string().trim().max(2000), explanation: z.string().trim().max(600),
+}).refine(data => new Set(data.criteria.map(item => item.id)).size === data.criteria.length && new Set(data.criteria.map(item => item.rule)).size === data.criteria.length, "Choose distinct checks.");
 const schema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("prompt"), id, version: z.number().int().nonnegative(), input: z.object({ title: z.string().trim().min(1).max(140), promise: z.string().trim().max(280), promptText: z.string().trim().max(30000), category: z.string().trim().min(2).max(40), tags: z.array(z.string().trim().min(1).max(40)).max(12), status: z.enum(["draft", "review", "published"]), accessMode: z.enum(["free", "earned"]) }) }),
   z.object({ kind: z.literal("lesson"), id, version: z.number().int().nonnegative(), input: z.object({ title: z.string().trim().min(1).max(140), summary: z.string().trim().max(280), body: z.string().trim().max(1800), minutes: z.number().int().min(1).max(5), position: z.number().int().min(1).max(100), prerequisiteId: id, rewardPromptId: id, published: z.boolean(), check }) }),

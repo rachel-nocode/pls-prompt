@@ -16,5 +16,5 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   const initialReward = actor && completion?.reward_prompt_id ? await store.libraryItemForPrompt(actor, completion.reward_prompt_id) : null;
   const previous = lessons.find(item => item.id === lesson.prerequisite_id) ?? null;
   const next = lessons.find(item => item.prerequisite_id === lesson.id) ?? null;
-  return <main><SiteHeader /><LessonPlayer lesson={lesson} completed={completed.has(lesson.id)} locked={Boolean(actor && previous && !completed.has(previous.id))} signIn={actor ? null : chatGPTSignInPath("/learn/" + slug)} previous={previous} next={next} initialReward={initialReward} /></main>;
+  return <main><SiteHeader /><LessonPlayer key={lesson.id + ":" + lesson.version + ":" + (actor?.id ?? "guest")} lesson={lesson} learnerKey={actor?.id ?? "guest"} localPreview={process.env.NODE_ENV === "development"} completed={completed.has(lesson.id)} locked={Boolean(actor && previous && !completed.has(previous.id))} signIn={actor ? null : chatGPTSignInPath("/learn/" + slug)} previous={previous} next={next} initialReward={initialReward} /></main>;
 }

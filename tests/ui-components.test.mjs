@@ -81,3 +81,34 @@ test("renders sidebar skeletons deterministically", async () => {
   assert.equal(first, second);
   assert.match(first, /--skeleton-width:70%/);
 });
+
+test("beginner exercises render an accessible prompt composer without answer choices", async () => {
+  const { LessonPlayer } = await vite.ssrLoadModule("/components/lesson-player.tsx");
+  const { promptExercises } = await import("../lib/prompt-exercises.ts");
+  const { publicExercise } = await import("../lib/prompt-grading.ts");
+  for (const [id, exercise] of Object.entries(promptExercises)) {
+    const html = renderToStaticMarkup(React.createElement(LessonPlayer, {
+      lesson: { id, slug: id, version: 3, title: "A small lesson", summary: "Write a clear prompt.", position: 1, minutes: 3, body: "One short idea.", exercise: publicExercise(exercise) },
+      completed: false, locked: false, signIn: "/signin-with-chatgpt", localPreview: true, learnerKey: "guest", previous: null, next: null, initialReward: null,
+    }));
+    assert.match(html, /<textarea[^>]*id="prompt-answer"/);
+    assert.match(html, /<label[^>]*for="prompt-answer"/);
+    assert.match(html, /aria-describedby="prompt-prefix prompt-suffix prompt-help"/);
+    assert.match(html, /Check my prompt/); assert.match(html, /Guided checks/);
+    assert.doesNotMatch(html, /type="radio"|role="radiogroup"/);
+    assert.ok(!html.includes(exercise.referenceAnswer));
+  }
+});
+
+test("locked, unavailable, and previously collected lesson states render safely", async () => {
+  const { LessonPlayer } = await vite.ssrLoadModule("/components/lesson-player.tsx");
+  const { promptExercises } = await import("../lib/prompt-exercises.ts");
+  const { publicExercise } = await import("../lib/prompt-grading.ts");
+  const props = { lesson: { id: "test", slug: "test", version: 3, title: "A lesson", position: 1, minutes: 3, body: "One idea.", exercise: publicExercise(promptExercises["lesson-outcomes"]) }, completed: false, locked: true, signIn: null, localPreview: true, learnerKey: "test", previous: { slug: "previous", title: "Previous lesson" }, next: null, initialReward: null };
+  const locked = renderToStaticMarkup(React.createElement(LessonPlayer, props));
+  assert.match(locked, /Finish the previous lesson/); assert.doesNotMatch(locked, /<textarea/);
+  const unavailable = renderToStaticMarkup(React.createElement(LessonPlayer, { ...props, locked: false, lesson: { ...props.lesson, exercise: null } }));
+  assert.match(unavailable, /This exercise is being prepared/); assert.doesNotMatch(unavailable, /<textarea/);
+  const collected = renderToStaticMarkup(React.createElement(LessonPlayer, { ...props, locked: false, completed: true, initialReward: { id: "reward", prompt_text: "Private collected recipe" } }));
+  assert.match(collected, /IN YOUR LIBRARY/); assert.match(collected, /Private collected recipe/); assert.match(collected, /<textarea/);
+});

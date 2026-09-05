@@ -411,3 +411,89 @@ footer { display: flex; justify-content: space-between; gap: 1rem; padding: 1.2r
 @media(max-width:560px) { .work-page { padding: 2rem 1rem 3rem; } .site-header { display: flex; flex-wrap: wrap; gap: 1rem; padding: 1rem; } .primary-nav { order: 3; width: 100%; justify-content: space-between; font-size: .8rem; } .nav-actions { margin-left: auto; } .nav-actions .account-pill { display: none; } .library-layout { display: flex; flex-direction: column; } .library-nav { border-bottom: 1px solid var(--line); } .library-nav .collection-form { max-width: none; } .library-list { border: 0; max-height: 340px; } .lesson-stage, .studio-editor { padding: 1.2rem; } .step-status span:last-child { display: none; } .form-grid { grid-template-columns: 1fr; } .lesson-bite > p { min-height: 110px; } .action-row { align-items: stretch; } .action-row > button, .action-row > a { flex: 1; } .path-number { padding-inline: .8rem; } .work-heading h1, .lesson-heading h1 { font-size: 2.7rem; } }
 
 .editor-fields { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+/* Prompt practice */
+.prompt-lab { max-width: 1380px; }
+.lab-topline { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--steel); }
+.lab-topline .back-link { margin: 0; }
+.lab-heading { margin: 2.2rem 0 2.6rem; }
+.lab-heading > .mono-label { color: var(--prompt); }
+.lab-heading h1 { margin: .7rem 0 .8rem; font: 700 clamp(2.2rem,4vw,3.8rem)/1.1 Georgia,serif; letter-spacing: -.04em; }
+.lab-heading > p { color: var(--steel); max-width: 660px; line-height: 1.6; }
+.prompt-lab-grid { display: grid; grid-template-columns: minmax(240px,.7fr) minmax(0,1.7fr); gap: clamp(2rem,4vw,4rem); align-items: start; }
+.lab-guide { min-width: 0; border-top: 1px solid var(--line); }
+.lesson-notes summary { display: flex; flex-direction: column; gap: .6rem; padding: 1.3rem 0; cursor: pointer; }
+.lesson-notes summary .mono-label { color: var(--steel); }
+.lesson-notes summary > span:last-child { font-weight: 600; }
+.lesson-notes summary > span:last-child::after { content: ' +'; color: var(--prompt); }
+.lesson-notes[open] summary > span:last-child::after { content: ' −'; }
+.lesson-notes p { font-size: .95rem; line-height: 1.75; color: var(--steel); margin: 0 0 1.1rem; }
+.lesson-notes p:first-child { color: var(--paper); }
+.lab-reward { padding: 1.3rem; margin-top: 1.8rem; border: 1px solid #8e98ff50; border-radius: 12px; background: #1a1d2b; }
+.lab-reward .mono-label { display: flex; gap: .6rem; align-items: center; color: var(--prompt); font-size: .68rem; }
+.lab-reward svg { width: 17px; height: 17px; flex-shrink: 0; }
+.lab-reward h2 { font: 700 1.45rem/1.3 Georgia,serif; margin: 1rem 0 .7rem; }
+.lab-reward p { color: var(--steel); font-size: .85rem; line-height: 1.7; }
+.recipe-caption { display: block; font-size: .75rem; border-top: 1px solid #8e98ff30; padding-top: 1rem; margin-top: 1.2rem; color: var(--prompt); }
+.lab-reward a { display: flex; gap: .7rem; align-items: center; min-height: 44px; margin-top: .6rem; font-size: .9rem; color: var(--verify); }
+.lab-reward.collected { border-color: #8de1c260; }
+.lab-workspace { min-width: 0; }
+.lab-goal { position: relative; padding: .2rem 0 1.6rem; }
+.lab-goal > .mono-label { display: block; color: var(--prompt); margin-bottom: .8rem; }
+.lab-goal h2 { font-size: clamp(1.25rem,2vw,1.5rem); font-weight: 500; line-height: 1.5; margin: 0; max-width: 650px; }
+.lab-goal > p { font-size: .875rem; color: var(--steel); margin: .8rem 0 0; }
+.prompt-orb { width: 44px; height: 44px; margin: 0 0 1.2rem; border: 1px solid #b9c1c155; border-radius: 50% 50% 37% 37%; background: radial-gradient(ellipse at 30% 20%,#64696a,#222829 65%,#15191a); box-shadow: inset 0 0 8px #cdd4d533; }
+.prompt-composer { padding: 1.5rem; border-radius: 22px; background: #222628; border: 1px solid #454b4f; box-shadow: 0 10px 30px #0002; }
+.prompt-composer:focus-within { border-color: var(--prompt); }
+.composer-heading { display: flex; justify-content: space-between; align-items: center; gap: .6rem; color: var(--steel); font-size: .72rem; margin-bottom: 1.6rem; }
+.composer-heading .mono-label { font-size: .68rem; }
+.prompt-given, .prompt-suffix { line-height: 1.7; font-size: 1rem; white-space: pre-wrap; }
+.prompt-given { margin-bottom: 1.1rem; }
+.prompt-answer-label { display: block; color: var(--prompt); font-size: .68rem; margin-bottom: .7rem; }
+.prompt-lab .prompt-answer { background: #191d20; border: 1px solid #8e98ff60; border-radius: 12px; padding: 1rem; min-height: 138px; max-height: 400px; resize: vertical; line-height: 1.75; box-shadow: none; }
+.prompt-answer::placeholder { color: #a5adb3; }
+.prompt-answer:focus-visible { outline: 2px solid var(--prompt); outline-offset: 3px; }
+.prompt-suffix { color: var(--steel); font-size: .9rem; margin-top: 1.1rem; }
+.composer-footer { display: flex; gap: 1rem; align-items: center; justify-content: space-between; margin-top: 1.5rem; }
+.composer-footer > span { font-size: .7rem; color: var(--steel); }
+.prompt-lab .prompt-submit { border-radius: 30px; min-height: 46px; padding: .8rem 1.1rem; background: var(--prompt); color: var(--ink); font-weight: 700; }
+.prompt-submit svg { width: 20px; height: 20px; }
+.lab-tools { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .5rem 0 1rem; }
+.lab-tools > span { font-size: .75rem; color: var(--steel); text-align: right; }
+.lab-tools button { color: var(--steel); padding-left: .25rem; }
+.lab-tools button:hover { color: var(--ink); }
+.prompt-hints { border-left: 2px solid var(--prompt); padding: .1rem 0 .1rem 1rem; margin-bottom: 1.5rem; }
+.prompt-hints p { display: flex; gap: .8rem; font-size: .875rem; line-height: 1.65; margin: .5rem 0; color: var(--steel); }
+.prompt-hints p span { flex-shrink: 0; color: var(--prompt); }
+.prompt-feedback { outline: none; scroll-margin-top: 2rem; }
+.prompt-feedback:focus-visible { outline: 2px solid var(--prompt); outline-offset: 6px; border-radius: 4px; }
+.feedback-heading { display: flex; justify-content: space-between; gap: 1rem; color: var(--steel); border-top: 1px solid var(--line); padding-top: 1.3rem; font-size: .8rem; }
+.feedback-heading .mono-label { font-size: .7rem; }
+.prompt-checks { list-style: none; padding: 0; margin: 1rem 0; }
+.prompt-checks li { display: flex; gap: .75rem; padding: .75rem 0; align-items: flex-start; font-size: .9rem; }
+.prompt-checks svg { width: 18px; height: 18px; margin-top: .1rem; flex-shrink: 0; color: var(--steel); }
+.prompt-checks li > div { flex: 1; }
+.prompt-checks li p { color: var(--steel); margin: .4rem 0 0; font-size: .85rem; line-height: 1.6; }
+.prompt-checks small { color: var(--steel); font-size: .7rem; white-space: nowrap; margin-top: .25rem; }
+.prompt-checks .passed svg, .prompt-checks .passed small { color: var(--verify); }
+.grade-message { padding: 1rem 0 .2rem; }
+.grade-message h3 { font-size: 1.4rem; font-weight: 600; margin: .4rem 0; }
+.grade-message p, .practice-next p { color: var(--steel); font-size: .95rem; line-height: 1.65; }
+.grade-message.passed h3 { color: var(--verify); }
+.practice-next, .collected-recipe { border-top: 1px solid var(--line); margin-top: 1.3rem; padding-top: 1.3rem; }
+.practice-next .text-arrow, .collected-recipe .text-arrow { display: flex; gap: .6rem; align-items: center; min-height: 44px; margin-top: .6rem; font-size: .9rem; }
+.practice-next > p { margin-bottom: 1rem; }
+.collected-recipe > div:first-child { display: flex; align-items: center; gap: .8rem; margin-bottom: 1rem; color: var(--verify); }
+.collected-recipe h3 { font-weight: 600; }
+.lab-message { border: 1px solid var(--line); border-radius: 16px; background: var(--panel); padding: 2rem; }
+.lab-message h2 { font-size: 1.7rem; }
+.lab-message > p { color: var(--steel); line-height: 1.7; margin: 1rem 0 1.5rem; }
+.assembled-prompt { border-radius: 10px; }
+.author-criterion { display: flex; flex-direction: column; gap: .8rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+@media(max-width:950px) { .prompt-lab-grid { grid-template-columns: minmax(220px,.65fr) minmax(0,1.35fr); gap: 1.7rem; } .composer-footer > span > span { display: none; } .composer-heading > span:last-child { display: none; } }
+@media(max-width:740px) { .prompt-lab-grid { display: flex; flex-direction: column; gap: 2rem; } .lab-guide, .lab-workspace { width: 100%; } .lab-guide { display: contents; } .lesson-notes { order: 0; width: 100%; border-top: 1px solid var(--line); } .lab-workspace { order: 1; } .lab-reward { order: 2; width: 100%; margin-top: 0; } .lab-heading { margin-bottom: 1.6rem; } .lesson-notes p { margin-bottom: .8rem; } .prompt-orb { display: none; } }
+@media(max-width:480px) { .lab-topline > .mono-label { font-size: .6rem; } .lab-topline .back-link { font-size: .75rem; } .prompt-composer { padding: 1rem; border-radius: 16px; } .composer-footer { gap: .5rem; } .prompt-lab .prompt-submit { font-size: .8rem; padding-inline: .8rem; } .lab-tools { align-items: flex-start; } .lab-tools > span { padding-top: .9rem; font-size: .65rem; } .prompt-checks small { display: none; } }
+
+.grading-note { color: var(--steel); font-size: .8rem; margin-top: 1rem; }
+.grading-note summary { cursor: pointer; min-height: 44px; padding-block: .8rem; }
+.grading-note p { line-height: 1.7; max-width: 600px; }

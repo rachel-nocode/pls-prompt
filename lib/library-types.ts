@@ -1,4 +1,5 @@
 import type { PromptRecord } from "./content";
+import type { PublicExercise } from "./exercise-types";
 
 export type PromptSummary = Pick<PromptRecord, "id" | "slug" | "title" | "promise" | "category" | "tags" | "difficulty" | "models" | "verified" | "quality_score" | "tested_at"> & { access_mode?: string; version?: number };
 export type Actor = { id: string; displayName: string; isCreator: boolean };
@@ -15,7 +16,7 @@ export type PublicLesson = {
   id: string; slug: string; title: string; eyebrow: string; summary: string; body: string;
   level: string; minutes: number; position: number; prerequisite_id: string | null;
   reward_prompt_id: string | null; version: number; published: number;
-  question: string; options: { id: string; text: string }[];
+  exercise: PublicExercise | null;
   reward_title: string | null; reward_promise: string | null;
   created_at: string; updated_at: string;
 };

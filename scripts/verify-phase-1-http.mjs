@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { promptExercises } from "../lib/prompt-exercises.ts";
 import { beginnerLessons, projectRecipes } from "../lib/recipe-content.ts";
 
 const base = new URL(process.argv[2] ?? "http://localhost:5173");
@@ -32,15 +33,23 @@ for (const prompt of catalog.prompts) assert.equal("prompt_text" in prompt, fals
 for (const path of ["/", "/learn", `/learn/${lessons[0].slug}`, `/prompts/${projectRecipes[0].slug}`]) {
   const { text } = await request(path);
   assert.ok(!text.includes(projectRecipes[0].text.slice(0, 140)), `${path} leaked locked recipe text`);
+  for (const exercise of Object.values(promptExercises)) assert.ok(!text.includes(exercise.referenceAnswer), `${path} leaked the reference answer`);
 }
-const firstPath = `/api/lessons/${lessons[0].slug}/complete`;
-await request(firstPath, null, { answer: "b", version: lessons[0].version }, 401);
-await request(firstPath, learner, { answer: "b", version: lessons[0].version }, 403, { origin: "https://outside.example" });
+const firstPath = `/api/lessons/${lessons[0].slug}/check`;
+const answer = promptExercises[lessons[0].id].referenceAnswer;
+const practice = (await request(firstPath, null, { answer, version: lessons[0].version })).json;
+assert.equal(practice.grade.passed, true); assert.equal(practice.completed, false); assert.equal(practice.item, null);
+await request(firstPath, null, { answer: "", version: lessons[0].version }, 400);
+await request(firstPath, null, { answer: "x".repeat(2001), version: lessons[0].version }, 400);
+await request(firstPath, null, { answer, version: lessons[0].version - 1 }, 409);
+await request(firstPath, null, { answer, version: lessons[0].version }, 403, { origin: "https://outside.example" });
+await request(firstPath.replace("/check", "/complete"), null, { answer, version: lessons[0].version }, 401);
+await request(firstPath, learner, { answer, version: lessons[0].version }, 403, { origin: "https://outside.example" });
 await request("/api/library", learner, { action: "save", promptId: projectRecipes[0].id }, 403);
-const wrong = (await request(firstPath, learner, { answer: "a", version: lessons[0].version })).json;
+const wrong = (await request(firstPath, learner, { answer: "a", version: lessons[0].version, passed: true, completed: true, userId: creator.id })).json;
 assert.equal(wrong.completed, false);
 await request(`/api/lessons/${lessons[1].slug}/complete`, learner, { answer: "c", version: lessons[1].version }, 409);
-const completed = await Promise.all(Array.from({ length: 5 }, () => request(firstPath, learner, { answer: "b", version: lessons[0].version })));
+const completed = await Promise.all(Array.from({ length: 5 }, () => request(firstPath, learner, { answer, version: lessons[0].version })));
 const item = completed[0].json.item;
 for (const result of completed) { assert.equal(result.json.completed, true); assert.equal(result.json.item.id, item.id); assert.equal(result.json.item.prompt_text, projectRecipes[0].text); }
 const persisted = (await request("/api/library", { ...learner })).json;
@@ -59,7 +68,7 @@ const exported = await request("/api/library?export=json", learner);
 assert.match(exported.response.headers.get("content-disposition"), /attachment/);
 assert.match(exported.response.headers.get("cache-control"), /private, no-store/);
 assert.equal(exported.json.versions.length, 3);
-for (const index of [1, 2]) await request(`/api/lessons/${lessons[index].slug}/complete`, learner, { answer: beginnerLessons[index].check.correct, version: lessons[index].version });
+for (const index of [1, 2]) await request(`/api/lessons/${lessons[index].slug}/complete`, learner, { answer: promptExercises[lessons[index].id].referenceAnswer, version: lessons[index].version });
 assert.equal((await request("/api/library", learner)).json.items.length, 3);
 await request("/library", learner);
 await request("/studio", creator);
@@ -67,7 +76,7 @@ const draftInput = { title: `HTTP draft ${run}`, promise: "", promptText: "", ca
 const draft = (await request("/api/studio", creator, { kind: "prompt", id: null, version: 0, input: draftInput })).json;
 await request("/api/studio", learner, { kind: "prompt", id: draft.id, version: 1, input: draftInput }, 403);
 assert.equal((await request("/api/prompts")).json.prompts.some(prompt => prompt.id === draft.id), false);
-const emptyCheck = { question: "", options: [{ id: "a", text: "" }, { id: "b", text: "" }], correct: "a", explanation: "" };
+const emptyCheck = { ...promptExercises[lessons[0].id], goal: "", referenceAnswer: "" };
 await request("/api/studio", creator, { kind: "lesson", id: null, version: 0, input: { title: `HTTP lesson draft ${run}`, summary: "", body: "", minutes: 3, position: 99, prerequisiteId: null, rewardPromptId: null, published: false, check: emptyCheck } });
 const form = new FormData(); form.set("file", new File(["Private attachment fixture"], "phase1.txt", { type: "text/plain" }));
 const upload = await fetch(new URL("/api/uploads", base), { method: "POST", body: form, headers: { "oai-authenticated-user-id": learner.id, "oai-authenticated-user-email": learner.email, origin: base.origin }, signal: AbortSignal.timeout(15000) });
@@ -87,4 +96,4 @@ const bookmarked = (await request("/api/library", outsider, { action: "save", pr
 assert.equal(bookmarked.source_url, assetPath);
 await request("/api/studio", creator, { kind: "prompt", id: submitted.id, version: 2, input: { ...published, status: "draft" } });
 await request(assetPath, outsider, undefined, 404);
-console.log(`${checks} local HTTP checks passed: sign-in, creator permissions, complete beginner path, concurrent reward grants, private editing, history, export, and attachment privacy.`);
+console.log(`${checks} local HTTP checks passed: anonymous prompt practice, synthetic authentication, creator permissions, complete beginner path, concurrent reward grants, private editing, history, export, and attachment privacy.`);

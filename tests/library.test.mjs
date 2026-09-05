@@ -5,6 +5,7 @@ import test from "node:test";
 import { createRepository } from "../lib/repository.ts";
 import { seedDatabase } from "../lib/seed-database.ts";
 import { seedPrompts, seedLessons } from "../lib/content.ts";
+import { promptExercises } from "../lib/prompt-exercises.ts";
 import { beginnerLessons, projectRecipes } from "../lib/recipe-content.ts";
 
 const member = { id: "learner-one", displayName: "Learner", isCreator: false };
@@ -56,7 +57,7 @@ async function setup(t) {
 const lesson = async (store, index = 0) => (await store.publicLessons())[index];
 const pass = async (store, actor = member, index = 0) => {
   const current = await lesson(store, index);
-  return store.completeLesson(actor, current.slug, beginnerLessons[index].check.correct, current.version);
+  return store.completeLesson(actor, current.slug, promptExercises[current.id].referenceAnswer, current.version);
 };
 
 test("migration preserves legacy text and saves; backfill deduplicates the earliest save", async t => {
@@ -110,7 +111,7 @@ test("public metadata and lesson payloads exclude locked text, assets, and answe
 test("wrong answers, missing prerequisites, and stale lessons award nothing", async t => {
   const { store } = await setup(t); const first = await lesson(store); const second = await lesson(store, 1);
   assert.equal((await store.completeLesson(member, first.slug, "a", first.version)).completed, false);
-  await fails(store.completeLesson(member, first.slug, "invalid", first.version), 400);
+  assert.equal((await store.completeLesson(member, first.slug, "invalid", first.version)).grade.passed, false);
   await fails(store.completeLesson(member, first.slug, "b", first.version - 1), 409);
   await fails(store.completeLesson(member, second.slug, "c", second.version), 409);
   await fails(store.savePrompt(member, projectRecipes[0].id), 403);
@@ -233,11 +234,11 @@ test("rough drafts stay private and can become published lessons with full recip
   assert.equal((await store.listPrompts()).some(item => item.id === promptId), false);
   await fails(store.editPrompt(creator, promptId, 1, { ...prompt, status: "published" }), 400);
   await store.editPrompt(creator, promptId, 1, { ...prompt, status: "published", promise: "Build a project", promptText: projectRecipes[0].text });
-  const draft = { title: "New lesson", summary: "", body: "", minutes: 3, position: 4, prerequisiteId: null, rewardPromptId: null, published: false, check: { question: "", options: [{ id: "a", text: "" }, { id: "b", text: "" }], correct: "a", explanation: "" } };
+  const draft = { title: "New lesson", summary: "", body: "", minutes: 3, position: 4, prerequisiteId: null, rewardPromptId: null, published: false, check: { ...promptExercises["lesson-outcomes"], goal: "", referenceAnswer: "" } };
   const lessonId = await store.editLesson(creator, null, 0, draft);
   assert.equal((await store.publicLessons()).some(item => item.id === lessonId), false);
   await fails(store.editLesson(creator, lessonId, 1, { ...draft, published: true }), 400);
-  const completed = { ...draft, summary: "One small concept", body: "Say what you want to build.", rewardPromptId: promptId, check: beginnerLessons[0].check, published: true };
+  const completed = { ...draft, summary: "One small concept", body: "Say what you want to build.", rewardPromptId: promptId, check: promptExercises["lesson-outcomes"], published: true };
   await store.editLesson(creator, lessonId, 1, completed);
   assert.equal((await store.publicLessons()).some(item => item.id === lessonId), true);
 });
@@ -247,9 +248,71 @@ test("beginner lessons stay short and reward complete projects without empty pla
   for (const current of beginnerLessons) {
     assert.ok(current.minutes <= 5); assert.ok(current.body.split(/\s+/).length < 180);
     assert.equal(current.body.split(/\n\s*\n/).length, 3);
-    assert.equal(current.check.options.length, 3);
+    assert.equal(promptExercises[current.id].kind, "prompt-completion");
     const recipe = projectRecipes.find(recipe => recipe.id === current.reward);
     assert.ok(recipe); assert.ok(recipe.text.split(/\s+/).length > 350);
     assert.doesNotMatch(recipe.text, /\{\{|\[insert|TODO|TBD/i);
   }
+});
+
+test("anonymous practice grades all lessons without progress, access, or recipe text", async t => {
+  const { store, sqlite } = await setup(t);
+  for (const current of await store.publicLessons()) {
+    const result = await store.completeLesson(null, current.slug, promptExercises[current.id].referenceAnswer, current.version);
+    assert.equal(result.grade.passed, true); assert.equal(result.completed, false); assert.equal(result.item, null);
+    assert.ok(!JSON.stringify(result).includes(projectRecipes[0].text.slice(0, 80)));
+    assert.equal("referenceAnswer" in current.exercise, false);
+    assert.equal("explanation" in current.exercise, false);
+    for (const criterion of current.exercise.criteria) assert.deepEqual(Object.keys(criterion).sort(), ["id", "label"]);
+  }
+  for (const table of ["lesson_completions", "prompt_access", "library_items"]) assert.equal(sqlite.prepare(`SELECT count(*) AS n FROM ${table}`).get().n, 0);
+});
+
+test("partial writing and old choice IDs never award a recipe; revision can pass", async t => {
+  const { store } = await setup(t); const current = await lesson(store);
+  for (const answer of ["a", "b", "c", "view project progress and leave feedback."]) {
+    const result = await store.completeLesson(member, current.slug, answer, current.version);
+    assert.equal(result.grade.passed, false); assert.equal(result.completed, false); assert.equal(result.item, null);
+  }
+  assert.equal((await store.library(member)).items.length, 0);
+  const passed = await pass(store); assert.equal(passed.completed, true);
+  const review = await store.completeLesson(member, current.slug, "make something really cool", current.version);
+  assert.equal(review.grade.passed, false); assert.equal((await store.library(member)).items.length, 1);
+  assert.equal((await pass(store)).item.id, passed.item.id);
+});
+
+test("exercise upgrade preserves earned recipes and custom lesson edits", async t => {
+  const { store, sqlite, db } = await setup(t); const reward = (await pass(store)).item;
+  await store.updateItem(member, reward.id, reward.version, input);
+  sqlite.prepare("DELETE FROM content_revisions WHERE id='prompt-completion-exercises-v1'").run();
+  for (const current of beginnerLessons) sqlite.prepare("UPDATE lessons SET check_data=? WHERE id=?").run(JSON.stringify(current.check), current.id);
+  sqlite.prepare("UPDATE lessons SET body='My revised teaching text' WHERE id=?").run(beginnerLessons[0].id);
+  const customCheck = JSON.stringify({ ...beginnerLessons[1].check, question: "Custom creator question" });
+  sqlite.prepare("UPDATE lessons SET check_data=? WHERE id=?").run(customCheck, beginnerLessons[1].id);
+  const versions = sqlite.prepare("SELECT id,version FROM lessons ORDER BY position").all();
+  await seedDatabase(db); await seedDatabase(db);
+  assert.equal((await lesson(store)).body, "My revised teaching text");
+  assert.equal((await lesson(store)).version, versions[0].version + 1);
+  assert.equal((await lesson(store, 1)).exercise, null);
+  assert.equal(sqlite.prepare("SELECT check_data FROM lessons WHERE id=?").get(beginnerLessons[1].id).check_data, customCheck);
+  assert.equal((await store.completions(member)).length, 1);
+  assert.equal((await store.library(member)).items[0].prompt_text, input.promptText);
+  assert.equal((await pass(store)).item.id, reward.id);
+});
+
+test("exercise upgrade is atomic and can recover from a storage failure", async t => {
+  const { sqlite, db } = await setup(t);
+  sqlite.prepare("DELETE FROM content_revisions WHERE id='prompt-completion-exercises-v1'").run();
+  for (const current of beginnerLessons) sqlite.prepare("UPDATE lessons SET check_data=? WHERE id=?").run(JSON.stringify(current.check), current.id);
+  db.failBatchAt = 1;
+  await assert.rejects(seedDatabase(db), /Simulated storage failure/);
+  assert.equal(sqlite.prepare("SELECT id FROM content_revisions WHERE id='prompt-completion-exercises-v1'").get(), undefined);
+  assert.equal(JSON.parse(sqlite.prepare("SELECT check_data FROM lessons WHERE id=?").get(beginnerLessons[0].id).check_data).correct, "b");
+  await seedDatabase(db);
+  assert.equal(JSON.parse(sqlite.prepare("SELECT check_data FROM lessons WHERE id=?").get(beginnerLessons[0].id).check_data).kind, "prompt-completion");
+});
+
+test("creator cannot publish an exercise whose own reference answer fails", async t => {
+  const { store } = await setup(t); const current = (await store.studio(creator)).lessons[0];
+  await fails(store.editLesson(creator, current.id, current.version, lessonEdit(current, { check: { ...promptExercises[current.id], referenceAnswer: "make something really nice" } })), 400);
 });

@@ -1,5 +1,7 @@
-import type { Actor, ItemInput, LibraryItem, LibraryData, PublicLesson, PromptSummary, QuickCheck } from "./library-types";
+import type { Actor, ItemInput, LibraryItem, LibraryData, PublicLesson, PromptSummary } from "./library-types";
 import type { PromptRecord } from "./content";
+import type { PromptExercise } from "./exercise-types";
+import { gradePrompt, publicExercise } from "./prompt-grading.ts";
 
 export interface SqlStatement {
   bind(...values: unknown[]): SqlStatement;
@@ -144,23 +146,24 @@ export function createRepository(db: SqlDatabase) {
     async publicLessons(): Promise<PublicLesson[]> {
       const lessons = await rows<Lesson>("SELECT l.*,p.title AS reward_title,p.promise AS reward_promise FROM lessons l LEFT JOIN prompts p ON p.id=l.reward_prompt_id WHERE l.published=1 ORDER BY l.position,l.created_at");
       return lessons.map(({ check_data, ...lesson }) => {
-        const check = safeJson<Partial<QuickCheck>>(check_data, {});
-        return { ...lesson, question: check.question ?? "", options: check.options ?? [] } as PublicLesson;
+        const check = safeJson<Partial<PromptExercise>>(check_data, {});
+        return { ...lesson, exercise: check.kind === "prompt-completion" && Array.isArray(check.criteria) ? publicExercise(check as PromptExercise) : null } as PublicLesson;
       });
     },
     async completions(actor: Actor) {
       return rows<{ lesson_id: string; reward_prompt_id: string | null; completed_at: string }>("SELECT lesson_id,reward_prompt_id,completed_at FROM lesson_completions WHERE user_id=?", actor.id);
     },
-    async completeLesson(actor: Actor, slug: string, answer: string, expectedVersion: number) {
+    async completeLesson(actor: Actor | null, slug: string, answer: string, expectedVersion: number) {
       const lesson = await q("SELECT * FROM lessons WHERE slug=? AND published=1", slug).first<Lesson>();
       if (!lesson) throw new AppError(404, "That lesson is unavailable.");
-      const prior = await q("SELECT reward_prompt_id FROM lesson_completions WHERE user_id=? AND lesson_id=?", actor.id, lesson.id).first<{ reward_prompt_id: string | null }>();
-      if (prior) return { completed: true, alreadyCompleted: true, item: prior.reward_prompt_id ? await api.savePrompt(actor, prior.reward_prompt_id) : null, explanation: "Already completed. Your recipe is in your library." };
       if (lesson.version !== expectedVersion) throw new AppError(409, "This lesson has changed. Reload to see the latest check.");
-      if (lesson.prerequisite_id && !await q("SELECT id FROM lesson_completions WHERE user_id=? AND lesson_id=?", actor.id, lesson.prerequisite_id).first()) throw new AppError(409, "Finish the previous lesson first.");
-      const check = safeJson<Partial<QuickCheck>>(lesson.check_data, {});
-      if (!check.correct || !check.options?.some(option => option.id === answer)) throw new AppError(400, "Choose one of the answers.");
-      if (answer !== check.correct) return { completed: false, explanation: "Try again. Look for a clear, specific request you can check.", item: null };
+      const prior = actor ? await q("SELECT reward_prompt_id FROM lesson_completions WHERE user_id=? AND lesson_id=?", actor.id, lesson.id).first<{ reward_prompt_id: string | null }>() : null;
+      if (actor && !prior && lesson.prerequisite_id && !await q("SELECT id FROM lesson_completions WHERE user_id=? AND lesson_id=?", actor.id, lesson.prerequisite_id).first()) throw new AppError(409, "Finish the previous lesson first.");
+      const check = safeJson<Partial<PromptExercise>>(lesson.check_data, {});
+      if (check.kind !== "prompt-completion" || !check.criteria?.length) throw new AppError(409, "This exercise is being prepared. Try another lesson.");
+      const grade = gradePrompt(check as PromptExercise, answer);
+      if (!grade.passed || !actor) return { grade, completed: false, explanation: grade.message, item: null };
+      if (prior) return { grade, completed: true, alreadyCompleted: true, item: prior.reward_prompt_id ? await api.savePrompt(actor, prior.reward_prompt_id) : null, explanation: "Already completed. Your recipe is in your library." };
       const reward = lesson.reward_prompt_id ? await q("SELECT * FROM prompts WHERE id=? AND status='published'", lesson.reward_prompt_id).first<Prompt>() : null;
       if (!reward?.prompt_text) throw new AppError(409, "This lesson's recipe is being prepared. Your progress has not been changed.");
       const time = now();
@@ -177,7 +180,7 @@ export function createRepository(db: SqlDatabase) {
       const item = await q("SELECT * FROM library_items WHERE user_id=? AND prompt_id=?", actor.id, reward.id).first<LibraryItem>();
       if (!item) throw new AppError(409, "This lesson changed while saving. Reload and try again.");
       await db.batch([versionStatement(item), q("UPDATE library_items SET archived_at=NULL WHERE id=? AND user_id=?", item.id, actor.id)]);
-      return { completed: true, alreadyCompleted: false, item: { ...item, archived_at: null }, explanation: check.explanation };
+      return { grade, completed: true, alreadyCompleted: false, item: { ...item, archived_at: null }, explanation: grade.message };
     },
     async studio(actor: Actor) {
       requireCreator(actor);
@@ -202,7 +205,7 @@ export function createRepository(db: SqlDatabase) {
       } else await q("INSERT INTO prompts(id,slug,title,promise,prompt_text,category,tags,author_id,author_name,status,access_mode,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", recordId, slugify(input.title) + "-" + recordId.slice(0, 6), input.title, input.promise, input.promptText, input.category, JSON.stringify(input.tags), actor.id, actor.displayName, input.status, input.accessMode, time, time).run();
       return recordId;
     },
-    async editLesson(actor: Actor, id: string | null, expectedVersion: number, input: { title: string; summary: string; body: string; minutes: number; position: number; prerequisiteId: string | null; rewardPromptId: string | null; published: boolean; check: QuickCheck }) {
+    async editLesson(actor: Actor, id: string | null, expectedVersion: number, input: { title: string; summary: string; body: string; minutes: number; position: number; prerequisiteId: string | null; rewardPromptId: string | null; published: boolean; check: PromptExercise }) {
       requireCreator(actor);
       const current = id ? await q("SELECT * FROM lessons WHERE id=?", id).first<Lesson>() : null;
       if (id && !current) throw new AppError(404, "Lesson unavailable.");
@@ -218,10 +221,10 @@ export function createRepository(db: SqlDatabase) {
         }
       }
       if (input.published) {
-        if (!input.summary.trim() || !input.body.trim() || !input.check.question.trim() || !input.check.explanation.trim() || input.check.options.some(option => !option.text.trim())) throw new AppError(400, "Finish the lesson and quick check before publishing.");
+        if (!input.summary.trim() || !input.body.trim() || !input.check.goal.trim() || !input.check.prefix.trim() || !input.check.explanation.trim() || !input.check.criteria.length || input.check.criteria.some(criterion => !criterion.label.trim() || !criterion.hint.trim())) throw new AppError(400, "Finish the lesson, prompt starter, and feedback before publishing.");
         const reward = input.rewardPromptId ? await q("SELECT * FROM prompts WHERE id=? AND status='published'", input.rewardPromptId).first<Prompt>() : null;
         if (!reward?.prompt_text) throw new AppError(400, "Choose a published, copy-ready reward recipe first.");
-        if (!input.check.options.some(option => option.id === input.check.correct)) throw new AppError(400, "Choose the correct answer.");
+        if (!gradePrompt(input.check, input.check.referenceAnswer).passed) throw new AppError(400, "Your reference answer must pass every selected check before publishing.");
       }
       if (!input.published && id && await q("SELECT id FROM lessons WHERE prerequisite_id=? AND published=1", id).first()) throw new AppError(409, "Unpublish dependent lessons first.");
       const time = now(); const recordId = id ?? uid();

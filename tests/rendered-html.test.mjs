@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 import test from "node:test";
+import { promptExercises } from "../lib/prompt-exercises.ts";
 import { projectRecipes } from "../lib/recipe-content.ts";
 
 test("packages the Worker and Sites runtime metadata", async () => {
@@ -33,5 +34,6 @@ test("public browser bundles exclude full reward instructions", async () => {
   }
   const client = await javascript(new URL("../dist/client/", import.meta.url));
   assert.ok(client.length > 1000);
+  for (const exercise of Object.values(promptExercises)) assert.ok(!client.includes(exercise.referenceAnswer), "Reference answer leaked into a public bundle");
   for (const recipe of projectRecipes) assert.ok(!client.includes(recipe.text.split("\n")[0]), `${recipe.title} leaked into a public bundle`);
 });
