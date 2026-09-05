@@ -25,9 +25,10 @@ export async function POST(request: Request) {
   try {
     const parsed = submissionSchema.safeParse(await request.json());
     if (!parsed.success) return Response.json({ error: parsed.error.issues[0]?.message || "Check the submission." }, { status: 400 });
-    if (parsed.data.githubUrl && new URL(parsed.data.githubUrl).hostname !== "github.com") {
-      return Response.json({ error: "External prompt links must use github.com." }, { status: 400 });
+    if (parsed.data.githubUrl && (new URL(parsed.data.githubUrl).hostname !== "github.com" || new URL(parsed.data.githubUrl).protocol !== "https:")) {
+      return Response.json({ error: "External prompt links must use https://github.com." }, { status: 400 });
     }
+    if (parsed.data.assetKey && !parsed.data.assetKey.startsWith(`prompt-assets/${user.id}/`)) return Response.json({ error: "Choose an attachment uploaded by your account." }, { status: 403 });
     const prompt = await createPrompt({
       title: parsed.data.title,
       promise: parsed.data.promise,
@@ -44,4 +45,3 @@ export async function POST(request: Request) {
     return Response.json({ error: "That submission did not save. Your text is still in the form—try again." }, { status: 500 });
   }
 }
-

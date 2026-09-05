@@ -2,24 +2,24 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Check, GitFork, Search, Sparkles } from "lucide-react";
+import { ArrowUpRight, Check, Search, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import type { PromptRecord } from "@/lib/content";
+import type { PromptSummary } from "@/lib/library-types";
 
-const categories = ["All", "Code", "Research", "Writing", "Marketing"];
+const categories = ["All", "Projects", "Code", "Research", "Writing", "Marketing"];
 
 function list(value: string): string[] {
   try { return JSON.parse(value) as string[]; } catch { return []; }
 }
 
-function PromptCard({ prompt }: { prompt: PromptRecord }) {
+function PromptCard({ prompt }: { prompt: PromptSummary }) {
   return (
     <article className="prompt-card">
       <div className="card-topline">
         <span className="mono-label">PROMPT / {prompt.category.toUpperCase()}</span>
-        {prompt.verified ? (
+        {prompt.access_mode === "earned" ? <span className="community">Lesson reward</span> : prompt.verified ? (
           <span className="verified"><Check aria-hidden="true" /> Human verified</span>
         ) : (
           <span className="community">Community</span>
@@ -32,13 +32,13 @@ function PromptCard({ prompt }: { prompt: PromptRecord }) {
       </div>
       <div className="card-footer">
         <span className="model-list">{list(prompt.models).join(" · ")}</span>
-        <span className="score">{prompt.github_url && <GitFork aria-hidden="true" />} {prompt.quality_score || "NEW"}</span>
+        <span className="score">{prompt.access_mode === "earned" ? "EARN IT" : prompt.quality_score || "NEW"}</span>
       </div>
     </article>
   );
 }
 
-export function PromptExplorer({ prompts }: { prompts: PromptRecord[] }) {
+export function PromptExplorer({ prompts }: { prompts: PromptSummary[] }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const results = useMemo(() => {
@@ -58,7 +58,7 @@ export function PromptExplorer({ prompts }: { prompts: PromptRecord[] }) {
           <span className="corner corner-two" aria-hidden="true" />
           <p className="mono-label">HIGH-SIGNAL PROMPTS. REAL RESULTS.</p>
           <h1 id="hero-title">Turn vague ideas into <span>very specific wins.</span></h1>
-          <p className="hero-note">Find prompts that were tested, explained, and made to be changed.</p>
+          <p className="hero-note">Learn a little. Unlock a full project recipe. Keep every useful prompt in your own library.</p>
           <div className="sticker" aria-hidden="true">COPY.<br />CUSTOMIZE.<br />CRUSH IT.</div>
         </div>
         <div className="search-console">

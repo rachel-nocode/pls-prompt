@@ -15,6 +15,13 @@
       "when": 1788547553901,
       "tag": "0001_ordinary_baron_strucker",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1788640008692,
+      "tag": "0002_square_bishop",
+      "breakpoints": true
     }
   ]
 }

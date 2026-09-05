@@ -184,11 +184,11 @@ Completed for accessible site data: inventoried all live user tables and columns
 
 Phase 1 — Private library and creator workspace.
 
-Reuse sign-in and storage; complete saves, private prompt editing, tags, collections, notes, versioning, and export. Add explicit creator authorization, draft/published controls, and lesson authoring. Gate: you can use it for daily study and recover/export your work without developer help; one user cannot read or edit another user's private prompts.
+Implemented locally: saves, private prompt editing, tags, collections, notes, version recovery, Markdown and JSON export, explicit creator authorization, draft/published controls, and lesson authoring. At the user's request, three short beginner lessons now collect complete project recipes, with basic progress and protected content access brought forward from Phase 2. The [Phase 1 report](phase-1.md) records verification and remaining production release steps. Gate: daily study and recovery/export work without developer help, and one user cannot read or edit another user's private prompts; local behavior and HTTP checks pass, with hosted acceptance pending publication.
 
 Phase 2 — One complete learning loop.
 
-Build a playable lesson, server-side execution, meaningful checks, hints, progress, reward grant, and saved prompt. Implement server-side content access and protected downloads here, before introducing locked rewards; public listings use metadata-only responses. Gate: a newcomer finishes, understands feedback, and retrieves the reward after signing back in; repeated requests cannot duplicate rewards, and locked content stays unavailable before a valid grant.
+Extend the playable beginner path with server-side prompt execution, meaningful output checks, hints, and attempt history. Basic progress, atomic recipe collection, metadata-only public listings, and protected downloads are implemented in Phase 1. Gate: a newcomer finishes a prompt-writing mission, understands feedback, and retrieves the reward after signing back in; varied successful prompts receive fair checks, repeated requests cannot duplicate rewards, and locked content stays unavailable before a valid grant.
 
 Phase 3 — Paid directory.
 

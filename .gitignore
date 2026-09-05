@@ -29,12 +29,16 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.dev.vars*
+!.env.example
 
 # vercel
 .vercel
 
 # typescript
 next-env.d.ts
+*.tsbuildinfo
+/cloudflare-runtime.d.ts
 /dist/
 /.wrangler/
 /.sites-runtime/

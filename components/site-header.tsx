@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { Bookmark, GitFork, Plus } from "lucide-react";
+import { getActor } from "@/lib/access";
 import { Button } from "@/components/ui/button";
 import { getChatGPTUser, chatGPTSignInPath, chatGPTSignOutPath } from "@/app/chatgpt-auth";
 
 export async function SiteHeader() {
   const user = await getChatGPTUser();
+  const actor = await getActor();
   return (
     <header className="site-header">
       <Link className="wordmark" href="/" aria-label="PlsPrompt home">
@@ -13,7 +15,8 @@ export async function SiteHeader() {
       <nav className="primary-nav" aria-label="Primary navigation">
         <Link href="/#prompts">Prompts</Link>
         <Link href="/learn">Learn</Link>
-        <Link href="/profile">My prompts</Link>
+        <Link href="/library">My library</Link>
+        {actor?.isCreator && <Link href="/studio">Studio</Link>}
       </nav>
       <div className="nav-actions">
         <a className="icon-link" href="https://github.com" target="_blank" rel="noreferrer" aria-label="GitHub">

@@ -39,7 +39,7 @@ export function CopyButton({ text }: { text: string }) {
   return (
     <Button onClick={copy} className={copied ? "copy-button copied" : "copy-button"} aria-live="polite">
       {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
-      {copied ? "Copied. Go make something weird." : status === "error" ? "Copy failed — select it manually" : "Copy prompt"}
+      {copied ? "Copied" : status === "error" ? "Copy failed — select it manually" : "Copy prompt"}
     </Button>
   );
 }

@@ -4,11 +4,12 @@ import { SiteHeader } from "@/components/site-header";
 import { PromptExplorer } from "@/components/prompt-explorer";
 import { getPublishedLessons, getPublishedPrompts } from "@/lib/data";
 import { seedLessons, seedPrompts } from "@/lib/content";
+import type { PromptSummary } from "@/lib/library-types";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  let prompts = seedPrompts;
+  let prompts: PromptSummary[] = seedPrompts;
   let lessons = seedLessons;
   let databaseOnline = true;
   try {
@@ -24,10 +25,10 @@ export default async function Home() {
 
       <section className="workflow-panel" aria-labelledby="workflow-heading">
         <div className="workflow-copy">
-          <span className="mono-label">FEATURED WORKFLOW / 5 STAGES</span>
-          <h2 id="workflow-heading">From idea to shipped app</h2>
-          <p>A complete prompt chain for scoping, designing, building, testing, and launching a small product.</p>
-          <Link className="zine-action" href="/prompts/turn-an-idea-into-a-product-spec">Open workflow <ArrowRight aria-hidden="true" /></Link>
+          <span className="mono-label">YOUR FIRST PROJECT RECIPE</span>
+          <h2 id="workflow-heading">Build a client portal.</h2>
+          <p>Start with a three-minute lesson. Collect StudioDesk: one complete prompt for a portal with projects, milestones, client updates, and approvals.</p>
+          <Link className="zine-action" href="/learn/start-with-the-outcome">Earn this recipe <ArrowRight aria-hidden="true" /></Link>
         </div>
         <ol className="stage-list">
           <li><span>01</span><div><strong>Plan</strong><p>Define the result and remove accidental scope.</p></div></li>
@@ -50,17 +51,17 @@ export default async function Home() {
               <span className="mono-label">{lesson.eyebrow} / {lesson.minutes} MIN</span>
               <h3>{lesson.title}</h3>
               <p>{lesson.summary}</p>
-              <span className="text-arrow">Read lesson <ArrowRight aria-hidden="true" /></span>
+              <span className="text-arrow">Start lesson <ArrowRight aria-hidden="true" /></span>
             </Link>
           ))}
         </div>
       </section>
 
       <section className="trust-strip">
-        <div><strong>6</strong><span>launch prompts</span></div>
-        <div><strong>3</strong><span>mini lessons</span></div>
-        <div><strong>5</strong><span>model families</span></div>
-        <div className="human-proof"><CheckCircle2 aria-hidden="true" /><span><strong>Verified by humans</strong> because robots marking their own homework felt weird.</span></div>
+        <div><strong>{prompts.length}</strong><span>prompts and recipes</span></div>
+        <div><strong>{lessons.length}</strong><span>mini lessons</span></div>
+        <div><strong>3 min</strong><span>to learn one concept</span></div>
+        <div className="human-proof"><CheckCircle2 aria-hidden="true" /><span><strong>Learn. Collect. Build.</strong> Complete a lesson and keep its full project recipe in your library.</span></div>
       </section>
 
       <footer><span>&gt;_ PLS PROMPT / VERSION 0.1</span><span>Built by prompters, for builders.</span></footer>

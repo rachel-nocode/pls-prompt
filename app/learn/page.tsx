@@ -1,32 +1,19 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check, Gift, Lock } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
-import { getPublishedLessons } from "@/lib/data";
-import { seedLessons } from "@/lib/content";
-
+import { Progress } from "@/components/ui/progress";
+import { getPublishedLessons, repository } from "@/lib/data";
+import { getActor } from "@/lib/access";
 export const dynamic = "force-dynamic";
-
 export default async function LearnPage() {
-  let lessons = seedLessons;
-  try { lessons = await getPublishedLessons(); } catch {}
-  return (
-    <main>
-      <SiteHeader />
-      <section className="index-page">
-        <span className="mono-label">PLS EXPLAIN / LEARNING LIBRARY</span>
-        <h1>Learn the parts that make prompts work.</h1>
-        <p className="index-intro">Short lessons, real examples, and zero mystical prompt engineering fog.</p>
-        <div className="lesson-list">
-          {lessons.map((lesson, index) => (
-            <Link href={`/learn/${lesson.slug}`} key={lesson.id}>
-              <span className="lesson-number">0{index + 1}</span>
-              <div><span className="mono-label">{lesson.eyebrow} / {lesson.level}</span><h2>{lesson.title}</h2><p>{lesson.summary}</p></div>
-              <span className="lesson-time">{lesson.minutes} min <ArrowRight aria-hidden="true" /></span>
-            </Link>
-          ))}
-        </div>
-      </section>
-    </main>
-  );
+  const actor = await getActor(); const lessons = await getPublishedLessons();
+  const completed = new Set(actor ? (await (await repository()).completions(actor)).map(row => row.lesson_id) : []);
+  const doneCount = lessons.filter(lesson => completed.has(lesson.id)).length;
+  return <main><SiteHeader /><section className="work-page learn-map">
+    <div className="work-heading"><div><span className="mono-label">START HERE / BEGINNER PATH</span><h1>Small lessons.<br />Big projects.</h1><p>Learn one idea. Pass a quick check. Collect a complete project recipe.</p></div><div className="path-progress"><span>{doneCount} of {lessons.length} recipes collected</span><Progress value={lessons.length ? doneCount / lessons.length * 100 : 0} aria-label="Beginner path progress" /><Link href="/library">Open my library →</Link></div></div>
+    <div className="lesson-path">{lessons.map((lesson, index) => {
+      const done = completed.has(lesson.id); const locked = Boolean(actor && lesson.prerequisite_id && !completed.has(lesson.prerequisite_id) && !done);
+      return <article className={"path-card " + (done ? "complete" : "")} key={lesson.id}><div className="path-number">{done ? <Check /> : String(index + 1).padStart(2, "0")}</div><div className="path-lesson"><span className="mono-label">BEGINNER · {lesson.minutes} MINUTES</span><h2>{lesson.title}</h2><p>{lesson.summary}</p><Link className="path-start" href={"/learn/" + lesson.slug}>{done ? "Review lesson" : locked ? "View lesson" : "Start lesson"}{locked ? <Lock /> : <ArrowRight />}</Link></div><div className="path-reward"><span className="mono-label"><Gift />{done ? "COLLECTED" : "UNLOCK THIS PROJECT"}</span><h3>{lesson.reward_title}</h3><p>{lesson.reward_promise}</p></div></article>;
+    })}</div><p className="path-footnote">New to AI? Start at lesson one. Your recipes and progress stay saved to your account.</p>
+  </section></main>;
 }
-

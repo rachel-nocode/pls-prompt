@@ -61,8 +61,8 @@ def main():
     with tempfile.TemporaryDirectory(prefix='pls-phase0-') as temporary:
         original = sqlite3.connect(Path(temporary) / 'before.sqlite')
         original.execute('PRAGMA foreign_keys=ON')
-        for migration in sorted((ROOT / 'drizzle').glob('*.sql')):
-            original.executescript(migration.read_text())
+        for name in ('0000_peaceful_siren.sql', '0001_ordinary_baron_strucker.sql'):
+            original.executescript((ROOT / 'drizzle' / name).read_text())
         for table in TABLES:
             live_columns = tables[table]['columns']
             schema_columns = [row[1] for row in original.execute('PRAGMA table_info(' + quote(table) + ')')]

@@ -1,28 +1,20 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
-import { getLessonBySlug } from "@/lib/data";
-import { seedLessons } from "@/lib/content";
-
+import { LessonPlayer } from "@/components/lesson-player";
+import { getPublishedLessons, repository } from "@/lib/data";
+import { getActor } from "@/lib/access";
+import { chatGPTSignInPath } from "@/app/chatgpt-auth";
 export const dynamic = "force-dynamic";
-
 export default async function LessonPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  let lesson = null;
-  try { lesson = await getLessonBySlug(slug); } catch { lesson = seedLessons.find((item) => item.slug === slug) ?? null; }
+  const lessons = await getPublishedLessons(); const lesson = lessons.find(lesson => lesson.slug === slug);
   if (!lesson) notFound();
-  return (
-    <main>
-      <SiteHeader />
-      <article className="lesson-page">
-        <Link className="back-link" href="/learn"><ArrowLeft aria-hidden="true" /> All lessons</Link>
-        <span className="mono-label">{lesson.eyebrow} / {lesson.level} / {lesson.minutes} MIN</span>
-        <h1>{lesson.title}</h1>
-        <p className="lesson-deck">{lesson.summary}</p>
-        <div className="lesson-body">{lesson.body.split("\n\n").map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
-        <div className="lesson-end">THE END. GO BOTHER A ROBOT WITH BETTER INSTRUCTIONS.</div>
-      </article>
-    </main>
-  );
+  const actor = await getActor(); const store = await repository();
+  const completions = actor ? await store.completions(actor) : [];
+  const completed = new Set(completions.map(row => row.lesson_id));
+  const completion = completions.find(row => row.lesson_id === lesson.id);
+  const initialReward = actor && completion?.reward_prompt_id ? await store.libraryItemForPrompt(actor, completion.reward_prompt_id) : null;
+  const previous = lessons.find(item => item.id === lesson.prerequisite_id) ?? null;
+  const next = lessons.find(item => item.prerequisite_id === lesson.id) ?? null;
+  return <main><SiteHeader /><LessonPlayer lesson={lesson} completed={completed.has(lesson.id)} locked={Boolean(actor && previous && !completed.has(previous.id))} signIn={actor ? null : chatGPTSignInPath("/learn/" + slug)} previous={previous} next={next} initialReward={initialReward} /></main>;
 }
