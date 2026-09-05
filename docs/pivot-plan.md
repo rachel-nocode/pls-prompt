@@ -177,9 +177,11 @@ These are implementation targets, not files changed by the planning task. Create
 
 ### Phase B — Build the design system from the user's screenshots
 
-**Input:** The user will provide UI reference screenshots. Do not choose a final palette, typography, component treatment, or layout system before that input arrives.
+**Input received:** Four reference screenshots, followed by explicit preferences for ASCII animation, a monochrome bento gallery, scrolling preview carousels, pause on hover, and color revealed only inside the hovered preview. The user requested four image-model mockups before writing the design system. [Compare the four generated directions](design-explorations/README.md); no final direction is selected yet.
 
-- [ ] Review the supplied references together and identify the specific qualities to carry forward: density, hierarchy, preview prominence, navigation, and interaction treatment.
+- [x] Identify the qualities to carry forward from the supplied references: monochrome framing, ASCII animation, bento composition, scrolling previews, and hover-to-pause/color.
+- [x] Generate four separate UI mockup images for comparison before writing the design system.
+- [ ] Review the mockup directions with the user and select the elements to carry into the design system.
 - [ ] Define an original PLS PROMPT system for typography, colors, spacing, borders, radii, controls, icons, focus states, and motion.
 - [ ] Design the gallery and a representative project page on desktop and mobile.
 - [ ] Include loading, empty, unavailable-demo, copied, saved, signed-out, and error states.
@@ -243,6 +245,6 @@ Consider monetization after the free experience demonstrates repeat use and reli
 
 ## 10. Next input and project record
 
-The next user-provided input is the UI screenshots. Use them to begin Phase B, then establish the first real recipe/demo pair before expanding the catalog. No additional feature implementation is authorized by this document alone.
+The next input is the user’s choice among the generated UI directions, including any elements to combine. Then finish Phase B and establish the first real recipe/demo pair before expanding the catalog. No additional feature implementation is authorized by this document alone.
 
 The earlier [foundation audit](phase-0/README.md) and [library and learning implementation report](phase-1.md) remain historical evidence of completed work. Their former future phases are superseded by this plan. The unrelated domain setup item remains in [the project to-do](../todo.md).

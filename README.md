@@ -2,7 +2,7 @@
 
 PLS PROMPT is moving toward a curated gallery of working projects and premium build recipes: try the live demo, collect the prompt, prompt pack, or skill, then make it your own.
 
-The [active pivot plan](docs/pivot-plan.md) replaces the earlier learning-platform roadmap. Recipe-only downloads and interactive proof define this direction; payment processing is outside the current scope. The design system will be developed from the user's upcoming UI references.
+The [active pivot plan](docs/pivot-plan.md) replaces the earlier learning-platform roadmap. Recipe-only downloads and interactive proof define this direction; payment processing is outside the current scope. Four [image-generated UI directions](docs/design-explorations/README.md) now explore the supplied references; select a direction before writing the design system.
 
 ## Current foundation
 
