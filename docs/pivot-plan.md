@@ -45,7 +45,7 @@ Premium means useful, carefully authored, demonstrated, and tested. A high word 
 - Stack preview and recipe on mobile, keeping the recipe easy to reach without interacting with the demo first.
 - Offer clear **Try demo** and **Reset demo** controls, plus an **Open demo** fallback when embedding is unavailable.
 - Show the recipe format, what it builds, the tool used, and any setup requirements before the copy or download action.
-- Provide **Copy recipe**, **Download recipe**, and **Save to my library**. Packs also allow copying individual steps.
+- Provide format-specific **Copy prompt**, **Copy all prompts**, or **Download skill** actions, plus **Download recipe** or **Download pack**, and **Save recipe**. Packs also allow copying individual steps.
 - Keep short, optional sections for **How it was made**, **What to customize**, and **Known limits**.
 - Preserve existing `/prompts/[slug]` URLs. Keep the existing `/#prompts` destination working during the homepage transition.
 
@@ -153,7 +153,7 @@ Reuse current routes and keep new responsibilities small:
 - `app/prompts/[slug]/page.tsx`: project detail page combining demo, recipe actions, and build context.
 - New `components/project-demo.tsx`: demo loading, reset, fallback, framing, and accessibility behavior.
 - New `components/recipe-panel.tsx`: display single prompts, ordered packs, and skill contents; copy/save/download actions.
-- `app/globals.css` and the existing `components/ui/` primitives: implement the design system after the screenshots are supplied.
+- `app/globals.css` and the existing `components/ui/` primitives: implement the selected [ASCII Atelier design system](design-system.md).
 - `db/schema.ts`, generated files in `drizzle/`, `lib/data.ts`, `lib/repository.ts`, and `lib/library-types.ts`: recipe format, immutable published versions, demo/proof metadata, structured private snapshots, and access-aware queries.
 - New `lib/recipe-types.ts` and `lib/recipe-export.ts`: shared recipe contract and deterministic download formatting.
 - New `app/api/recipes/[slug]/download/route.ts`: access-checked exports from a specific published recipe version.
@@ -177,17 +177,20 @@ These are implementation targets, not files changed by the planning task. Create
 
 ### Phase B — Build the design system from the user's screenshots
 
-**Input received:** Four reference screenshots, followed by explicit preferences for ASCII animation, a monochrome bento gallery, scrolling preview carousels, pause on hover, and color revealed only inside the hovered preview. The user requested four image-model mockups before writing the design system. [Compare the four generated directions](design-explorations/README.md); no final direction is selected yet.
+**Input received:** Four reference screenshots, followed by explicit preferences for ASCII animation, a monochrome bento gallery, scrolling preview carousels, pause on hover, and color revealed only inside the hovered preview. The user requested four image-model mockups before writing the design system. The user selected **ASCII Atelier**. The [design system](design-system.md) and [token specification](design-system.tokens.json) are complete; the [four generated directions](design-explorations/README.md) remain design history. Application styling and browser verification are pending.
 
 - [x] Identify the qualities to carry forward from the supplied references: monochrome framing, ASCII animation, bento composition, scrolling previews, and hover-to-pause/color.
 - [x] Generate four separate UI mockup images for comparison before writing the design system.
-- [ ] Review the mockup directions with the user and select the elements to carry into the design system.
-- [ ] Define an original PLS PROMPT system for typography, colors, spacing, borders, radii, controls, icons, focus states, and motion.
-- [ ] Design the gallery and a representative project page on desktop and mobile.
-- [ ] Include loading, empty, unavailable-demo, copied, saved, signed-out, and error states.
-- [ ] Document the selected system in `docs/design-system.md` and implement its reusable primitives before applying it across pages.
+- [x] Review the mockup directions with the user and select the elements to carry into the design system.
+- [x] Define an original PLS PROMPT system for typography, colors, spacing, borders, radii, controls, icons, focus states, and motion.
+- [x] Specify the gallery and representative project page across desktop, tablet, and mobile.
+- [ ] Implement and visually verify both responsive screens against the selected direction.
+- [x] Specify loading, empty, unavailable-demo, copied, saved, signed-out, and error states.
+- [ ] Implement and exercise the specified states in the browser.
+- [x] Document the selected system in `docs/design-system.md` and its companion token file.
+- [ ] Implement reusable primitives, production fonts, original ASCII assets, and preview behavior before applying them across pages.
 
-**Gate:** The visual direction has been reviewed against the screenshots, and both main screens work as one coherent system; no speculative full-site restyling precedes that review.
+**Gate:** Both main screens must work as one coherent system aligned with the selected screenshots. Direction selection and specification are complete; the gate remains open until implementation and browser verification are complete.
 
 ### Phase C — Prove one recipe and its live project
 
@@ -243,8 +246,8 @@ Use feedback to determine whether people understand what they receive, can repro
 
 Consider monetization after the free experience demonstrates repeat use and reliable recipes. Pricing and payment implementation require a separate decision and plan.
 
-## 10. Next input and project record
+## 10. Next work and project record
 
-The next input is the user’s choice among the generated UI directions, including any elements to combine. Then finish Phase B and establish the first real recipe/demo pair before expanding the catalog. No additional feature implementation is authorized by this document alone.
+The selected ASCII Atelier design system is ready to implement. Next, complete the remaining Phase B primitives, assets, responsive screens, and browser checks, then establish the first real recipe/demo pair before expanding the catalog. No additional design decision is required to begin that implementation when requested; this document-writing task does not itself apply the redesign.
 
 The earlier [foundation audit](phase-0/README.md) and [library and learning implementation report](phase-1.md) remain historical evidence of completed work. Their former future phases are superseded by this plan. The unrelated domain setup item remains in [the project to-do](../todo.md).

@@ -2,7 +2,7 @@
 
 PLS PROMPT is moving toward a curated gallery of working projects and premium build recipes: try the live demo, collect the prompt, prompt pack, or skill, then make it your own.
 
-The [active pivot plan](docs/pivot-plan.md) replaces the earlier learning-platform roadmap. Recipe-only downloads and interactive proof define this direction; payment processing is outside the current scope. Four [image-generated UI directions](docs/design-explorations/README.md) now explore the supplied references; select a direction before writing the design system.
+The [active pivot plan](docs/pivot-plan.md) replaces the earlier learning-platform roadmap. Recipe-only downloads and interactive proof define this direction; payment processing is outside the current scope. The selected **ASCII Atelier** direction is defined in the [design system](docs/design-system.md), including responsive layouts, reusable components, and preview motion. The four [image-generated explorations](docs/design-explorations/README.md) remain available as design history.
 
 ## Current foundation
 
@@ -13,6 +13,7 @@ The app uses React, Vinext/Vite, Tailwind, Sites authentication, D1/Drizzle, and
 ## Project documents
 
 - [Active recipe-gallery pivot plan](docs/pivot-plan.md)
+- [ASCII Atelier design system](docs/design-system.md)
 - [Historical foundation audit](docs/phase-0/README.md)
 - [Historical private library and learning implementation](docs/phase-1.md)
 - [Separate domain setup task](todo.md)

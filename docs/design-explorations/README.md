@@ -2,7 +2,7 @@
 
 Generated with the built-in image-generation model from the user's visual preferences: a monochrome interface, ASCII art and animation, a bento gallery, and scrolling previews that pause and reveal their color on hover.
 
-These are static design mockups. The pointer, pause controls, and colored preview illustrate the proposed hover state. They do not demonstrate implemented animation or working projects; project names, images, recipe text, and build notes are illustrative content. No design system has been selected or applied.
+These are static design mockups. The pointer, pause controls, and colored preview illustrate the proposed hover state. They do not demonstrate implemented animation or working projects; project names, images, recipe text, and build notes are illustrative content. **ASCII Atelier is the selected direction.** Its [complete design specification](../design-system.md) is documented; it has not yet been applied to the app.
 
 ## 1. Quiet Gallery
 
@@ -28,8 +28,10 @@ The project detail page: a large playable-preview area beside ordered recipe ste
 
 [Open Recipe Workbench](04-recipe-workbench.png)
 
-## Next decision
+## Selected direction
 
-Choose the gallery direction, or the elements to combine, before documenting the design system. The recipe-page direction can be adapted to the selected gallery. Responsive layouts, keyboard/touch equivalents, motion controls, contrast, and reduced-motion behavior will be specified after that choice.
+The user selected **ASCII Atelier** on September 5, 2026. Its architectural ASCII hero, condensed headings, monospace interface, fine borders, and monochrome bento cards define the design system. The recipe-page composition can be adapted using those same visual rules.
+
+The [design system](../design-system.md) specifies responsive layouts, component states, keyboard/touch equivalents, motion controls, contrast, and reduced-motion behavior. The remaining images are exploration history; browser implementation and verification remain pending.
 
 [Exact generation prompts](generation-prompts.md) · [Active pivot plan](../pivot-plan.md)

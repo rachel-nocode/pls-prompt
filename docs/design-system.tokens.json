@@ -1,0 +1,298 @@
+{
+  "name": "PLS PROMPT — ASCII Atelier",
+  "version": "1.0",
+  "status": "Design specification; not applied to the application",
+  "units": "Pixel values are CSS pixels at the default root size. Implement type in rem.",
+  "color": {
+    "canvas": "#080808",
+    "surface": "#111111",
+    "surfaceHover": "#181818",
+    "surfaceRaised": "#202020",
+    "surfaceInset": "#0C0C0C",
+    "border": "#383838",
+    "controlBorder": "#777777",
+    "text": "#F2F2F2",
+    "textSecondary": "#B8B8B8",
+    "textMuted": "#949494",
+    "textDisabled": "#707070",
+    "action": "#F2F2F2",
+    "actionText": "#111111",
+    "focus": "#F2F2F2"
+  },
+  "font": {
+    "display": {
+      "family": "Barlow Condensed",
+      "fallback": [
+        "Arial Narrow",
+        "sans-serif"
+      ],
+      "weight": 600
+    },
+    "wordmark": {
+      "family": "Barlow Condensed",
+      "fallback": [
+        "Arial Narrow",
+        "sans-serif"
+      ],
+      "weight": 500
+    },
+    "body": {
+      "family": "IBM Plex Mono",
+      "fallback": [
+        "ui-monospace",
+        "SFMono-Regular",
+        "Consolas",
+        "monospace"
+      ],
+      "weight": 400,
+      "emphasisWeight": 500
+    },
+    "loading": "swap"
+  },
+  "type": {
+    "hero": {
+      "font": "display",
+      "desktopPx": 112,
+      "tabletPx": 80,
+      "mobilePx": 56,
+      "lineHeight": 0.96,
+      "letterSpacingEm": -0.02
+    },
+    "pageTitle": {
+      "font": "display",
+      "desktopPx": 64,
+      "tabletPx": 56,
+      "mobilePx": 44,
+      "lineHeight": 1.02,
+      "letterSpacingEm": -0.02
+    },
+    "sectionTitle": {
+      "font": "display",
+      "desktopPx": 40,
+      "tabletPx": 36,
+      "mobilePx": 32,
+      "lineHeight": 1.1,
+      "letterSpacingEm": -0.01
+    },
+    "cardTitle": {
+      "font": "body",
+      "desktopPx": 20,
+      "tabletPx": 20,
+      "mobilePx": 18,
+      "lineHeight": 1.3,
+      "letterSpacingEm": 0
+    },
+    "body": {
+      "font": "body",
+      "desktopPx": 16,
+      "tabletPx": 16,
+      "mobilePx": 16,
+      "lineHeight": 1.65,
+      "letterSpacingEm": 0
+    },
+    "control": {
+      "font": "body",
+      "desktopPx": 14,
+      "tabletPx": 14,
+      "mobilePx": 14,
+      "lineHeight": 1.4,
+      "letterSpacingEm": 0
+    },
+    "metadata": {
+      "font": "body",
+      "desktopPx": 12,
+      "tabletPx": 12,
+      "mobilePx": 12,
+      "lineHeight": 1.5,
+      "letterSpacingEm": 0.02
+    },
+    "wordmark": {
+      "font": "wordmark",
+      "desktopPx": 28,
+      "tabletPx": 26,
+      "mobilePx": 24,
+      "lineHeight": 1,
+      "letterSpacingEm": 0.12
+    },
+    "field": {
+      "font": "body",
+      "desktopPx": 16,
+      "tabletPx": 16,
+      "mobilePx": 16,
+      "lineHeight": 1.65,
+      "letterSpacingEm": 0
+    }
+  },
+  "spacePx": [
+    4,
+    8,
+    12,
+    16,
+    24,
+    32,
+    48,
+    64,
+    96
+  ],
+  "radiusPx": {
+    "panelDesktop": 16,
+    "panelMobile": 12,
+    "media": 10,
+    "control": 8,
+    "tag": 6,
+    "round": 9999
+  },
+  "borderPx": {
+    "default": 1,
+    "focus": 2,
+    "focusOffset": 3
+  },
+  "layout": {
+    "maxContentWidthPx": 1600,
+    "desktopMinPx": 1200,
+    "tabletMinPx": 768,
+    "outerPaddingDesktopPx": 24,
+    "outerPaddingTabletPx": 16,
+    "outerPaddingMobilePx": 16,
+    "panelPaddingDesktopPx": 24,
+    "panelPaddingMobilePx": 16,
+    "galleryGapPx": 12,
+    "headerHeightDesktopPx": 64,
+    "headerMinHeightMobilePx": 56,
+    "headerPosition": "normal-flow",
+    "galleryColumns": {
+      "desktop": 12,
+      "tablet": 2,
+      "mobile": 1
+    },
+    "hero": {
+      "desktopTextFraction": 0.4,
+      "desktopArtFraction": 0.6,
+      "desktopMinHeightPx": 340,
+      "mobileArtMaxHeightPx": 140
+    },
+    "project": {
+      "previewFraction": 0.6666667,
+      "recipeFraction": 0.3333333,
+      "recipeMinWidthPx": 340
+    },
+    "mediaAspectRatio": {
+      "standard": "16:10",
+      "tall": "3:4",
+      "mobile": "16:10"
+    },
+    "verificationWidthsPx": [
+      320,
+      375,
+      768,
+      1024,
+      1440,
+      1600
+    ],
+    "featuredRowMinHeightPx": 280,
+    "featuredMediaSizing": "Fill the remaining featured card area; crop with an editorial focal point. Tall aspect ratio is a preference, not a fixed grid height."
+  },
+  "control": {
+    "minTargetPx": 44,
+    "buttonHeightPx": 44,
+    "primaryAcquisitionHeightPx": 48,
+    "horizontalPaddingPx": 16,
+    "dialogViewportClearancePx": 16
+  },
+  "icon": {
+    "family": "Lucide",
+    "inlinePx": 18,
+    "standalonePx": 20,
+    "largePx": 24,
+    "strokePx": 1.5
+  },
+  "overlay": {
+    "backdropColor": "#000000",
+    "backdropOpacity": 0.72
+  },
+  "shadow": {
+    "raised": {
+      "xPx": 0,
+      "yPx": 12,
+      "blurPx": 32,
+      "spreadPx": 0,
+      "color": "#000000",
+      "opacity": 0.4
+    }
+  },
+  "zIndex": {
+    "page": 0,
+    "localOverlay": 10,
+    "dropdown": 30,
+    "modalBackdrop": 40,
+    "modalContent": 50,
+    "notification": 60,
+    "tooltip": 70
+  },
+  "motion": {
+    "controlFeedbackMs": 120,
+    "colorRevealMs": 180,
+    "borderTransitionMs": 180,
+    "accordionMs": 180,
+    "menuMs": 180,
+    "feedbackEasing": "ease-out",
+    "carouselEasing": "linear",
+    "carouselPxPerSecond": 12,
+    "maxAutomaticCarouselsVisible": 2,
+    "asciiCycleMs": 18000,
+    "asciiMaxFps": 12,
+    "maxProminentAsciiScenes": 1,
+    "reducedMotion": {
+      "automaticCarousel": false,
+      "asciiAnimation": false,
+      "movingTransitionMs": 0,
+      "colorRevealMs": 0
+    },
+    "touch": {
+      "automaticCarousel": false,
+      "asciiAnimation": false
+    },
+    "globalPausePersistence": "same-browser when local preference storage is available",
+    "initialMotion": "paused until preferences are resolved"
+  },
+  "preview": {
+    "restGrayscale": 1,
+    "exploredGrayscale": 0,
+    "projectPageGrayscale": 0,
+    "colorRevealTriggers": [
+      "pointer hover",
+      "keyboard focus within card",
+      "open project on touch"
+    ],
+    "carouselPauseReasons": [
+      "hover",
+      "focus within card",
+      "explicit card pause",
+      "manual slide change",
+      "global pause",
+      "reduced motion",
+      "coarse pointer",
+      "offscreen",
+      "page hidden",
+      "active demo interaction"
+    ],
+    "resumeRule": "Automatic movement resumes only when every active pause reason has cleared.",
+    "cardPausePersistence": "current card session",
+    "manualNavigationResumesAutomatically": false,
+    "interactiveEmbedTrigger": "explicit Try demo on the project page"
+  },
+  "ascii": {
+    "decorative": true,
+    "desktopGlyphMinPx": 8,
+    "desktopGlyphMaxPx": 10,
+    "staticFallbackRequired": true
+  },
+  "feedback": {
+    "transientConfirmationMs": 3000,
+    "persistentActionStateRequired": true
+  },
+  "contrast": {
+    "minimumBodyTextRatio": 4.5,
+    "minimumRequiredControlBoundaryRatio": 3
+  }
+}
