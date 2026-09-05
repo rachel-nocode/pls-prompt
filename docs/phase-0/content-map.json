@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "8b97641a8ac6ec5933df47150fc29fdd3ee85ccf",
+  "captured_at": "2026-09-05T05:59:56.618Z",
+  "rights_status": "awaiting_owner_confirmation",
+  "external_sales_status": "not_observed_in_app; awaiting_owner_confirmation",
+  "legacy_access": "All six existing published prompts remain free. Free content can be saved immediately; completing a lesson awards progress, not artificial exclusivity.",
+  "prompts": [
+    {
+      "id": "prompt-bug-hunt",
+      "slug": "hunt-a-bug-like-a-senior-qa",
+      "title": "Hunt a bug like a senior QA",
+      "source_kind": "inline",
+      "access": "free",
+      "selected_for_starter": true,
+      "author_record": "plsprompt-team",
+      "rights_evidence": "Source attribution only; not a rights verification",
+      "existing_quality_score": 97,
+      "quality_status": "Inherited editorial label; not independently benchmarked in Phase 0",
+      "attachment_present": false,
+      "lesson": "lesson-proof",
+      "role": "Vibe-coding extension: facts, hypotheses, and smallest checks",
+      "variables": [
+        "expected",
+        "actual",
+        "environment",
+        "evidence"
+      ]
+    },
+    {
+      "id": "prompt-campaign",
+      "slug": "one-idea-five-useful-posts",
+      "title": "One idea, five useful posts",
+      "source_kind": "inline",
+      "access": "free",
+      "selected_for_starter": true,
+      "author_record": "plsprompt-team",
+      "rights_evidence": "Source attribution only; not a rights verification",
+      "existing_quality_score": 90,
+      "quality_status": "Inherited editorial label; not independently benchmarked in Phase 0",
+      "attachment_present": false,
+      "lesson": "lesson-outcomes",
+      "role": "Creator extension: define distinct outputs and success conditions",
+      "variables": [
+        "insight",
+        "audience",
+        "proof",
+        "voice"
+      ]
+    },
+    {
+      "id": "prompt-deep-research",
+      "slug": "research-without-the-confident-nonsense",
+      "title": "Research without the confident nonsense",
+      "source_kind": "inline",
+      "access": "free",
+      "selected_for_starter": true,
+      "author_record": "plsprompt-team",
+      "rights_evidence": "Source attribution only; not a rights verification",
+      "existing_quality_score": 92,
+      "quality_status": "Inherited editorial label; not independently benchmarked in Phase 0",
+      "attachment_present": false,
+      "lesson": "lesson-proof",
+      "role": "Research extension: sources, inference, and uncertainty",
+      "variables": [
+        "question",
+        "decision",
+        "time_range",
+        "preferred_sources"
+      ]
+    },
+    {
+      "id": "prompt-github-agent",
+      "slug": "github-repository-onboarding-agent",
+      "title": "GitHub repository onboarding agent",
+      "source_kind": "external_link",
+      "access": "free",
+      "selected_for_starter": false,
+      "author_record": "plsprompt-team",
+      "rights_evidence": "Source attribution only; not a rights verification",
+      "existing_quality_score": 86,
+      "quality_status": "Inherited editorial label; not independently benchmarked in Phase 0",
+      "attachment_present": false,
+      "role": "Preserve as a free external reference; exclude from paid inventory because it links to a general third-party repository"
+    },
+    {
+      "id": "prompt-human-writing",
+      "slug": "make-this-sound-like-a-person",
+      "title": "Make this sound like a person",
+      "source_kind": "inline",
+      "access": "free",
+      "selected_for_starter": true,
+      "author_record": "plsprompt-team",
+      "rights_evidence": "Source attribution only; not a rights verification",
+      "existing_quality_score": 91,
+      "quality_status": "Inherited editorial label; not independently benchmarked in Phase 0",
+      "attachment_present": false,
+      "lesson": "lesson-constraints",
+      "role": "Everyday extension: edit while preserving facts and intent",
+      "variables": [
+        "draft",
+        "audience",
+        "voice_notes"
+      ]
+    },
+    {
+      "id": "prompt-product-spec",
+      "slug": "turn-an-idea-into-a-product-spec",
+      "title": "Turn an idea into a product spec",
+      "source_kind": "inline",
+      "access": "free",
+      "selected_for_starter": true,
+      "author_record": "plsprompt-team",
+      "rights_evidence": "Source attribution only; not a rights verification",
+      "existing_quality_score": 94,
+      "quality_status": "Inherited editorial label; not independently benchmarked in Phase 0",
+      "attachment_present": false,
+      "lesson": "lesson-outcomes",
+      "role": "Starter template for turning a goal into checkable work",
+      "variables": [
+        "idea",
+        "target_user",
+        "constraints"
+      ]
+    }
+  ],
+  "commercial_rules": {
+    "seller": "Owner only at launch",
+    "legacy_price": 0,
+    "new_product_price": "Unset; explicitly set before checkout is enabled",
+    "premium_content": "Create and test a distinct new prompt/version with usage material; never silently relabel an existing free prompt as paid",
+    "earn_or_buy": "For each new premium reward, either completion of the stated challenge requirement or confirmed payment grants the same product content",
+    "earned_and_purchased_access": "Independent grants; refund revokes only purchase grant",
+    "progress": "One completion award per challenge; buying or viewing reference answers awards no mastery",
+    "save": "Bookmark locked metadata; full content requires grant; personal prompts remain private"
+  }
+}
