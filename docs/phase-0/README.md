@@ -1,5 +1,7 @@
 # Phase 0 — Existing foundation and pivot gaps
 
+Historical implementation report. The [recipe-gallery pivot plan](../pivot-plan.md) is the active roadmap; future phases described below are superseded. Preserve this report as evidence of completed work.
+
 Completed September 4, 2026 Pacific / September 5 UTC. Source baseline: `8b97641a8ac6ec5933df47150fc29fdd3ee85ccf`.
 
 Phase 0 delivers the live inventory, private logical backup, starter content map, three challenge drafts, access decisions, and a successful local migration/restore rehearsal. Phase 1 can begin with the private library. Application features, production migrations, and publication are later phases.

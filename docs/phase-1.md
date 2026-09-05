@@ -1,5 +1,7 @@
 # Phase 1 — Private library, creator workspace, and beginner rewards
 
+Historical implementation report. The [recipe-gallery pivot plan](pivot-plan.md) is the active roadmap; future phases described below are superseded. Preserve this report as evidence of completed work.
+
 Implementation completed locally on September 5, 2026. Production has not been changed. The original Sites project, ChatGPT sign-in, D1/R2 bindings, and existing content URLs are preserved.
 
 ## Available experience

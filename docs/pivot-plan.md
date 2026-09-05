@@ -1,226 +1,248 @@
-PLS PROMPT — Learning, prompt library, and store
+# PLS PROMPT Recipe Gallery Implementation Plan
 
-Working plan • September 4, 2026
+**Status:** Active pivot plan, September 5, 2026. This replaces the previous learning-platform roadmap in full. This document is planning work; the current application has not been changed to this direction yet.
 
-Implementation status: Phase 0 inventory, logical backup, content mapping, starter lesson drafts, and local migration/restore rehearsal completed. See [Phase 0 evidence and next work](phase-0/README.md). Private library implementation is next; production migration, model calibration, and sales remain later work.
+**Goal:** Let people try a working project, collect the recipe used to build it, and adapt that recipe into something of their own.
 
-Build one place to understand AI, practice using it, and collect useful prompts. Your own study process supplies new lessons and products. Visitors can learn, buy, or organize prompts independently, with clear connections between all three.
+**Architecture:** Extend the existing directory, prompt detail pages, private library, and creator workspace. Pair a versioned recipe with a separately hosted, interactive demonstration and a short record of how it was built. Keep the existing Sites application, identity, and storage; introduce no payment system or general-purpose code runner.
 
-Research scope: public Boot.dev pages, official Codewars documentation, and a source review of [rachel-nocode/pls-prompt](https://github.com/rachel-nocode/pls-prompt/tree/8b97641a8ac6ec5933df47150fc29fdd3ee85ccf) at commit 8b97641. Interactive browser inspection was blocked by browser security checks; authenticated screens, visual details, and full signup/payment flows remain unverified. Repository findings describe checked-in code, not verified production behavior. No application changes or deployment are part of this planning task.
+**Tech stack:** React, Vinext/Vite, Tailwind, installed UI primitives, Sites authentication, D1/Drizzle, and R2.
 
-0. Existing foundation and pivot gaps
+Implementation should proceed task by task using the executing-plans workflow. Checkboxes track delivery; the screenshot-based design phase precedes visual implementation.
 
-- Reuse: searchable directory, category filters, prompt detail pages, copy actions, anatomy explanations, and GitHub-linked prompts. [Directory component](https://github.com/rachel-nocode/pls-prompt/blob/8b97641a8ac6ec5933df47150fc29fdd3ee85ccf/components/prompt-explorer.tsx)
-- Extend: /learn and /learn/[slug] currently present reading material. Add interactive challenges, a module sequence, persistent attempts, and rewards. Source includes six seed prompts and three seed lessons; these are starter content counts, not production inventory. [Content source](https://github.com/rachel-nocode/pls-prompt/blob/8b97641a8ac6ec5933df47150fc29fdd3ee85ccf/lib/content.ts)
-- Finish: prompt_saves exists in the schema, but no save/list flow was found; /profile shows submitted prompts. Add an actual private library, personal drafts, and collections. [Schema](https://github.com/rachel-nocode/pls-prompt/blob/8b97641a8ac6ec5933df47150fc29fdd3ee85ccf/db/schema.ts), [profile](https://github.com/rachel-nocode/pls-prompt/blob/8b97641a8ac6ec5933df47150fc29fdd3ee85ccf/app/profile/page.tsx)
-- Reuse: ChatGPT sign-in helpers, D1 storage, R2 uploads, and submission records with review status. No creator moderation/publishing interface was found. [Identity helper](https://github.com/rachel-nocode/pls-prompt/blob/8b97641a8ac6ec5933df47150fc29fdd3ee85ccf/app/chatgpt-auth.ts), [data functions](https://github.com/rachel-nocode/pls-prompt/blob/8b97641a8ac6ec5933df47150fc29fdd3ee85ccf/lib/data.ts)
-- Build: checkout, orders, access grants, protected downloads, learning progression, challenge runner, grading, and prompt version history.
-- Keep: current Sites hosting, Vinext/Vite runtime, React, Tailwind, installed UI primitives, D1/Drizzle, and R2. This pivot needs feature work within the existing stack. [Dependencies](https://github.com/rachel-nocode/pls-prompt/blob/8b97641a8ac6ec5933df47150fc29fdd3ee85ccf/package.json), [runtime configuration](https://github.com/rachel-nocode/pls-prompt/blob/8b97641a8ac6ec5933df47150fc29fdd3ee85ccf/vite.config.ts)
+## 1. Product direction
 
-Commercial prerequisite: current listings return full prompt records, the homepage passes them into a client component, prompt pages render full text, and the attachment route serves a supplied storage key without checking identity or ownership. That fits an open directory, but paid/private content requires changing all these paths before adding a paywall. Hiding the copy button is insufficient. [Public API](https://github.com/rachel-nocode/pls-prompt/blob/8b97641a8ac6ec5933df47150fc29fdd3ee85ccf/app/api/prompts/route.ts), [homepage](https://github.com/rachel-nocode/pls-prompt/blob/8b97641a8ac6ec5933df47150fc29fdd3ee85ccf/app/page.tsx), [attachment route](https://github.com/rachel-nocode/pls-prompt/blob/8b97641a8ac6ec5933df47150fc29fdd3ee85ccf/app/assets/%5B...key%5D/route.ts)
+PLS PROMPT is a curated library of premium build recipes with working projects people can explore. Visitors learn by seeing a result, understanding its recipe, and changing it to suit themselves.
 
-1. Product direction
+The live project is the demonstration. The downloadable product is the recipe. Application source code, compiled applications, and project repositories are not included in the download.
 
-- Learn: short explanations, guided practice, visible progress, and useful prompt rewards.
-- Directory: browse your published prompts, see their purpose, and earn access or buy downloads.
-- My Library: save personal prompts, organize collections, and reuse earned or purchased prompts.
-- Creator workspace: keep study notes, test prompts, build lessons, and publish reviewed work.
+A recipe supports three formats:
 
-One prompt can connect to several lessons, appear in the directory, and live in many personal libraries. Maintain one published source with versions; avoid separate copies for the shop and learning rewards.
+- **Single prompt:** one complete, copy-ready build instruction.
+- **Prompt pack:** a named sequence of prompts, with their order and the point at which each is used.
+- **Skill:** reusable skill instructions and any supporting recipe files needed to use them, with installation and usage notes for the tool actually tested.
 
-Launch audience: everyday AI users and beginner vibe coders. Shared fundamentals come first; specialized paths follow. Use plain language while preserving accurate concepts. Public positioning should promise clarity and practice, without describing learners as “dumb.”
+Use “recipe” as the shared product name. Format labels explain what someone will receive without splitting the site into three separate experiences.
 
-2. What Boot.dev contributes
+Premium means useful, carefully authored, demonstrated, and tested. A high word count, polished thumbnail, or unexplained quality score does not establish that quality.
 
-Observed: Boot.dev emphasizes structured learning paths, hands-on work, portfolio projects, a short learning demo, and an AI mentor using questions and hints. Interactive access starts free for several chapters before membership is required. [Source: Boot.dev](https://www.boot.dev/)
+## 2. The core experience
 
-Observed: Training Grounds adds practice tailored to learning history, spaced review, different challenge types, and XP, streaks, and quests. Its launch article describes validating generated challenges before serving them. [Sources: Training Grounds](https://www.boot.dev/training), [launch explanation](https://www.boot.dev/blog/news/training-grounds-launch)
+**Browse → try the project → inspect its recipe → copy, download, or save → customize.**
 
-Product interpretation: clear next steps and immediate application make a large subject feel manageable; review helps separate completing a lesson from understanding it.
+### Gallery
 
-Adaptation:
+- Put the projects at the center of the homepage, with a brief explanation of the site.
+- Each card shows a real preview image, project name, one-sentence outcome, and recipe format.
+- Make opening the project the primary card action.
+- Begin with search and a small set of useful project categories. Add filters only when inventory justifies them.
+- Load screenshots in the gallery; initialize interactive demos on the project page after the visitor chooses to try one.
+- Keep primary navigation to **Explore** and **My Library**, plus account controls. Show **Studio** only to the creator.
 
-- Give newcomers one recommended next lesson and a visible module map.
-- Let visitors try a short exercise before registration; save progress when they join.
-- Keep explanations next to the task, with optional deeper material.
-- Offer progressively stronger hints and explain why a revision worked.
-- End modules with practical checkpoints and a useful prompt unlock.
-- Start with authored challenges and fixed hints; add adaptive practice after quality and cost are measured.
+### Project page
 
-3. What Codewars contributes
+- Give the live preview the main area, alongside a compact recipe panel on desktop.
+- Stack preview and recipe on mobile, keeping the recipe easy to reach without interacting with the demo first.
+- Offer clear **Try demo** and **Reset demo** controls, plus an **Open demo** fallback when embedding is unavailable.
+- Show the recipe format, what it builds, the tool used, and any setup requirements before the copy or download action.
+- Provide **Copy recipe**, **Download recipe**, and **Save to my library**. Packs also allow copying individual steps.
+- Keep short, optional sections for **How it was made**, **What to customize**, and **Known limits**.
+- Preserve existing `/prompts/[slug]` URLs. Keep the existing `/#prompts` destination working during the homepage transition.
 
-Observed: Codewars centers on compact kata, in-browser testing, ranked difficulty, community contributions, and comparing solutions after completion. [Source: Codewars](https://www.codewars.com/)
+### My Library
 
-Observed: rank reflects solved challenge difficulty, with overall and language-specific progression. Its discovery tools support recommendations and filters for topics, difficulty, and progress. [Sources: ranks](https://docs.codewars.com/gamification/ranks/), [finding kata](https://docs.codewars.com/getting-started/finding-kata/)
+Reuse the private library for saved recipes, personal variations, notes, tags, collections, and exports. Saving captures the recipe version the person selected. Source updates must never overwrite their changes.
 
-Observed: kata support bookmarks and collections. Solutions become available after completion or explicit solution unlock; unlocking forfeits rank and honor for that kata. [Sources: kata](https://docs.codewars.com/concepts/kata/), [solutions](https://docs.codewars.com/concepts/kata/solutions/)
+### Access for this release
 
-Product interpretation: focused repetition and comparing approaches can turn knowledge into judgment. A broad challenge catalog also creates navigation work for beginners.
+Working default: visitors can try demos and copy or download the released recipes without signing in. Sign-in is needed to save to a personal library. There are no lesson requirements, checkout screens, prices, or pretend purchase buttons in the new main experience.
 
-Adaptation:
+Already free content stays free. Existing earned access and private copies remain valid. Monetization can be designed later around new releases or explicitly defined access terms; this pivot does not retroactively lock content people already received.
 
-- Make practice available by skill, difficulty, and completion state.
-- Let learners retry familiar concepts with fresh inputs.
-- Show a small set of reviewed approaches after an attempt, explaining tradeoffs.
-- Track topic mastery separately from participation XP.
-- Let people bookmark challenges and save their own successful prompts.
-- Use plain difficulty labels; add public competition only after solo learning works.
+## 3. What makes the demonstration credible
 
-Combined experience: Boot.dev-inspired guided learning plus Codewars-inspired practice, connected through a reusable prompt collection. Borrow interaction patterns; create original branding, lesson text, challenges, and artwork.
+Every showcased project needs a traceable connection to its published recipe version.
 
-4. Main screens and user journeys
+Record:
 
-- Home: short interactive introduction plus clear entrances to learning and the directory; retain the existing /#prompts destination during the transition.
-- Learn: current module, next lesson, progress, and upcoming prompt rewards.
-- Lesson workspace: concise concept, objective, editable prompt, run action, output, and feedback. Desktop can use adjacent panels; mobile uses a clear stacked sequence.
-- Practice: filters, recommended challenge, retries, hints, and solution review; reuse the lesson workspace.
-- Directory: search by use case and concept; filter access state and price. Each product explains inputs, intended result, tested model/date, limitations, download contents, price, and earning requirement.
-- My Library: add /library for personal, earned, purchased, and bookmarked prompts; collections, notes, search, editing, and export. Keep /profile for identity and existing submissions.
-- Creator workspace: private study notes, prompt versions, lesson drafts, test results, preview, and publication controls.
+- The recipe version and matching demo build version.
+- The AI builder or tool and model, where known, plus the test date.
+- Starting conditions, required accounts or services, and setup steps.
+- The complete prompt sequence, including repair prompts actually needed.
+- Any manual edits or other steps outside the prompts.
+- The useful behaviors checked in the demo and the outcome of a separate recipe reproduction attempt.
+- Known limits, including simulated services and parts not verified.
 
-Learner journey: try lesson → sign in to keep progress → pass challenge → unlock prompt → customize and save → continue learning.
+Keep the visitor-facing explanation short; allow the detailed build record to expand. A recording or screenshot may support the record, but the project is marked interactive only when a working demo is available.
 
-Buyer journey: find prompt → inspect product → buy → access in library → download or customize → optionally study linked concept.
+Do not call a multi-step build a one-shot. If a repair prompt was required, include it and label the recipe a pack. If manual setup or editing was required, explain it. Demonstrating one successful build does not guarantee identical AI output for every person.
 
-Collector journey: add own prompt → tag and organize → revise → reuse or export. Learning progress is never required for personal storage.
+Publishing a changed recipe does not silently reuse the old proof. Match it to an updated demo and verification record, or keep the currently demonstrated version as the published version until the new one is tested.
 
-Interface requirements: keyboard access, readable contrast, visible focus, reduced-motion support, saved drafts, clear loading/error states, and one primary action per lesson. Celebrate success briefly; keep retries easy and respectful.
+## 4. Scope boundaries
 
-5. Unlocks, ownership, and selling
+### Keep and adapt
 
-Recommended launch model: free starter learning plus one-time prompt and bundle purchases. Measure usage costs and demand before adding a learning subscription.
+- Existing prompt records, stable URLs, search, and categories.
+- Private library, personal editing, collections, version recovery, and export.
+- Creator authorization and draft/publish controls.
+- Existing authentication, storage, hosting project, and migrations.
+- Original free prompts and existing private user data.
 
-- Each reward-linked product offers two routes to the same prompt version: complete its stated learning requirement or purchase access immediately.
-- Purchase grants content access. Skill progress requires a challenge pass on fresh inputs; earned rewards stay available after progress resets.
-- Already-owned rewards acknowledge ownership and still award eligible learning progress. Avoid duplicate charges; show bundle overlap before checkout.
-- Saving a locked product creates a bookmark. It does not expose protected prompt text.
-- Full access permits copying, downloading, and creating a private editable version. Upstream updates never overwrite personal edits.
-- Personal prompts stay private unless the owner explicitly publishes them. Launch with you as the only seller; preserve existing community submissions and review status without automatically making contributors sellers.
-- Downloads should include prompt text, variable guidance, usage notes, and version information, available as plain text or Markdown; support library JSON export for portability.
-- State whether updates are included on each product. Keep buyers’ purchased versions accessible. A refund removes only the purchase-based access grant; independent earned access and personal drafts remain.
+### Retire from the main product
 
-Pricing remains a launch experiment. Start with individually priced prompts and a small curated bundle. Define price after reviewing actual inventory and purchase interest; avoid unsupported revenue forecasts.
+- Lesson-first homepage sections and primary Learn navigation.
+- Completing lessons as the way to access showcased recipes.
+- XP, ranks, streaks, quizzes, grader development, and curriculum expansion as roadmap priorities.
+- Unsupported quality scores and “verified” claims without a matching demonstration record.
 
-6. Your own learning and publishing workflow
+During implementation, keep existing lesson URLs available through an unobtrusive archive entry or legacy notice. Preserve completions and access grants; removing the learning pitch does not require deleting the learning data. Do not create new lesson content for this release.
 
-Capture question → study source material → explain concept in your words → test prompt → record failures and revisions → draft lesson → validate challenge → publish lesson and linked product.
+### Outside this release
 
-- Private study notes can remain rough and incomplete.
-- Every publishable concept needs sources, a learning objective, and a last-reviewed date.
-- Every published prompt needs a reproducible use case, input guidance, version, and testing notes.
-- Every challenge needs a reviewed reference solution, meaningful failure cases, hints, and acceptance rules.
-- AI can help draft material; publishing requires your review and evidence that the exercise works.
-- Track confusing lessons and disputed scores in the creator workspace so real use improves the curriculum.
+Payments, subscriptions, pricing, creator payouts, public submissions as the main experience, a multi-seller marketplace, AI inference offered to visitors, visitor code execution, and downloadable application source projects.
 
-This workflow makes the app useful to you before it has customers and makes each study session capable of producing reusable material.
+## 5. Demonstration approach
 
-7. Starter curriculum and later ML learning
+Start with self-contained browser projects using sample data and local interaction. The first version should not need a visitor's account, secrets, real payments, or a paid model call to be useful.
 
-First release: five short modules, three challenges per module, and one capstone; target five to ten minutes per ordinary lesson. These are scope targets, to adjust after learner testing.
+- Host demo builds on an isolated origin, separate from the main application's authenticated pages.
+- Confirm the selected host supports the required framing policy before adopting it; use only reviewed demo URLs.
+- Configure the iframe with the minimum permissions required by the specific demo. Do not give it access to the parent site's cookies, library, navigation, or arbitrary top-level redirects.
+- Do not run pasted prompts, uploaded source code, or visitor-provided URLs on the PLS PROMPT server.
+- Make any browser-message integration explicit and validate its source and origin.
+- Keep demo data per visitor session; a reset clears that session's sample state, not another person's data.
+- Label simulated AI responses, sample accounts, and disconnected services visibly.
+- Provide a real screenshot, a useful loading state, an unavailable state, and a link fallback. Keep the recipe readable when the demo fails.
+- Give embedded content an accessible title, maintain keyboard escape and focus behavior, and prevent narrow screens from trapping the visitor inside the preview.
 
-- Intent and instructions: define the task and assess whether the result meets it.
-- Context: supply relevant information and understand what the model can access.
-- Constraints and output shape: control required content and structure.
-- Demonstrations and reusable templates: guide behavior and separate variables from instructions.
-- Evaluation and revision: detect unsupported claims, compare attempts, and improve reliability.
+Demo hosting and frame compatibility are implementation checks, not capabilities already verified for this project. Publishing new hosts or changing production remains a separate release action.
 
-Capstone: apply several concepts to unseen inputs and save a reusable prompt. Every module grants a related prompt reward; maintain roughly 10–15 reviewed prompts across the starter directory.
+## 6. Content and storage contract
 
-Introduce brief AI foundations alongside relevant lessons: tokens, context limits, output variability, and model limitations. Follow with a dedicated ML foundations path covering data and labels, training versus inference, train/test splits, overfitting, classification, embeddings, retrieval, and evaluation. Use visual experiments and prediction tasks before optional code or math.
+Keep the existing prompt identity as the recipe identity and extend it through additive migrations.
 
-Later vibe-coding path: requirements, context selection, task decomposition, reading changes, debugging, and verifying generated work. Keep ML education on the roadmap explicitly; prompt lessons alone do not cover it.
+A published recipe version contains:
 
-8. Challenge grading: critical build risk
+- Title, slug, summary, category, tags, and format.
+- Single-prompt text, ordered pack steps, or a skill entry file and its recipe support files.
+- Tool/setup guidance, customization notes, and known limits.
+- A download manifest listing exactly what the recipe includes.
+- Demo URL, real thumbnail asset, demo build reference, and availability state.
+- The matching build record and the date and result of reproduction checks.
 
-Design grading before building a large course. Users need understandable evidence for pass or retry, and different successful prompt styles must be accepted.
+Use a separate immutable recipe-version record for the published payload and its proof. A private library copy records its source recipe version and preserves the structured pack or skill content alongside the learner's personal changes. Retain existing text-only library items and all of their history.
 
-- Start with bounded tasks that support objective checks. Check required fields, constraints, and correct use of supplied information in code where possible.
-- Use a small held-out input set for completion checks. Keep evaluation inputs and expected answers separate from the learner-facing task.
-- Pin the provider model version where available, generation settings, challenge version, and rubric version. Record them on every attempt; pinning reduces drift but does not eliminate output variation.
-- Add rubric-based AI feedback only where needed. Calibrate it against human-reviewed passing and failing attempts before it controls rewards.
-- Treat submitted prompts and generated text as untrusted input to the evaluator. Keep grading instructions separate and validate the grader's response format.
-- Define a repeat-run rule for borderline results. Explain conflicting outcomes and offer rechecks; provider errors must not become learner failures or consume a retry allowance.
-- Show which requirement passed or failed and a useful next revision. Avoid an unexplained universal prompt score.
-- Fixed hints come first. Viewing a full solution marks that attempt assisted; offer a fresh variation for independent mastery credit.
-- Award completion XP once per challenge version under an explicit migration rule; retries improve practice without farming rewards.
+Separate gallery metadata from recipe content. Return the recipe body through the same server-side access policy used by copy, download, and save. Released recipes are free in this version; preserving that boundary avoids inconsistent access behavior later.
 
-Run the first lesson against intentionally weak, borderline, and varied successful prompts before expanding content. Provide a report-feedback action for disputed results.
+Download behavior:
 
-9. Required build components
+- Single prompt: Markdown with the prompt, usage notes, and version.
+- Prompt pack: one Markdown file containing the ordered sequence and step-specific guidance.
+- Skill: its entry instruction file and only the supporting files required by the recipe, bundled when more than one file is needed.
 
-Extend the existing Sites application. Keep its package manager, lockfile, build scripts, hosting project, D1/R2 bindings, and ChatGPT sign-in. Add hosted checkout and model-provider calls over HTTP from server routes; verify provider compatibility and hosted secrets before implementation. Confirm signed payment webhooks can reach the chosen public endpoint. Alternative public identity providers need a platform capability check before being added.
+Preserve exact ordering and filenames during save/export. Allowlist safe relative filenames, reject path traversal, and never bundle secrets or generated app source into a recipe download.
 
-- Identity and permissions: visitor, member, and creator/admin access; private library ownership checks.
-- Content system: editable modules, lessons, prompts, versions, products, and publication status.
-- Learning engine: prerequisites, attempts, progress, hints, mastery checks, and reward grants.
-- Evaluation service: model calls, deterministic checks, optional rubric scoring, timeouts, and result history.
-- Library: collections, saved items, personal prompt versions, bookmarks, search, and exports.
-- Commerce: checkout, verified payment events, orders, refunds, access grants, and protected downloads.
-- Operations: error reporting, cost tracking, backups, feedback review, and product analytics.
+Legacy directory items without a working demo keep their URLs and access. They do not automatically become showcased or demonstrated projects. Select the launch gallery through an explicit creator-controlled showcase state.
 
-Keep existing prompts, lessons, and prompt_saves. Add user preferences keyed by the existing stable user ID, concepts, modules, challenge versions, attempts, progress, prompt versions, collections, products, product-prompt links, orders, and access grants. Link concepts to prompts and lessons; link successful challenges and purchases to independent access grants. Add a unique user/prompt constraint to saves after checking and deduplicating existing records.
+## 7. Implementation map
 
-Repository implementation map:
+Reuse current routes and keep new responsibilities small:
 
-- db/schema.ts and drizzle/: additive schema migrations and backfills. lib/data.ts currently duplicates table setup in runtime SQL; bring schema evolution under one explicit migration path so the two definitions cannot drift.
-- lib/data.ts and lib/content.ts: separate public listing metadata from access-controlled prompt bodies, add versions and ownership, and keep fallback seed content explicitly free. Stored quality_score values are editorial metadata; do not reuse them as learner grades.
-- components/prompt-explorer.tsx and app/prompts/[slug]/page.tsx: show saved/owned/earn/buy states, expose earning requirements, and serve full content only after server-side access checks.
-- app/learn/page.tsx and app/learn/[slug]/page.tsx: retain slugs, attach module progress, and add the shared lesson/challenge workspace. Add /practice only once that workspace is functional.
-- New /library and /studio routes: personal editing and collections, plus creator-only review/publishing. Reuse the current submission form where suitable, but saving privately must be distinct from submitting for review.
-- New attempt, save, checkout, and webhook endpoints: persist server-confirmed outcomes; harden app/assets/[...key]/route.ts to resolve downloads through prompt ownership/access.
-- components/site-header.tsx: expose Learn, Practice, Directory, and My Library; keep account and community submissions reachable.
+- `app/page.tsx`, `components/prompt-explorer.tsx`, `components/site-header.tsx`: gallery landing page, simplified navigation, removal of lesson-led promotion.
+- `app/prompts/[slug]/page.tsx`: project detail page combining demo, recipe actions, and build context.
+- New `components/project-demo.tsx`: demo loading, reset, fallback, framing, and accessibility behavior.
+- New `components/recipe-panel.tsx`: display single prompts, ordered packs, and skill contents; copy/save/download actions.
+- `app/globals.css` and the existing `components/ui/` primitives: implement the design system after the screenshots are supplied.
+- `db/schema.ts`, generated files in `drizzle/`, `lib/data.ts`, `lib/repository.ts`, and `lib/library-types.ts`: recipe format, immutable published versions, demo/proof metadata, structured private snapshots, and access-aware queries.
+- New `lib/recipe-types.ts` and `lib/recipe-export.ts`: shared recipe contract and deterministic download formatting.
+- New `app/api/recipes/[slug]/download/route.ts`: access-checked exports from a specific published recipe version.
+- `app/api/library/route.ts` and `components/library-workspace.tsx`: collect and edit complete recipe formats while preserving existing private items.
+- `app/api/studio/route.ts` and `components/creator-studio.tsx`: recipe/pack/skill authoring, proof records, demo preview, and showcase publication checks.
+- `app/learn/page.tsx`, `app/learn/[slug]/page.tsx`, and `lib/seed-database.ts`: legacy lesson presentation and a guarded content transition; preserve existing completion/access data.
+- `tests/library.test.mjs`, `tests/rendered-html.test.mjs`, `tests/ui-components.test.mjs`, and new focused recipe/demo tests: migration preservation, public/private access, exports, version matching, and preview states.
 
-AccessGrant must record why access exists: free, earned, or purchased. Enforce access on the server; protected text must not ship inside public listing responses. Verify payment events and process duplicate events safely. Grant earned access and progress together so retries cannot create inconsistent state.
+These are implementation targets, not files changed by the planning task. Create detailed code tasks within each phase when its inputs are ready.
 
-Keep provider credentials server-side. Initial exercises use supplied text without external tools or arbitrary code execution. Set per-user request limits, input/output bounds, and a total spending ceiling. Retain only necessary attempt data and allow personal-library deletion/export.
+## 8. Delivery phases and completion gates
 
-Track cost per completed lesson, including failed runs, feedback, and rechecks. Use that evidence to set free daily live-run allowances; downloaded prompts and reading access should remain usable independently.
+### Phase A — Replace the roadmap
 
-10. Build sequence and completion gates
+- [x] Replace the previous pivot plan at this path instead of retaining two competing roadmaps.
+- [x] Settle the product: curated project gallery, interactive demos, recipe-only downloads, and learning through customization.
+- [x] Keep payments and the design-system decisions outside this planning task.
+- [x] Mark the earlier Phase 0/Phase 1 reports as historical implementation evidence and point the repository overview at this plan.
 
-Phase 0 — Production inventory and content definition.
+**Gate:** One active roadmap describes the new direction; existing app code and user data remain intact.
 
-Completed for accessible site data: inventoried all live user tables and columns, exported six prompts and three lessons with zero saves, checked owner-only access, selected five text prompts, adapted three lesson drafts, and passed local migration/restore rehearsal on the exported data. Existing published prompts remain free. The [Phase 0 report](phase-0/README.md) records backup limits, unverified production source parity, and external sales/content provenance still awaiting owner confirmation. Before production changes, refresh the snapshot and verify native schema/migration history and restore support.
+### Phase B — Build the design system from the user's screenshots
 
-Phase 1 — Private library and creator workspace.
+**Input:** The user will provide UI reference screenshots. Do not choose a final palette, typography, component treatment, or layout system before that input arrives.
 
-Implemented locally: saves, private prompt editing, tags, collections, notes, version recovery, Markdown and JSON export, explicit creator authorization, draft/published controls, and lesson authoring. At the user's request, three short beginner lessons now collect complete project recipes, with basic progress and protected content access brought forward from Phase 2. The [Phase 1 report](phase-1.md) records verification and remaining production release steps. Gate: daily study and recovery/export work without developer help, and one user cannot read or edit another user's private prompts; local behavior and HTTP checks pass, with hosted acceptance pending publication.
+- [ ] Review the supplied references together and identify the specific qualities to carry forward: density, hierarchy, preview prominence, navigation, and interaction treatment.
+- [ ] Define an original PLS PROMPT system for typography, colors, spacing, borders, radii, controls, icons, focus states, and motion.
+- [ ] Design the gallery and a representative project page on desktop and mobile.
+- [ ] Include loading, empty, unavailable-demo, copied, saved, signed-out, and error states.
+- [ ] Document the selected system in `docs/design-system.md` and implement its reusable primitives before applying it across pages.
 
-Phase 2 — One complete learning loop.
+**Gate:** The visual direction has been reviewed against the screenshots, and both main screens work as one coherent system; no speculative full-site restyling precedes that review.
 
-Extend the playable beginner path with server-side prompt execution, meaningful output checks, hints, and attempt history. Basic progress, atomic recipe collection, metadata-only public listings, and protected downloads are implemented in Phase 1. Gate: a newcomer finishes a prompt-writing mission, understands feedback, and retrieves the reward after signing back in; varied successful prompts receive fair checks, repeated requests cannot duplicate rewards, and locked content stays unavailable before a valid grant.
+### Phase C — Prove one recipe and its live project
 
-Phase 3 — Paid directory.
+- [ ] Choose one project for the first demonstration based on the actual recipe inventory and its suitability for a self-contained browser demo.
+- [ ] Build it while recording the prompt sequence, tool, setup, interventions, and functional checks.
+- [ ] Rebuild from the finished recipe in a clean starting environment; revise the recipe to include any missing steps.
+- [ ] Produce the real preview image and a resettable demo with sample data.
+- [ ] Confirm the demo host, framing permissions, failure fallback, and separation from PLS PROMPT accounts.
+- [ ] Prepare the exact downloadable recipe and its concise “How it was made” record.
 
-Extend existing listings and search with products, checkout, verified fulfillment, library access, and downloads, reusing the access controls from Phase 2. Gate: test purchases, failed payments, duplicate payment events, refunds, and earned/purchased overlap all behave correctly; locked text remains inaccessible through API responses, page payloads, seed fallbacks, and attachment URLs.
+**Gate:** Someone can try the project and follow the documented recipe; the demonstration and download refer to the same version. The existing three lesson-reward recipes are candidate content, not already proven demos.
 
-Phase 4 — Starter learning experience.
+### Phase D — Deliver the complete gallery-to-library path
 
-Expand to five modules and capstone; add practice filters, reviewed solutions, clear levels, and progress overview. Gate: all exercises have reviewed content and calibrated acceptance checks; mobile and keyboard flows work.
+- [ ] Add the recipe/version/demo fields through generated additive migrations and rehearse them against a local copy of existing data.
+- [ ] Implement the gallery and project page using the Phase B design system and the Phase C real project.
+- [ ] Add explicit Try, Reset, Copy, Download, and Save states, with working error recovery.
+- [ ] Support single prompts, ordered packs, and skill files in display and exports; preserve the complete format in a saved private copy.
+- [ ] Keep released-recipe browsing, copying, and downloads available to visitors; require sign-in for private collection.
+- [ ] Remove lesson requirements from selected showcase recipes through an explicit, one-time content update. Preserve existing earned grants and personal copies.
+- [ ] Replace lesson-led navigation and home sections; keep old prompt URLs and lesson archive access working.
 
-Phase 5 — Small beta and refinement.
+**Gate:** A visitor can discover, try, and download a recipe, and a signed-in member can save, customize, restore, and export it without losing content or seeing another member's data.
 
-Recruit 5–10 target users when ready; observe first use, score disputes, repeat visits, and actual prompt reuse. Fix unclear lessons and unreliable grading before broad launch. Recruitment and public launch are future actions, outside this planning task.
+### Phase E — Make publishing repeatable
 
-Phase 6 — Expand from evidence.
+- [ ] Extend Studio with recipe format, ordered steps or skill files, demo/thumbnail fields, and proof notes.
+- [ ] Require complete recipe content, a matching demo version, build/reproduction records, and a usable fallback before an item is showcased.
+- [ ] Allow incomplete drafts to remain private and give clear feedback for missing publication requirements.
+- [ ] Keep the existing demonstrated version available while a revised recipe is being tested.
+- [ ] Confirm the creator can add a second verified project without editing application source.
+- [ ] Add only further recipes that pass the same proof and download checks.
 
-Add ML foundations, vibe-coding specialization, spaced review, and richer rewards based on what users complete and return for. Consider subscriptions, community solutions, and additional sellers only after demand and operating costs are clear.
+**Gate:** Publishing is an editorial workflow the owner can repeat; the application does not need custom code for every new listing.
 
-Scope excludes launch-time multiplayer, public leaderboards, creator payouts, generated infinite courses, and a general-purpose coding sandbox. Those add separate systems before the core loop is proven.
+### Phase F — Verify the experience and prepare release
 
-11. Validation and release decisions
+- [ ] Verify the gallery and project page with keyboard input and on narrow screens, including leaving/resetting embedded demos.
+- [ ] Check blocked embeds, slow loads, unavailable demos, denied clipboard access, failed downloads, sign-in return paths, and repeated saves.
+- [ ] Verify exports preserve pack order and skill filenames; ensure no application source or private files enter recipe packages.
+- [ ] Verify migration preservation, recipe/demo version matching, private ownership, and existing access grants.
+- [ ] Run the production build, type checks, lint, and focused automated tests for the changed behavior.
+- [ ] Observe a newcomer finding a project, trying it, obtaining the recipe, and identifying what they could customize; fix points requiring live explanation.
+- [ ] Refresh the production backup, confirm the migration ledger and recovery procedure, and verify hosted authentication before a requested release.
 
-Proposed beta targets are internal decision thresholds, not industry benchmarks:
+**Gate:** The core journey works with real content and truthful proof. Production publishing is not included in the present plan-writing request.
 
-- At least 4 of the first 5 observed newcomers finish the first lesson without live explanation from you.
-- At least 4 of those 5 can explain the taught concept in their own words afterward.
-- At least 3 return within seven days to practice or reuse a saved prompt.
-- Reviewed passing and failing prompts behave consistently enough to resolve every observed unfair grade before public release.
-- Purchase and unlock tests preserve correct access across sign-out, duplicate requests, and refunds.
-- Measured cost per completed lesson supports the chosen usage allowance and product pricing.
+## 9. Measures that matter
 
-Instrument lesson starts/completions, hints, retries, disputed results, reward saves, repeat copies/downloads, directory visits, checkout completion, and cost. Use delayed fresh-input challenges to assess learning retention. Track buyers, learners, and personal-library users separately, then measure movement between them.
+Track only the signals needed to improve this experience: project opens, demo starts, recipe copies/downloads, saves, and returns to saved recipes. Do not record prompt text or detailed activity inside the demo by default.
 
-Existing tests cover build packaging and selected UI contracts. Keep those checks, then add behavior tests for private-library access, access grants, payment fulfillment, grading, migrations, and the complete learn/save/buy flows. No build or application tests were run for this source-only planning review.
+Use feedback to determine whether people understand what they receive, can reproduce the project, and find the customization guidance useful. Do not treat a copied prompt or a played demo as proof of a successful rebuild.
 
-Before implementation, confirm production prompt inventory, initial content rights, the first published lesson set, model-run budget, payment-provider setup, and launch prices. The existing www-domain task remains separate launch housekeeping; no DNS or domain changes are required for this plan.
+Consider monetization after the free experience demonstrates repeat use and reliable recipes. Pricing and payment implementation require a separate decision and plan.
+
+## 10. Next input and project record
+
+The next user-provided input is the UI screenshots. Use them to begin Phase B, then establish the first real recipe/demo pair before expanding the catalog. No additional feature implementation is authorized by this document alone.
+
+The earlier [foundation audit](phase-0/README.md) and [library and learning implementation report](phase-1.md) remain historical evidence of completed work. Their former future phases are superseded by this plan. The unrelated domain setup item remains in [the project to-do](../todo.md).

@@ -1,24 +1,32 @@
-# PlsPrompt
+# PLS PROMPT
 
-PlsPrompt is a human-verified directory of AI prompts and practical prompt-engineering lessons.
+PLS PROMPT is moving toward a curated gallery of working projects and premium build recipes: try the live demo, collect the prompt, prompt pack, or skill, then make it your own.
 
-## V0.1
+The [active pivot plan](docs/pivot-plan.md) replaces the earlier learning-platform roadmap. Recipe-only downloads and interactive proof define this direction; payment processing is outside the current scope. The design system will be developed from the user's upcoming UI references.
 
-- Searchable, filterable prompt directory
-- Prompt detail pages with copy actions and anatomy breakdowns
-- GitHub-hosted prompt support
-- Lesson library
-- ChatGPT sign-in for submissions and personal activity
-- D1 persistence for prompts and lessons
-- R2 storage for optional prompt attachments
-- Human-review submission queue
+## Current foundation
+
+The existing application includes a searchable prompt directory, prompt detail pages, private library with collections and version recovery, creator workspace, and interactive beginner lessons. Playable project demos and the new gallery layout are planned, not implemented yet.
+
+The app uses React, Vinext/Vite, Tailwind, Sites authentication, D1/Drizzle, and R2. Keep the current hosting project and bindings.
+
+## Project documents
+
+- [Active recipe-gallery pivot plan](docs/pivot-plan.md)
+- [Historical foundation audit](docs/phase-0/README.md)
+- [Historical private library and learning implementation](docs/phase-1.md)
+- [Separate domain setup task](todo.md)
 
 ## Data
 
-The D1 schema lives in `db/schema.ts`. Generated migrations live in `drizzle/`. Initial editorial content is inserted only when the new database is empty.
+The schema lives in `db/schema.ts`; generated migrations live in `drizzle/`. Content setup uses guarded revisions in `lib/seed-database.ts`. Preserve applied migrations, existing public URLs, private library data, and access grants through the pivot.
 
-## Commands
+## Local checks
 
-- `npm run build` — create the deployable Worker
-- `npm run db:generate` — generate a migration after a schema change
-- `npm run lint` — run the source lint checks
+- `npm run dev` — open the local development site.
+- `npm run typecheck` — check application types.
+- `npm run lint` — run source checks.
+- `npm test` — build the application and run automated tests.
+- `npm run db:generate` — generate an additive migration after a schema change.
+
+Local practice and public browsing work without sign-in. The real ChatGPT sign-in flow requires the hosted Sites gateway.
