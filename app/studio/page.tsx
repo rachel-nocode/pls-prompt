@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireChatGPTUser } from "@/app/chatgpt-auth";
 import { SiteHeader } from "@/components/site-header";
@@ -9,5 +10,5 @@ export default async function StudioPage() {
   await requireChatGPTUser("/studio"); const actor = await getActor();
   if (!actor?.isCreator) notFound();
   const initial = await (await repository()).recipeStudio(actor);
-  return <main><SiteHeader /><RecipeStudio initial={initial} /></main>;
+  return <main><SiteHeader /><div className="work-page"><Link className="project-back" href="/studio/analytics">Download analytics →</Link></div><RecipeStudio initial={initial} /></main>;
 }

@@ -152,3 +152,10 @@ export const recipeVersions = sqliteTable("recipe_versions", {
   editorId: text("editor_id").notNull(),
   createdAt: text("created_at").notNull(),
 }, table => [uniqueIndex("idx_recipe_prompt_version").on(table.promptId, table.version)]);
+
+export const recipeDownloadCounts = sqliteTable("recipe_download_counts", {
+  day: text("day").notNull(),
+  promptId: text("prompt_id").notNull(),
+  versionId: text("version_id").notNull(),
+  downloads: integer("downloads").notNull().default(0),
+}, table => [uniqueIndex("idx_recipe_download_day_version").on(table.day, table.promptId, table.versionId)]);

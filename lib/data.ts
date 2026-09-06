@@ -7,7 +7,7 @@ import type { PromptRecord } from "./content";
 
 type DatabaseResult<T> = { results?: T[] };
 
-function db() {
+export function db() {
   const binding = (env as unknown as { DB?: D1Database }).DB;
   if (!binding) throw new Error("Prompt database is unavailable.");
   return binding;

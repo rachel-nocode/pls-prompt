@@ -1,8 +1,10 @@
-import { repository } from "@/lib/data";
+import { recordRecipeDownload } from "@/lib/download-analytics";
+import { getActor } from "@/lib/access";
+import { db, repository } from "@/lib/data";
 import { recipeDownload } from "@/lib/recipe-export";
 import { apiError, privateHeaders } from "@/lib/api";
 import { AppError } from "@/lib/repository";
-export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
+async function respond(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {
     const { slug } = await params; const store = await repository();
     const prompt = await store.promptBySlug(slug, null);
@@ -11,6 +13,17 @@ export async function GET(request: Request, { params }: { params: Promise<{ slug
     const version = await store.publishedRecipe(prompt.id, versionId);
     if (!version) throw new AppError(404, "Recipe version unavailable.");
     const download = recipeDownload(version.recipe, version.id, slug);
-    return new Response(new Uint8Array(download.bytes), { headers: { ...privateHeaders, "Content-Type": download.type, "Content-Disposition": `attachment; filename="${download.filename}"`, "X-Content-Type-Options": "nosniff" } });
+    if (request.method === "GET") {
+      try {
+        const actor = await getActor();
+        if (!actor?.isCreator && !/bot|crawler|spider|preview/i.test(request.headers.get("user-agent") ?? "")) {
+          await recordRecipeDownload(db(), prompt.id, version.id);
+        }
+      } catch { console.error("Download analytics unavailable"); }
+    }
+    return new Response(request.method === "HEAD" ? null : new Uint8Array(download.bytes), { headers: { ...privateHeaders, "Content-Type": download.type, "Content-Disposition": `attachment; filename="${download.filename}"`, "X-Content-Type-Options": "nosniff" } });
   } catch (error) { return apiError(error); }
 }
+
+export const GET = respond;
+export const HEAD = respond;
