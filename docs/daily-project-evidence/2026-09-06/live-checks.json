@@ -1,0 +1,13 @@
+{
+  "date": "2026-09-06T16:45:28.376Z",
+  "url": "https://plsprompt.com/prompts/light-relay",
+  "checks": [
+    "Six-project live gallery, all five previous demos retained",
+    "Live embedded puzzle loads, readiness handshake succeeds, chamber 1 solves",
+    "Authenticated live HTTP Markdown attachment includes exact tested steps, v1 and honest build notes",
+    "Live mobile layout fits and iframe interaction works",
+    "No live page script errors"
+  ],
+  "errors": [],
+  "nativeDownloadLimit": "Native browser download was canceled under temporary header-based Sites authorization; native download passed locally and exact hosted attachment was verified with authenticated HTTP."
+}

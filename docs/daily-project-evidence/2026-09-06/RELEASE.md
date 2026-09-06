@@ -20,4 +20,8 @@ Chromium with emulated touch, not physical devices; no Safari, manual assistive-
 
 ## Publication
 
-Validated candidate; deployment receipt will be appended after successful publication and live checks. Keep any failed candidate under its existing slug and resume it rather than creating a replacement.
+Published successfully on 2026-09-06 at 16:42:54 UTC (09:42:54 PDT). Sites version 6, saved version appgprj_6a9b0e238298819192acff75b494985a~appgver_d5968a51d3d08191a836847f47cb417d, deployment appgdep_6a9d9802a7448191ba4e1209c546f8ec, environment revision 1. Exact deployed source: 6419bc9eb2e71af8e3acca61db3236eab0026192, committed and pushed to Sites main before packaging. Sites helper archive validated 146 entries and all five unchanged migrations; no private fixtures or environment files. Local archive SHA-256: 1f523f08d276cb72c34c1188d82f3dbc27d307ba5839dcce0b80375e61c5c192.
+
+Live project: https://plsprompt.com/prompts/light-relay. Live Chromium checks verified all six showcase projects, working embedded chamber solution/readiness, mobile interaction/layout, no page script errors, and an authenticated HTTP Markdown attachment matching both complete tested steps. Native download passed locally; native live download was canceled under temporary header-based Sites authorization, so the hosted attachment was checked directly. No claim of a real signed-in production browser download or private save is made. See live-checks.json. Rechecked audience after deployment: sole owner, no groups or external visitors. Background automation did not open a user-facing browser tab.
+
+This receipt and live evidence are post-deployment documentation; application source remains the exact validated deployment above. No second project may publish on 2026-09-06.
