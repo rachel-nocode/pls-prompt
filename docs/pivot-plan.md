@@ -234,7 +234,8 @@ These targets are implemented; concrete file mapping and verification evidence a
 - [x] Verify migration preservation, recipe/demo version matching, private ownership, and existing access grants.
 - [x] Run the production build, type checks, lint, and focused automated tests for the changed behavior.
 - [ ] Observe a newcomer finding a project, trying it, obtaining the recipe, and identifying what they could customize; fix points requiring live explanation.
-- [ ] Refresh the production backup, confirm platform migration acceptance and recovery procedure, and verify hosted authentication during the requested release. Backup and local rehearsal are complete; live completion is recorded in the release report.
+- [x] Refresh the production backup, confirm platform migration acceptance and recovery procedure, and verify the live sign-in route and unauthenticated private-data boundary. Version 3 is live; [release evidence](recipe-gallery-release.md) records the result.
+- [ ] Complete a production save after the owner signs into ChatGPT in the built-in browser. Local authenticated flow passed; this browser currently requires the owner’s login.
 
 **Gate:** The core journey works with real content and truthful proof. Production publishing is not included in the present plan-writing request.
 

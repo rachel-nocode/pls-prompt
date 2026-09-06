@@ -1,0 +1,50 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "bytes": 56652
+  },
+  {
+    "path": "/prompts/pixel-garden",
+    "status": 200,
+    "bytes": 42216
+  },
+  {
+    "path": "/api/recipes/pixel-garden/download?version=gallery-pixel-garden-v1",
+    "status": 200,
+    "bytes": 4486,
+    "attachment": "attachment; filename=\"pixel-garden.md\""
+  },
+  {
+    "path": "/demos/pixel-garden",
+    "status": 200,
+    "bytes": 15698,
+    "edgeChanges": [
+      [
+        "insert",
+        0,
+        938
+      ]
+    ],
+    "csp": "sandbox allow-scripts; default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'self'"
+  },
+  {
+    "path": "/previews/pixel-garden-canvas.png",
+    "status": 200,
+    "bytes": 38563
+  },
+  {
+    "path": "/prompts/hunt-a-bug-like-a-senior-qa",
+    "status": 200,
+    "bytes": 18606
+  },
+  {
+    "path": "/learn",
+    "status": 200,
+    "bytes": 19610
+  },
+  {
+    "path": "/api/library",
+    "status": 401
+  }
+]
