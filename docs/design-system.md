@@ -434,3 +434,7 @@ The installed carousel wrapper provides a starting point for manual navigation. 
 The selected design direction, palette, type system, layout rules, components, iconography, states, motion behavior, responsive behavior, asset standards, and implementation handoff are documented. The proposed token contrast pairs were calculated and the referenced font sources were checked.
 
 Production fonts with licenses, an original procedural ASCII portal, reusable recipe components, and five working demonstrations are implemented. [The release report](recipe-gallery-release.md) records browser checks, automated checks, and remaining human validation. Hero type uses a bounded fluid size between the specified responsive endpoints to avoid accidental wrapping at intermediate desktop widths.
+
+## Gallery refinement — September 6, 2026
+
+Refero (https://refero.design/) is an additional reference for a clean, minimal browsing experience. Keep full interactive apps and their recipes as the gallery focus. The homepage no longer displays the Original Collection or a secondary list of legacy prompts. Preserve the established ASCII Atelier direction while reducing competing content.
