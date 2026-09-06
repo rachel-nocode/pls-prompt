@@ -1,0 +1,22 @@
+{
+  "counts": [
+    0,
+    0,
+    1,
+    1,
+    1
+  ],
+  "statuses": [
+    200,
+    200,
+    200,
+    404
+  ],
+  "checks": [
+    "HEAD does not count",
+    "GET increments once",
+    "Preview bot excluded",
+    "Invalid version does not count"
+  ],
+  "setup": "Existing migration 0004 was absent locally; backed up local SQLite and applied that additive migration. Production already has table; no production schema change."
+}

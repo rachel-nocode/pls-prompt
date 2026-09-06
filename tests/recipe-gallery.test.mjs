@@ -8,6 +8,8 @@ import { DatabaseSync } from "node:sqlite";
 import test from "node:test";
 import { createRepository } from "../lib/repository.ts";
 import { seedGallery } from "../lib/seed-gallery.ts";
+import { seedDailyProjects } from "../lib/seed-daily-projects.ts";
+import { recordRecipeDownload, downloadReport } from "../lib/download-analytics.ts";
 import { seedDatabase } from "../lib/seed-database.ts";
 import { promptExercises } from "../lib/prompt-exercises.ts";
 
@@ -151,4 +153,31 @@ test("denied clipboard falls back, reports failure honestly, and restores focus"
  Object.defineProperty(globalThis,"document",{configurable:true,value:{activeElement:{focus:()=>focused++},createElement:()=>({value:"",style:{},setAttribute(){},select(){},remove(){removed++;}}),body:{appendChild(){}},execCommand:()=>allowed}});
  try {await assert.rejects(copyText("private recipe"),/Copy is unavailable/);assert.equal(removed,1);assert.equal(focused,1);allowed=true;await copyText("private recipe");assert.equal(removed,2);assert.equal(focused,2);}
  finally {if(oldNavigator)Object.defineProperty(globalThis,"navigator",oldNavigator);else delete globalThis.navigator;if(oldDocument)Object.defineProperty(globalThis,"document",oldDocument);else delete globalThis.document;}
+});
+
+test("daily addition preserves all existing rows and private copies; repeat seed preserves creator edits and analytics",async t=>{
+ const {store,db,sqlite}=await setup(t);await seedGallery(db);
+ const saved=await store.savePrompt(member,"gallery-tempo-lab");
+ const tables=["prompts","recipe_versions","recipe_projects","library_items","library_versions","prompt_access"];
+ const before=Object.fromEntries(tables.map(table=>[table,sqlite.prepare(`SELECT * FROM ${table} ORDER BY rowid`).all()]));
+ await seedDailyProjects(db);assert.equal((await store.gallery()).length,6);
+ for(const table of tables){const after=sqlite.prepare(`SELECT * FROM ${table} ORDER BY rowid`).all();for(const row of before[table])assert.ok(after.some(x=>JSON.stringify(x)===JSON.stringify(row)),table);}
+ assert.equal((await store.libraryItemForPrompt(member,"gallery-tempo-lab")).id,saved.id);
+ const original=await store.publishedRecipe("daily-light-relay");assert.equal(original.id,"daily-light-relay-v1");assert.deepEqual(publicationProblems(original.recipe),[]);
+ const download=recipeDownload(original.recipe,original.id,"light-relay");const text=new TextDecoder().decode(download.bytes);
+ assert.equal(download.filename,"light-relay.md");assert.ok(text.indexOf('1. Build Light Relay')<text.indexOf('2. Verify and repair'));assert.ok(text.includes(original.recipe.setup));assert.ok(text.includes(original.recipe.limits));assert.ok(!text.includes('<!doctype html>'));
+ await recordRecipeDownload(db,"daily-light-relay",original.id);assert.equal((await downloadReport(db)).find(r=>r.slug==="light-relay").downloads,1);
+ await store.editRecipe(creator,"daily-light-relay",1,{...original.recipe,title:"Creator's revised Light Relay"},true,true);
+ await seedDailyProjects(db);assert.equal((await store.gallery()).length,6);assert.equal((await store.publishedRecipe("daily-light-relay")).recipe.title,"Creator's revised Light Relay");
+ assert.equal((await downloadReport(db)).find(r=>r.slug==="light-relay").downloads,1);
+});
+
+test("daily seed transaction rolls back failures and tolerates concurrent completed seed",async t=>{
+ const {store,db,sqlite}=await setup(t);await seedGallery(db);db.failBatchAt=1;
+ await assert.rejects(seedDailyProjects(db),/Simulated/);assert.equal(await store.publishedRecipe("daily-light-relay"),null);
+ assert.equal(sqlite.prepare("SELECT count(*) n FROM content_revisions WHERE id LIKE 'daily-project-%'").get().n,0);
+ await seedDailyProjects(db);const marker=sqlite.prepare("SELECT * FROM content_revisions WHERE id LIKE 'daily-project-%'").get();
+ sqlite.prepare("DELETE FROM content_revisions WHERE id=?").run(marker.id);
+ db.beforeBatch=()=>sqlite.prepare("INSERT INTO content_revisions(id,applied_at) VALUES (?,?)").run(marker.id,marker.applied_at);
+ await seedDailyProjects(db);assert.equal((await store.gallery()).length,6);
 });

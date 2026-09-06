@@ -1,0 +1,319 @@
+{
+  "time": "2026-09-06T16:35:26.324Z",
+  "browser": "151.0.7922.34",
+  "engine": "Chromium",
+  "sandbox": "allow-scripts",
+  "checks": [
+    {
+      "name": "Opaque sandbox, exact CSP, synchronous ready",
+      "result": "PASS",
+      "detail": {
+        "sandbox": "allow-scripts",
+        "ready": [
+          {
+            "data": {
+              "type": "pls-demo-ready"
+            },
+            "origin": "null"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Initial unsolved board and locked chambers",
+      "result": "PASS",
+      "detail": "49 cells; zero counters; no best; Next/Undo disabled; chambers 2/3 locked"
+    },
+    {
+      "name": "First solution, click/Enter, hint coordinates and no movement",
+      "result": "PASS",
+      "detail": "2 rotations and 2 hints; focus retained; best saved; chamber 2 unlocked"
+    },
+    {
+      "name": "Undo, Space, arrow focus and earned progress",
+      "result": "PASS",
+      "detail": "Undo decrements once, retains hints/best/unlock; four arrows follow row-major order with wrapping"
+    },
+    {
+      "name": "Further moves may unsolve",
+      "result": "PASS",
+      "detail": "Mirrors and Undo remain enabled; Next gates current solution; earned unlock retained"
+    },
+    {
+      "name": "Reset and best/hint tie handling",
+      "result": "PASS",
+      "detail": "Reset clears attempt history/hints; equal rotations prefer fewer hints; worse hint tie preserves best"
+    },
+    {
+      "name": "DOGLEG initial state and authored solution",
+      "result": "PASS",
+      "detail": "Starts unsolved; three rotations solve; third chamber unlocked; hint row 6 column 3"
+    },
+    {
+      "name": "LONG WAY HOME initial state and authored solution",
+      "result": "PASS",
+      "detail": "Starts unsolved; six rotations solve; final completion exact; final Next disabled; hint row 6 column 2"
+    },
+    {
+      "name": "Non-color path, lit cells and overlay",
+      "result": "PASS",
+      "detail": "Disclosure provides one-based coordinates; lit state reflected per cell; SVG aria-hidden and pointer-events none"
+    },
+    {
+      "name": "Unlocked chamber re-entry",
+      "result": "PASS",
+      "detail": "Restores initial orientations/count/history and preserves session best"
+    },
+    {
+      "name": "Full reset",
+      "result": "PASS",
+      "detail": "Returns chamber 1, clears all three bests, attempt hints/history and later unlocks"
+    },
+    {
+      "name": "Best rotations outrank hint count",
+      "result": "PASS",
+      "detail": "Two rotations with one hint replace four rotations with no hints"
+    },
+    {
+      "name": "Responsive and root text scale",
+      "result": "PASS",
+      "detail": {
+        "responsive": [
+          {
+            "width": 320,
+            "viewport": 320,
+            "document": 320,
+            "body": 320,
+            "board": {
+              "x": 6,
+              "y": 158.390625,
+              "width": 308,
+              "height": 308,
+              "top": 158.390625,
+              "right": 314,
+              "bottom": 466.390625,
+              "left": 6
+            },
+            "smallTargets": 0,
+            "clipped": []
+          },
+          {
+            "width": 375,
+            "viewport": 375,
+            "document": 375,
+            "body": 375,
+            "board": {
+              "x": 6,
+              "y": 158.390625,
+              "width": 363,
+              "height": 363,
+              "top": 158.390625,
+              "right": 369,
+              "bottom": 521.390625,
+              "left": 6
+            },
+            "smallTargets": 0,
+            "clipped": []
+          },
+          {
+            "width": 768,
+            "viewport": 768,
+            "document": 768,
+            "body": 768,
+            "board": {
+              "x": 24,
+              "y": 165.0625,
+              "width": 390,
+              "height": 390,
+              "top": 165.0625,
+              "right": 414,
+              "bottom": 555.0625,
+              "left": 24
+            },
+            "smallTargets": 0,
+            "clipped": []
+          },
+          {
+            "width": 1024,
+            "viewport": 1024,
+            "document": 1024,
+            "body": 1024,
+            "board": {
+              "x": 24,
+              "y": 182.09375,
+              "width": 534.6875,
+              "height": 534.6875,
+              "top": 182.09375,
+              "right": 558.6875,
+              "bottom": 716.78125,
+              "left": 24
+            },
+            "smallTargets": 0,
+            "clipped": []
+          },
+          {
+            "width": 1440,
+            "viewport": 1440,
+            "document": 1440,
+            "body": 1440,
+            "board": {
+              "x": 194,
+              "y": 182.390625,
+              "width": 577.640625,
+              "height": 577.640625,
+              "top": 182.390625,
+              "right": 771.640625,
+              "bottom": 760.03125,
+              "left": 194
+            },
+            "smallTargets": 0,
+            "clipped": []
+          },
+          {
+            "width": 1600,
+            "viewport": 1600,
+            "document": 1600,
+            "body": 1600,
+            "board": {
+              "x": 274,
+              "y": 182.390625,
+              "width": 577.640625,
+              "height": 577.640625,
+              "top": 182.390625,
+              "right": 851.640625,
+              "bottom": 760.03125,
+              "left": 274
+            },
+            "smallTargets": 0,
+            "clipped": []
+          }
+        ],
+        "root200": {
+          "viewport": 320,
+          "document": 320,
+          "body": 320,
+          "clipped": [],
+          "font": "32px"
+        }
+      }
+    },
+    {
+      "name": "Revised Step 2 equal rows, beam centers and SVG stacking",
+      "result": "PASS",
+      "detail": [
+        {
+          "width": 320,
+          "rows": "44px 44px 44px 44px 44px 44px 44px",
+          "heights": [
+            44
+          ],
+          "maxCenterError": 0,
+          "svgAboveMirrors": true
+        },
+        {
+          "width": 375,
+          "rows": "51.8438px 51.8594px 51.8594px 51.8594px 51.8594px 51.8594px 51.8594px",
+          "heights": [
+            51.84375,
+            51.859375
+          ],
+          "maxCenterError": 0.012276785714291805,
+          "svgAboveMirrors": true
+        },
+        {
+          "width": 768,
+          "rows": "55.7031px 55.7188px 55.7188px 55.7031px 55.7188px 55.7188px 55.7188px",
+          "heights": [
+            55.703125,
+            55.71875
+          ],
+          "maxCenterError": 0.011160714285722406,
+          "svgAboveMirrors": true
+        },
+        {
+          "width": 1024,
+          "rows": "76.375px 76.3906px 76.375px 76.3906px 76.375px 76.3906px 76.375px",
+          "heights": [
+            76.375,
+            76.390625
+          ],
+          "maxCenterError": 0.01116071428577925,
+          "svgAboveMirrors": true
+        },
+        {
+          "width": 1440,
+          "rows": "82.5156px 82.5156px 82.5156px 82.5312px 82.5156px 82.5156px 82.5156px",
+          "heights": [
+            82.515625,
+            82.53125
+          ],
+          "maxCenterError": 0.013392857142889625,
+          "svgAboveMirrors": true
+        },
+        {
+          "width": 1600,
+          "rows": "82.5156px 82.5156px 82.5156px 82.5312px 82.5156px 82.5156px 82.5156px",
+          "heights": [
+            82.515625,
+            82.53125
+          ],
+          "maxCenterError": 0.013392857142889625,
+          "svgAboveMirrors": true
+        },
+        {
+          "width": 320,
+          "rootTextPercent": 200,
+          "rows": "44px 44px 44px 44px 44px 44px 44px",
+          "heights": [
+            44
+          ],
+          "maxCenterError": 0,
+          "svgAboveMirrors": true
+        }
+      ]
+    },
+    {
+      "name": "Final Step 2 board glyph fit and scalable prose/controls",
+      "result": "PASS",
+      "detail": {
+        "overflowingSymbols": [],
+        "bodyFont": "32px",
+        "controlFont": "28px",
+        "mirrorFont": "28px"
+      }
+    },
+    {
+      "name": "Visible keyboard focus",
+      "result": "PASS",
+      "detail": {
+        "width": "3px",
+        "style": "solid"
+      }
+    },
+    {
+      "name": "Reload loses session progress",
+      "result": "PASS",
+      "detail": "Fresh board, no bests, only chamber 1 unlocked"
+    },
+    {
+      "name": "No external requests, script errors or storage accesses",
+      "result": "PASS",
+      "detail": {
+        "requests": [
+          "http://127.0.0.1:51893/",
+          "http://127.0.0.1:51893/light-relay.html",
+          "http://127.0.0.1:51893/",
+          "http://127.0.0.1:51893/light-relay.html"
+        ],
+        "errors": [],
+        "storage": []
+      }
+    }
+  ],
+  "limitations": [
+    "Chromium only; no cross-browser or pixel-identical claim",
+    "No screen-reader hardware/user testing",
+    "Screenshots cover first viewport; overflow checks cover full document",
+    "Recipe reproduction authored in one standalone file, not original implementation comparison"
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "date": "2026-09-06T16:35:27.966Z",
+  "checks": [
+    "Opaque sandbox readiness, exact CSP, storage denied",
+    "Unsolved initial state and locked chambers",
+    "Hint reveals coordinate without movement; undo retains hints",
+    "Chamber 1 solution, undo, best tie prefers fewer hints",
+    "Chamber 2 trace, initial unsolved, exactly 3 moves",
+    "Chamber 3 six turns and final completion",
+    "Reset all clears bests, hints and unlocks; keyboard focus and activation",
+    "Responsive widths and 200% root text fit; all mirror targets >=44px",
+    "Equal cell geometry and beam centers",
+    "Emulated touch toggles mirrors",
+    "No script errors or unexpected external network"
+  ],
+  "layout": [
+    {
+      "width": 320,
+      "scroll": 320,
+      "targets": [
+        {
+          "w": 44,
+          "h": 44
+        },
+        {
+          "w": 44,
+          "h": 44
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "scroll": 375,
+      "targets": [
+        {
+          "w": 44,
+          "h": 44
+        },
+        {
+          "w": 44,
+          "h": 44
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "scroll": 768,
+      "targets": [
+        {
+          "w": 44,
+          "h": 44
+        },
+        {
+          "w": 44,
+          "h": 44
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "scroll": 1024,
+      "targets": [
+        {
+          "w": 59.8125,
+          "h": 59.8125
+        },
+        {
+          "w": 59.8125,
+          "h": 59.8125
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "scroll": 1440,
+      "targets": [
+        {
+          "w": 67.765625,
+          "h": 67.765625
+        },
+        {
+          "w": 67.765625,
+          "h": 67.765625
+        }
+      ]
+    },
+    {
+      "width": 1600,
+      "scroll": 1600,
+      "targets": [
+        {
+          "w": 67.765625,
+          "h": 67.765625
+        },
+        {
+          "w": 67.765625,
+          "h": 67.765625
+        }
+      ]
+    },
+    {
+      "zoom": 2,
+      "width": 320,
+      "scroll": 320
+    }
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:5176/",
+    "http://127.0.0.1:5176/demo"
+  ]
+}

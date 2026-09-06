@@ -1,0 +1,39 @@
+{
+  "date": "2026-09-06T16:39:48.823Z",
+  "checks": [
+    "New gallery project present",
+    "Real embedded demo loads, handshake succeeds and solves",
+    "Host reset restores clean demo",
+    "Native Markdown pack download contains complete ordered recipe and version, no application source",
+    "Project page fits all six responsive widths",
+    "Signed-out Studio and library remain unauthorized",
+    "No project-page script errors"
+  ],
+  "layout": [
+    {
+      "width": 320,
+      "scroll": 320
+    },
+    {
+      "width": 375,
+      "scroll": 375
+    },
+    {
+      "width": 768,
+      "scroll": 768
+    },
+    {
+      "width": 1024,
+      "scroll": 1024
+    },
+    {
+      "width": 1440,
+      "scroll": 1440
+    },
+    {
+      "width": 1600,
+      "scroll": 1600
+    }
+  ],
+  "errors": []
+}
