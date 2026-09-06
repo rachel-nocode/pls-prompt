@@ -43,7 +43,7 @@ export function LibraryWorkspace({ initial, initialItemId }: { initial: LibraryD
   }, [dirty, selected]);
   const items = data.items.filter(item => {
     const matchesText = `${item.title} ${item.prompt_text} ${item.tags} ${item.notes}`.toLowerCase().includes(query.toLowerCase());
-    const matchesGroup = filter === "archive" ? Boolean(item.archived_at) : !item.archived_at && (filter === "all" || (filter === "earned" ? item.source === "earned" : data.memberships.some(link => link.item_id === item.id && link.collection_id === filter)));
+    const matchesGroup = filter === "archive" ? Boolean(item.archived_at) : !item.archived_at && (filter === "all" || data.memberships.some(link => link.item_id === item.id && link.collection_id === filter));
     return matchesText && matchesGroup;
   });
   function choose(id: string | null, force = false) {
@@ -91,7 +91,6 @@ export function LibraryWorkspace({ initial, initialItemId }: { initial: LibraryD
     <div className="library-layout">
       <aside className="library-nav" aria-label="Library collections">
         <Button variant={filter === "all" ? "secondary" : "ghost"} onClick={() => { setFilter("all"); setRenaming(false); }}>All prompts <span>{data.items.filter(item => !item.archived_at).length}</span></Button>
-        <Button variant={filter === "earned" ? "secondary" : "ghost"} onClick={() => { setFilter("earned"); setRenaming(false); }}><BookOpen /> Lesson rewards</Button>
         <p className="mono-label">Collections</p>
         {data.collections.map(collection => <Button key={collection.id} variant={filter === collection.id ? "secondary" : "ghost"} onClick={() => { setFilter(collection.id); setCollectionTitle(collection.title); setRenaming(true); }}>{collection.title}</Button>)}
         <form className="collection-form" onSubmit={async event => { event.preventDefault(); const result = await mutate(renaming ? { action: "renameCollection", id: filter, title: collectionTitle } : { action: "createCollection", title: collectionTitle }); if (result) { setCollectionTitle(""); setRenaming(false); } }}>
@@ -103,7 +102,7 @@ export function LibraryWorkspace({ initial, initialItemId }: { initial: LibraryD
         <Link className="text-arrow" href="/">Explore project recipes →</Link>
       </aside>
       <div className="library-list"><label className="search-compact"><Search /><Input aria-label="Search your library" placeholder="Search titles, tags, or notes" value={query} onChange={event => setQuery(event.target.value)} /></label>
-        {items.map(entry => <button type="button" className={`library-entry ${selected === entry.id ? "selected" : ""}`} key={entry.id} onClick={() => choose(entry.id)}><span className="mono-label">{entry.source === "earned" ? "LESSON REWARD" : entry.source === "saved" ? "SAVED RECIPE" : "YOUR PROMPT"}</span><strong>{entry.title}</strong><small>Version {entry.version}{entry.archived_at ? " · Archived" : ""}</small></button>)}
+        {items.map(entry => <button type="button" className={`library-entry ${selected === entry.id ? "selected" : ""}`} key={entry.id} onClick={() => choose(entry.id)}><span className="mono-label">{(entry.source === "earned" || entry.source === "saved") ? "SAVED RECIPE" : "YOUR PROMPT"}</span><strong>{entry.title}</strong><small>Version {entry.version}{entry.archived_at ? " · Archived" : ""}</small></button>)}
         {!items.length && <div className="compact-empty"><h2>{query ? "No matches" : "Room for your next idea"}</h2><p>{query ? "Try a different word or collection." : "Save a project recipe or add a prompt of your own."}</p><Button asChild variant="outline"><Link href="/">Explore projects</Link></Button></div>}
       </div>
       <div className="library-editor" aria-busy={busy}>

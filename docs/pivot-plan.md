@@ -252,3 +252,7 @@ Consider monetization after the free experience demonstrates repeat use and reli
 The ASCII Atelier gallery, five working demos, complete recipes, structured private library, and creator publishing workflow are implemented. See [the release report](recipe-gallery-release.md) for checks, hosting results, and recovery notes. A real newcomer observation remains open; independent agent rebuilds and browser checks are not a substitute for human usability research.
 
 The earlier [foundation audit](phase-0/README.md) and [library and learning implementation report](phase-1.md) remain historical evidence of completed work. Their former future phases are superseded by this plan. The unrelated domain setup item remains in [the project to-do](../todo.md).
+
+## Lesson retirement
+
+The lesson archive, editor, and grading endpoints are retired. Old lesson URLs redirect to the collection. Existing recipe copies and historical access records are preserved; no database records are deleted.

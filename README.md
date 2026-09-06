@@ -6,7 +6,7 @@ The [active pivot plan](docs/pivot-plan.md) replaces the earlier learning-platfo
 
 ## Current foundation
 
-The ASCII Atelier gallery showcases five real browser projects with copyable recipes, native downloads, and independently checked rebuilds. My Library preserves private edits, complete prompt packs or skill files, collections, and history. Studio publishes immutable recipe/demo versions while new drafts stay private. Original prompts and lessons remain available through the archive.
+The ASCII Atelier gallery showcases five real browser projects with copyable recipes, native downloads, and independently checked rebuilds. My Library preserves private edits, complete prompt packs or skill files, collections, and history. Studio publishes immutable recipe/demo versions while new drafts stay private. Original prompts remain available. Lessons have been retired; previously collected recipes and access remain intact.
 
 The app uses React, Vinext/Vite, Tailwind, Sites authentication, D1/Drizzle, and R2. Keep the current hosting project and bindings.
 

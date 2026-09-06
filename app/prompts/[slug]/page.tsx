@@ -48,14 +48,14 @@ export default async function PromptPage({ params, searchParams }: { params: Pro
           <span className="project-type">Original collection</span>
         </header>
         <div className="proof-bar">
-          <span className={prompt.verified ? "verified" : "community"}>{prompt.access_mode === "earned" ? "Archived lesson recipe" : "Original prompt"}</span>
+          <span className={prompt.verified ? "verified" : "community"}>{prompt.access_mode === "earned" ? "Previously collected recipe" : "Original prompt"}</span>
           <span><Clock3 aria-hidden="true" /> Tested {prompt.tested_at || "awaiting review"}</span>
           <span>{models.join(" · ")}</span>
         </div>
         <div className="detail-grid">
           <section className="prompt-panel">
-            <div className="panel-heading"><span>PROMPT</span><span>{!prompt.accessible ? "UNLOCK WITH A LESSON" : prompt.github_url ? "EXTERNAL SOURCE" : "READY TO COPY"}</span></div>
-            {!prompt.accessible ? <div className="locked-recipe"><h2>Build this after a short lesson.</h2><p>Finish the linked lesson to collect the full recipe in your library.</p>{prompt.lesson ? <Link className="zine-action" href={`/learn/${prompt.lesson.slug}`}>Start lesson →</Link> : <Link className="zine-action" href="/learn">Explore lessons →</Link>}</div> : prompt.prompt_text ? <pre>{prompt.prompt_text}</pre> : (
+            <div className="panel-heading"><span>PROMPT</span><span>{!prompt.accessible ? "EXISTING COLLECTIONS ONLY" : prompt.github_url ? "EXTERNAL SOURCE" : "READY TO COPY"}</span></div>
+            {!prompt.accessible ? <div className="locked-recipe"><h2>This recipe is no longer available to collect.</h2><p>Previously collected copies remain in your library.</p><Link className="zine-action" href="/#prompts">Explore recipes →</Link></div> : prompt.prompt_text ? <pre>{prompt.prompt_text}</pre> : (
               <div className="external-prompt">
                 <GitFork aria-hidden="true" />
                 <h2>{prompt.github_url ? "This prompt lives on GitHub." : "This prompt is an attachment."}</h2>
