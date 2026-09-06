@@ -1,0 +1,17 @@
+{
+  "tempo-lab": [
+    {"file":"tempo-lab-desktop.png","state":"Greenhouse house preset, pattern B, 130 BPM, stopped after functional checks"},
+    {"file":"tempo-lab-playing-pocket.png","state":"Late-night pocket preset, pattern A, 108 BPM, actively playing"},
+    {"file":"tempo-lab-playing-broken-sunlight.png","state":"Broken sunlight preset, pattern B, 92 BPM, level 42, actively playing"}
+  ],
+  "signal-drift": [
+    {"file":"signal-drift-desktop.png","state":"Paused mid-run with reduced motion enabled and an earlier session best"},
+    {"file":"signal-drift-mid-jump.png","state":"Live gameplay during a user-triggered jump at 12 meters"},
+    {"file":"signal-drift-run-complete.png","state":"Real collision and game-over overlay showing completed run distance"}
+  ],
+  "pixel-garden": [
+    {"file":"pixel-garden-canvas.png","state":"Actual canvas element, seeded garden at desktop width"},
+    {"file":"pixel-garden-world-mobile.png","state":"Actual world region including headline and garden at 320px viewport width"}
+  ],
+  "captureMethod":"Playwright element screenshots from the real allow-scripts sandboxed HTML UI; no image manipulation, no DOM content or style changes, no forced game state"
+}

@@ -74,6 +74,8 @@ export const libraryItems = sqliteTable("library_items", {
   tags: text("tags").notNull().default("[]"),
   notes: text("notes").notNull().default(""),
   source: text("source").notNull().default("personal"),
+  recipeSnapshot: text("recipe_snapshot"),
+  sourceRecipeVersion: text("source_recipe_version"),
   version: integer("version").notNull().default(1),
   archivedAt: text("archived_at"),
   createdAt: text("created_at").notNull(),
@@ -132,3 +134,21 @@ export const editorialVersions = sqliteTable("editorial_versions", {
   editorId: text("editor_id").notNull(),
   createdAt: text("created_at").notNull(),
 }, (table) => [uniqueIndex("idx_editorial_version").on(table.kind, table.recordId, table.version)]);
+
+export const recipeProjects = sqliteTable("recipe_projects", {
+  promptId: text("prompt_id").primaryKey().references(() => prompts.id),
+  draft: text("draft").notNull(),
+  revision: integer("revision").notNull().default(1),
+  publishedVersionId: text("published_version_id"),
+  showcase: integer("showcase").notNull().default(0),
+  updatedAt: text("updated_at").notNull(),
+});
+
+export const recipeVersions = sqliteTable("recipe_versions", {
+  id: text("id").primaryKey(),
+  promptId: text("prompt_id").notNull().references(() => prompts.id),
+  version: integer("version").notNull(),
+  payload: text("payload").notNull(),
+  editorId: text("editor_id").notNull(),
+  createdAt: text("created_at").notNull(),
+}, table => [uniqueIndex("idx_recipe_prompt_version").on(table.promptId, table.version)]);

@@ -1,7 +1,7 @@
 {
-  "name": "PLS PROMPT — ASCII Atelier",
+  "name": "PLS PROMPT \u2014 ASCII Atelier",
   "version": "1.0",
-  "status": "Design specification; not applied to the application",
+  "status": "Implemented; see docs/recipe-gallery-release.md for verification and limits",
   "units": "Pixel values are CSS pixels at the default root size. Implement type in rem.",
   "color": {
     "canvas": "#080808",

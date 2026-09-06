@@ -48,7 +48,7 @@ export function CreatorStudio({ initial }: { initial: StudioData }) {
     catch (error) { setError(error instanceof Error ? error.message : "Please try again."); }
     finally { setBusy(false); }
   }
-  return <section className="work-page"><div className="work-heading"><div><span className="mono-label">CREATOR WORKSPACE</span><h1>Make the next<br />small lesson.</h1><p>Write simply. Reward learners with something worth building.</p></div><Button onClick={() => load()}>New {kind === "prompt" ? "recipe" : "lesson"}</Button></div>
+  return <section className="work-page"><div className="work-heading"><div><span className="mono-label">CREATOR WORKSPACE</span><h1>Original content.</h1><p>Manage earlier prompts and archived lessons.</p></div><Button onClick={() => load()}>New {kind === "prompt" ? "recipe" : "lesson"}</Button></div>
     <Tabs value={kind} onValueChange={value => load(undefined, value as "prompt" | "lesson")}><TabsList><TabsTrigger value="prompt">Prompts & review</TabsTrigger><TabsTrigger value="lesson">Lessons</TabsTrigger></TabsList></Tabs>
     {error && <p role="alert" className="form-error">{error}</p>}{message && <p role="status" className="form-success">{message}</p>}
     <div className="studio-layout"><aside className="studio-list">{records.map(item => <button className={"library-entry " + (selected === item.id ? "selected" : "")} key={item.id} onClick={() => load(item)}><span className="mono-label">{kind === "prompt" ? str(item.status) : item.published ? "PUBLISHED" : "DRAFT"}</span><strong>{item.title}</strong><small>Version {item.version}</small></button>)}</aside>

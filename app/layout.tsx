@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { MotionPreferences } from "@/components/motion-preferences";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: { default: "PlsPrompt — Prompts that actually work", template: "%s · PlsPrompt" },
-  description: "A human-verified directory of AI prompts, practical workflows, and short lessons that explain why they work.",
+  title: { default: "PLS PROMPT — From prompt to playable", template: "%s · PlsPrompt" },
+  description: "Try working games and mini apps, collect their complete prompt recipes, and make them your own.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
@@ -18,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}<Toaster richColors position="bottom-right" /></body>
+      <body className="antialiased"><MotionPreferences>{children}<Toaster position="bottom-right" /></MotionPreferences></body>
     </html>
   );
 }

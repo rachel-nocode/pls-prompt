@@ -1,6 +1,7 @@
 import { env } from "cloudflare:workers";
 import { createRepository, type SqlDatabase } from "./repository";
 import { seedDatabase } from "./seed-database";
+import { seedGallery } from "./seed-gallery";
 import type { Actor } from "./library-types";
 import type { PromptRecord } from "./content";
 
@@ -20,7 +21,7 @@ let seedPromise: Promise<void> | null = null;
 
 
 export async function ensureSeeded() {
-  seedPromise ??= seedDatabase(db()).catch((error) => {
+  seedPromise ??= seedDatabase(db()).then(() => seedGallery(db())).catch((error) => {
     seedPromise = null;
     throw error;
   });

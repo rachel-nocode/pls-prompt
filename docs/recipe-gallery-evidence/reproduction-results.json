@@ -1,0 +1,230 @@
+{
+  "started": "2026-09-06T02:37:07.374Z",
+  "method": "Independent Chromium UI tests against opaque allow-scripts sandbox frames, using only independently rebuilt files.",
+  "projects": {
+    "tempo-lab": {
+      "checks": [
+        {
+          "name": "Exact CSP, opaque origin, ready handshake, no audio autoplay",
+          "pass": true
+        },
+        {
+          "name": "64 steps and exact default A pattern",
+          "pass": true
+        },
+        {
+          "name": "Independent pattern editing, shifted B keys, preset replacement and clear",
+          "pass": true
+        },
+        {
+          "name": "Keyboard grid navigation and native toggle",
+          "pass": true
+        },
+        {
+          "name": "User-activated audio, synthesized voices, live playhead, editing while playing and stop",
+          "pass": true
+        },
+        {
+          "name": "Hidden document stops playback",
+          "pass": true
+        },
+        {
+          "name": "320px and 768px layouts stay within viewport",
+          "pass": true
+        },
+        {
+          "name": "320px precise touch controls and full pattern remain available",
+          "pass": true
+        },
+        {
+          "name": "No script errors or CSP violations; only demo request",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "requests": [
+        "http://127.0.0.1:52076/tempo-lab/tempo-lab.html"
+      ],
+      "screenshots": [
+        "/private/tmp/pls-prompt-reproduction/tempo-lab/desktop.png",
+        "/private/tmp/pls-prompt-reproduction/tempo-lab/320px.png",
+        "/private/tmp/pls-prompt-reproduction/tempo-lab/768px.png"
+      ],
+      "pass": true
+    },
+    "studio-desk": {
+      "checks": [
+        {
+          "name": "Exact CSP, opaque origin, ready handshake, no audio autoplay",
+          "pass": true
+        },
+        {
+          "name": "Six exact seed projects and computed counts",
+          "pass": true
+        },
+        {
+          "name": "Required fields, Enter save in sandbox, safe user text",
+          "pass": true
+        },
+        {
+          "name": "Search notes, filter, status select, desktop drag/drop",
+          "pass": true
+        },
+        {
+          "name": "Edit, Cancel, Escape, Delete, empty states and reset",
+          "pass": true
+        },
+        {
+          "name": "320px and 768px layouts stay within viewport",
+          "pass": true
+        },
+        {
+          "name": "No script errors or CSP violations; only demo request",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "requests": [
+        "http://127.0.0.1:52076/studio-desk/studio-desk.html"
+      ],
+      "screenshots": [
+        "/private/tmp/pls-prompt-reproduction/studio-desk/desktop.png",
+        "/private/tmp/pls-prompt-reproduction/studio-desk/320px.png",
+        "/private/tmp/pls-prompt-reproduction/studio-desk/768px.png"
+      ],
+      "pass": true
+    },
+    "pixel-garden": {
+      "checks": [
+        {
+          "name": "Exact CSP, opaque origin, ready handshake, no audio autoplay",
+          "pass": true
+        },
+        {
+          "name": "Deterministic 64 tiles, initial budget, day, selection and mature-plant joy",
+          "pass": true
+        },
+        {
+          "name": "Plant, once-per-day water, growth, invalid action leaves budget, next-day budget",
+          "pass": true
+        },
+        {
+          "name": "Keyboard selection, full text-map selection, clear and inverse canvas hit testing",
+          "pass": true
+        },
+        {
+          "name": "320px and 768px layouts stay within viewport",
+          "pass": true
+        },
+        {
+          "name": "No script errors or CSP violations; only demo request",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "requests": [
+        "http://127.0.0.1:52076/pixel-garden/pixel-garden.html"
+      ],
+      "screenshots": [
+        "/private/tmp/pls-prompt-reproduction/pixel-garden/desktop.png",
+        "/private/tmp/pls-prompt-reproduction/pixel-garden/320px.png",
+        "/private/tmp/pls-prompt-reproduction/pixel-garden/768px.png"
+      ],
+      "pass": true
+    },
+    "orbit-notes": {
+      "checks": [
+        {
+          "name": "Exact CSP, opaque origin, ready handshake, no audio autoplay",
+          "pass": true
+        },
+        {
+          "name": "Six seeded notes, three groups, visual orbital geometry",
+          "pass": true
+        },
+        {
+          "name": "Required title, Enter creation clears query/filter and opens final page",
+          "pass": true
+        },
+        {
+          "name": "Pagination, search, full text list and topic editor",
+          "pass": true
+        },
+        {
+          "name": "Edit, Cancel, Escape, Delete, honest empty state, reset",
+          "pass": true
+        },
+        {
+          "name": "320px and 768px layouts stay within viewport",
+          "pass": true
+        },
+        {
+          "name": "320px automatically shows full editable two-column list and topic",
+          "pass": true
+        },
+        {
+          "name": "No script errors or CSP violations; only demo request",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "requests": [
+        "http://127.0.0.1:52076/orbit-notes/orbit-notes.html"
+      ],
+      "screenshots": [
+        "/private/tmp/pls-prompt-reproduction/orbit-notes/desktop.png",
+        "/private/tmp/pls-prompt-reproduction/orbit-notes/320px.png",
+        "/private/tmp/pls-prompt-reproduction/orbit-notes/768px.png"
+      ],
+      "pass": true
+    },
+    "signal-drift": {
+      "checks": [
+        {
+          "name": "Exact CSP, opaque origin, ready handshake, no audio autoplay",
+          "pass": true
+        },
+        {
+          "name": "Idle scene stays frozen and silent until explicit start",
+          "pass": true
+        },
+        {
+          "name": "Start runs, jump changes player scene, pause freezes distance and resumes",
+          "pass": true
+        },
+        {
+          "name": "Real collision ends run and computes best; restart and keyboard pause",
+          "pass": true
+        },
+        {
+          "name": "Sound opt-in creates audio, checkbox works, hidden document pauses",
+          "pass": true
+        },
+        {
+          "name": "320px and 768px layouts stay within viewport",
+          "pass": true
+        },
+        {
+          "name": "No script errors or CSP violations; only demo request",
+          "pass": true
+        }
+      ],
+      "errors": [],
+      "requests": [
+        "http://127.0.0.1:52076/signal-drift/signal-drift.html"
+      ],
+      "screenshots": [
+        "/private/tmp/pls-prompt-reproduction/signal-drift/desktop.png",
+        "/private/tmp/pls-prompt-reproduction/signal-drift/320px.png",
+        "/private/tmp/pls-prompt-reproduction/signal-drift/768px.png"
+      ],
+      "pass": true
+    }
+  },
+  "limitations": [
+    "Automated browser checks do not establish human learning outcomes, visual identity to the source, or compatibility with every browser.",
+    "Audio scheduling is instrumented and exercised; audio was not judged by human listening.",
+    "Visibility handling is tested with a synthetic visibilitychange and document.hidden override."
+  ],
+  "finished": "2026-09-06T02:37:17.436Z"
+}

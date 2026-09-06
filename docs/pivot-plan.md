@@ -4,7 +4,7 @@
 
 **Goal:** Let people try a working project, collect the recipe used to build it, and adapt that recipe into something of their own.
 
-**Architecture:** Extend the existing directory, prompt detail pages, private library, and creator workspace. Pair a versioned recipe with a separately hosted, interactive demonstration and a short record of how it was built. Keep the existing Sites application, identity, and storage; introduce no payment system or general-purpose code runner.
+**Architecture:** Extend the existing directory, prompt detail pages, private library, and creator workspace. Pair a versioned recipe with a browser-isolated, interactive demonstration and a short record of how it was built. Keep the existing Sites application, identity, and storage; introduce no payment system or general-purpose code runner.
 
 **Tech stack:** React, Vinext/Vite, Tailwind, installed UI primitives, Sites authentication, D1/Drizzle, and R2.
 
@@ -106,7 +106,7 @@ Payments, subscriptions, pricing, creator payouts, public submissions as the mai
 
 Start with self-contained browser projects using sample data and local interaction. The first version should not need a visitor's account, secrets, real payments, or a paid model call to be useful.
 
-- Host demo builds on an isolated origin, separate from the main application's authenticated pages.
+- Serve reviewed demo HTML through a response-level CSP sandbox and an iframe with only `allow-scripts`; this gives each demo an opaque browser origin, including when opened directly. The host name is shared with the site, but cookies, storage, parent DOM, network calls, and top navigation are unavailable to demo scripts.
 - Confirm the selected host supports the required framing policy before adopting it; use only reviewed demo URLs.
 - Configure the iframe with the minimum permissions required by the specific demo. Do not give it access to the parent site's cookies, library, navigation, or arbitrary top-level redirects.
 - Do not run pasted prompts, uploaded source code, or visitor-provided URLs on the PLS PROMPT server.
@@ -116,7 +116,7 @@ Start with self-contained browser projects using sample data and local interacti
 - Provide a real screenshot, a useful loading state, an unavailable state, and a link fallback. Keep the recipe readable when the demo fails.
 - Give embedded content an accessible title, maintain keyboard escape and focus behavior, and prevent narrow screens from trapping the visitor inside the preview.
 
-Demo hosting and frame compatibility are implementation checks, not capabilities already verified for this project. Publishing new hosts or changing production remains a separate release action.
+The selected opaque-origin approach is implemented and checked in Chromium and the built-in browser. Built-in demos are bundled server assets; creator uploads use immutable R2 keys. No new demo host is introduced.
 
 ## 6. Content and storage contract
 
@@ -162,7 +162,7 @@ Reuse current routes and keep new responsibilities small:
 - `app/learn/page.tsx`, `app/learn/[slug]/page.tsx`, and `lib/seed-database.ts`: legacy lesson presentation and a guarded content transition; preserve existing completion/access data.
 - `tests/library.test.mjs`, `tests/rendered-html.test.mjs`, `tests/ui-components.test.mjs`, and new focused recipe/demo tests: migration preservation, public/private access, exports, version matching, and preview states.
 
-These are implementation targets, not files changed by the planning task. Create detailed code tasks within each phase when its inputs are ready.
+These targets are implemented; concrete file mapping and verification evidence are recorded in [the release report](recipe-gallery-release.md).
 
 ## 8. Delivery phases and completion gates
 
@@ -184,57 +184,57 @@ These are implementation targets, not files changed by the planning task. Create
 - [x] Review the mockup directions with the user and select the elements to carry into the design system.
 - [x] Define an original PLS PROMPT system for typography, colors, spacing, borders, radii, controls, icons, focus states, and motion.
 - [x] Specify the gallery and representative project page across desktop, tablet, and mobile.
-- [ ] Implement and visually verify both responsive screens against the selected direction.
+- [x] Implement and visually verify both responsive screens against the selected direction.
 - [x] Specify loading, empty, unavailable-demo, copied, saved, signed-out, and error states.
-- [ ] Implement and exercise the specified states in the browser.
+- [x] Implement and exercise the specified states in the browser.
 - [x] Document the selected system in `docs/design-system.md` and its companion token file.
-- [ ] Implement reusable primitives, production fonts, original ASCII assets, and preview behavior before applying them across pages.
+- [x] Implement reusable primitives, production fonts, original ASCII assets, and preview behavior before applying them across pages.
 
-**Gate:** Both main screens must work as one coherent system aligned with the selected screenshots. Direction selection and specification are complete; the gate remains open until implementation and browser verification are complete.
+**Gate:** Both main screens must work as one coherent system aligned with the selected screenshots. Direction selection, implementation, and responsive browser verification are complete.
 
 ### Phase C — Prove one recipe and its live project
 
-- [ ] Choose one project for the first demonstration based on the actual recipe inventory and its suitability for a self-contained browser demo.
-- [ ] Build it while recording the prompt sequence, tool, setup, interventions, and functional checks.
-- [ ] Rebuild from the finished recipe in a clean starting environment; revise the recipe to include any missing steps.
-- [ ] Produce the real preview image and a resettable demo with sample data.
-- [ ] Confirm the demo host, framing permissions, failure fallback, and separation from PLS PROMPT accounts.
-- [ ] Prepare the exact downloadable recipe and its concise “How it was made” record.
+- [x] Choose one project for the first demonstration based on the actual recipe inventory and its suitability for a self-contained browser demo.
+- [x] Build it while recording the prompt sequence, tool, setup, interventions, and functional checks.
+- [x] Rebuild from the finished recipe in a clean starting environment; revise the recipe to include any missing steps.
+- [x] Produce the real preview image and a resettable demo with sample data.
+- [x] Confirm the demo host, framing permissions, failure fallback, and separation from PLS PROMPT accounts.
+- [x] Prepare the exact downloadable recipe and its concise “How it was made” record.
 
 **Gate:** Someone can try the project and follow the documented recipe; the demonstration and download refer to the same version. The existing three lesson-reward recipes are candidate content, not already proven demos.
 
 ### Phase D — Deliver the complete gallery-to-library path
 
-- [ ] Add the recipe/version/demo fields through generated additive migrations and rehearse them against a local copy of existing data.
-- [ ] Implement the gallery and project page using the Phase B design system and the Phase C real project.
-- [ ] Add explicit Try, Reset, Copy, Download, and Save states, with working error recovery.
-- [ ] Support single prompts, ordered packs, and skill files in display and exports; preserve the complete format in a saved private copy.
-- [ ] Keep released-recipe browsing, copying, and downloads available to visitors; require sign-in for private collection.
-- [ ] Remove lesson requirements from selected showcase recipes through an explicit, one-time content update. Preserve existing earned grants and personal copies.
-- [ ] Replace lesson-led navigation and home sections; keep old prompt URLs and lesson archive access working.
+- [x] Add the recipe/version/demo fields through generated additive migrations and rehearse them against a local copy of existing data.
+- [x] Implement the gallery and project page using the Phase B design system and the Phase C real project.
+- [x] Add explicit Try, Reset, Copy, Download, and Save states, with working error recovery.
+- [x] Support single prompts, ordered packs, and skill files in display and exports; preserve the complete format in a saved private copy.
+- [x] Keep released-recipe browsing, copying, and downloads available to visitors; require sign-in for private collection.
+- [x] Release the five selected new showcase recipes as free through the guarded `recipe-gallery-release-v1` update. Their IDs are separate from the earlier earned rewards; preserve all existing earned grants and personal copies.
+- [x] Replace lesson-led navigation and home sections; keep old prompt URLs and lesson archive access working.
 
 **Gate:** A visitor can discover, try, and download a recipe, and a signed-in member can save, customize, restore, and export it without losing content or seeing another member's data.
 
 ### Phase E — Make publishing repeatable
 
-- [ ] Extend Studio with recipe format, ordered steps or skill files, demo/thumbnail fields, and proof notes.
-- [ ] Require complete recipe content, a matching demo version, build/reproduction records, and a usable fallback before an item is showcased.
-- [ ] Allow incomplete drafts to remain private and give clear feedback for missing publication requirements.
-- [ ] Keep the existing demonstrated version available while a revised recipe is being tested.
-- [ ] Confirm the creator can add a second verified project without editing application source.
-- [ ] Add only further recipes that pass the same proof and download checks.
+- [x] Extend Studio with recipe format, ordered steps or skill files, demo/thumbnail fields, and proof notes.
+- [x] Require complete recipe content, a matching demo version, build/reproduction records, and a usable fallback before an item is showcased.
+- [x] Allow incomplete drafts to remain private and give clear feedback for missing publication requirements.
+- [x] Keep the existing demonstrated version available while a revised recipe is being tested.
+- [x] Confirm the creator can add a second verified project without editing application source.
+- [x] Add only further recipes that pass the same proof and download checks.
 
 **Gate:** Publishing is an editorial workflow the owner can repeat; the application does not need custom code for every new listing.
 
 ### Phase F — Verify the experience and prepare release
 
-- [ ] Verify the gallery and project page with keyboard input and on narrow screens, including leaving/resetting embedded demos.
-- [ ] Check blocked embeds, slow loads, unavailable demos, denied clipboard access, failed downloads, sign-in return paths, and repeated saves.
-- [ ] Verify exports preserve pack order and skill filenames; ensure no application source or private files enter recipe packages.
-- [ ] Verify migration preservation, recipe/demo version matching, private ownership, and existing access grants.
-- [ ] Run the production build, type checks, lint, and focused automated tests for the changed behavior.
+- [x] Verify the gallery and project page with keyboard input and on narrow screens, including leaving/resetting embedded demos.
+- [x] Check blocked embeds, slow loads, unavailable demos, denied clipboard access, failed downloads, sign-in return paths, and repeated saves.
+- [x] Verify exports preserve pack order and skill filenames; ensure no application source or private files enter recipe packages.
+- [x] Verify migration preservation, recipe/demo version matching, private ownership, and existing access grants.
+- [x] Run the production build, type checks, lint, and focused automated tests for the changed behavior.
 - [ ] Observe a newcomer finding a project, trying it, obtaining the recipe, and identifying what they could customize; fix points requiring live explanation.
-- [ ] Refresh the production backup, confirm the migration ledger and recovery procedure, and verify hosted authentication before a requested release.
+- [ ] Refresh the production backup, confirm platform migration acceptance and recovery procedure, and verify hosted authentication during the requested release. Backup and local rehearsal are complete; live completion is recorded in the release report.
 
 **Gate:** The core journey works with real content and truthful proof. Production publishing is not included in the present plan-writing request.
 
@@ -248,6 +248,6 @@ Consider monetization after the free experience demonstrates repeat use and reli
 
 ## 10. Next work and project record
 
-The selected ASCII Atelier design system is ready to implement. Next, complete the remaining Phase B primitives, assets, responsive screens, and browser checks, then establish the first real recipe/demo pair before expanding the catalog. No additional design decision is required to begin that implementation when requested; this document-writing task does not itself apply the redesign.
+The ASCII Atelier gallery, five working demos, complete recipes, structured private library, and creator publishing workflow are implemented. See [the release report](recipe-gallery-release.md) for checks, hosting results, and recovery notes. A real newcomer observation remains open; independent agent rebuilds and browser checks are not a substitute for human usability research.
 
 The earlier [foundation audit](phase-0/README.md) and [library and learning implementation report](phase-1.md) remain historical evidence of completed work. Their former future phases are superseded by this plan. The unrelated domain setup item remains in [the project to-do](../todo.md).

@@ -15,7 +15,7 @@ export async function requireActor(request?: Request) {
 }
 export async function readBody(request: Request) {
   const text = await request.text();
-  if (text.length > 80000) throw new AppError(413, "That content is too long. Shorten it and try again.");
+  if (text.length > 400000) throw new AppError(413, "That content is too long. Shorten it and try again.");
   try { return JSON.parse(text); } catch { throw new AppError(400, "Could not read the form. Try again."); }
 }
 export function apiError(error: unknown) {

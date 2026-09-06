@@ -1,6 +1,9 @@
+import { ProjectDemo } from "@/components/project-demo";
+import { RecipePanel } from "@/components/recipe-panel";
+import { repository } from "@/lib/data";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight, CheckCircle2, Clock3, GitFork } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Clock3, GitFork } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { CopyButton } from "@/components/copy-button";
 import { getPromptBySlug } from "@/lib/data";
@@ -14,11 +17,20 @@ function list<T>(value: string): T[] {
   try { return JSON.parse(value) as T[]; } catch { return []; }
 }
 
-export default async function PromptPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function PromptPage({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: Promise<{ from?: string }> }) {
   const { slug } = await params;
+  const { from } = await searchParams;
+  const returnTo = from && /^\/(?:\?[^#]*)?#(?:prompts|project-[a-z0-9-]+)$/.test(from) ? from : "/#prompts";
   const actor = await getActor();
   const prompt = await getPromptBySlug(slug, actor);
   if (!prompt) notFound();
+  const store = await repository();
+  const published = await store.publishedRecipe(prompt.id);
+  if (published) {
+    const recipe = published.recipe;
+    const saved = actor ? await store.libraryItemForPrompt(actor, prompt.id) : null;
+    return <main><SiteHeader /><article className="project-page"><Link className="project-back" href={returnTo}><ArrowLeft /> Back to collection</Link><header className="project-heading"><div><span className="project-type">{recipe.category}</span><h1>{recipe.title}</h1><p>{recipe.summary}</p></div><span className="recipe-version-label">RECIPE {String(published.version).padStart(2, "0")} / {recipe.proof.builtAt}</span></header><div className="project-workbench"><ProjectDemo demo={recipe.demo} title={recipe.title} /><RecipePanel recipe={recipe} promptId={prompt.id} slug={slug} versionId={published.id} signIn={actor ? null : chatGPTSignInPath(`/prompts/${slug}`)} savedId={saved?.id} /><section className="build-notes"><h2>How it was made.</h2><p>{recipe.proof.startingPoint}</p><dl><div><dt>BUILT WITH</dt><dd>{recipe.tool}{recipe.proof.model ? ` · ${recipe.proof.model}` : ""}</dd></div><div><dt>BUILD RECORD</dt><dd>{recipe.demo.build}</dd></div><div><dt>STEPS & INTERVENTIONS</dt><dd>{recipe.proof.interventions}</dd></div><div><dt>WHAT WAS CHECKED</dt><dd>{recipe.proof.checks}</dd></div></dl><details><summary>Recipe reproduction</summary><p>{recipe.proof.reproductionNotes}</p></details></section></div></article></main>;
+  }
   const models = list<string>(prompt.models);
   const anatomy = list<{ label: string; text: string }>(prompt.anatomy);
 
@@ -33,10 +45,10 @@ export default async function PromptPage({ params }: { params: Promise<{ slug: s
             <h1>{prompt.title}</h1>
             <p>{prompt.promise}</p>
           </div>
-          {prompt.access_mode === "earned" ? <div className="quality-block"><span>PROJECT RECIPE</span><strong>01</strong><small>complete prompt</small></div> : <div className="quality-block"><span>QUALITY SCORE</span><strong>{prompt.quality_score || "—"}</strong><small>/100</small></div>}
+          <span className="project-type">Original collection</span>
         </header>
         <div className="proof-bar">
-          <span className={prompt.verified ? "verified" : "community"}>{prompt.verified ? <><CheckCircle2 aria-hidden="true" /> Human verified</> : prompt.access_mode === "earned" ? "Lesson reward" : "Community prompt"}</span>
+          <span className={prompt.verified ? "verified" : "community"}>{prompt.access_mode === "earned" ? "Archived lesson recipe" : "Original prompt"}</span>
           <span><Clock3 aria-hidden="true" /> Tested {prompt.tested_at || "awaiting review"}</span>
           <span>{models.join(" · ")}</span>
         </div>

@@ -1,4 +1,7 @@
 "use client";
+import { RecipeContentEditor } from "./recipe-content-editor";
+import { recipeText } from "@/lib/recipe-export";
+import type { Recipe } from "@/lib/recipe-types";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -11,8 +14,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CopyButton } from "@/components/copy-button";
 import type { LibraryData, LibraryItem, LibraryVersion } from "@/lib/library-types";
 
-const blank = { title: "", promptText: "", notes: "", tags: "" };
-function fields(item: LibraryItem) { return { title: item.title, promptText: item.prompt_text, notes: item.notes, tags: (JSON.parse(item.tags) as string[]).join(", ") }; }
+const blank = { title: "", promptText: "", notes: "", tags: "", recipe: undefined as Recipe | undefined };
+function fields(item: LibraryItem) { return { recipe: item.recipe_snapshot ? JSON.parse(item.recipe_snapshot) as Recipe : undefined, title: item.title, promptText: item.prompt_text, notes: item.notes, tags: (JSON.parse(item.tags) as string[]).join(", ") }; }
 export function LibraryWorkspace({ initial, initialItemId }: { initial: LibraryData; initialItemId?: string }) {
   const [data, setData] = useState(initial);
   const [selected, setSelected] = useState<string | null>(initialItemId && initial.items.some(item => item.id === initialItemId) ? initialItemId : null);
@@ -73,10 +76,15 @@ export function LibraryWorkspace({ initial, initialItemId }: { initial: LibraryD
       if (!response.ok) throw new Error(body.error); setHistory(body.versions);
     } catch (error) { setError(error instanceof Error ? error.message : "History is unavailable."); }
   }
-  function download() {
-    const text = `# ${form.title}\n\n${form.promptText}\n${form.notes ? `\n## My notes\n${form.notes}\n` : ""}`;
-    const url = URL.createObjectURL(new Blob([text], { type: "text/markdown" }));
-    const a = document.createElement("a"); a.href = url; a.download = `${form.title.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "prompt"}.md`; a.click(); URL.revokeObjectURL(url);
+  async function download() {
+    if (dirty || !item) { setError("Save your changes before downloading this version."); return; }
+    setError("");
+    try {
+      const href = `/api/library?item=${encodeURIComponent(item.id)}&export=recipe`;
+      const response = await fetch(href); if (!response.ok) throw new Error("Download failed. Try again."); await response.arrayBuffer();
+      const a = document.createElement("a"); a.href = href; a.download = `${form.title.toLowerCase().replace(/[^a-z0-9]+/g,"-") || "recipe"}.${form.recipe?.format === "skill" ? "zip" : "md"}`;
+      document.body.appendChild(a); a.click(); a.remove();
+    } catch { setError("Download failed. Your saved recipe is still available. Try again."); }
   }
   return <section className="work-page">
     <div className="work-heading"><div><span className="mono-label">YOUR COLLECTION</span><h1>My library</h1><p>Project recipes, personal prompts, and your own improvements.</p></div><div className="action-row"><Button variant="outline" asChild><a href="/api/library?export=json"><Download /> Export library</a></Button><Button onClick={() => choose(null)}><Plus /> New prompt</Button></div></div>
@@ -92,11 +100,11 @@ export function LibraryWorkspace({ initial, initialItemId }: { initial: LibraryD
           {renaming && <Button type="button" variant="ghost" onClick={() => { setRenaming(false); setCollectionTitle(""); }}>New collection instead</Button>}
         </form>
         <Button variant={filter === "archive" ? "secondary" : "ghost"} onClick={() => { setFilter("archive"); setRenaming(false); }}><Archive /> Archive</Button>
-        <Link className="text-arrow" href="/learn">Earn your next recipe →</Link>
+        <Link className="text-arrow" href="/">Explore project recipes →</Link>
       </aside>
       <div className="library-list"><label className="search-compact"><Search /><Input aria-label="Search your library" placeholder="Search titles, tags, or notes" value={query} onChange={event => setQuery(event.target.value)} /></label>
-        {items.map(entry => <button type="button" className={`library-entry ${selected === entry.id ? "selected" : ""}`} key={entry.id} onClick={() => choose(entry.id)}><span className="mono-label">{entry.source === "earned" ? "LESSON REWARD" : entry.source === "saved" ? "SAVED PROMPT" : "YOUR PROMPT"}</span><strong>{entry.title}</strong><small>Version {entry.version}{entry.archived_at ? " · Archived" : ""}</small></button>)}
-        {!items.length && <div className="compact-empty"><h2>{query ? "No matches" : "Room for your next idea"}</h2><p>{query ? "Try a different word or collection." : "Add a prompt or finish a short lesson to collect your first project recipe."}</p><Button asChild variant="outline"><Link href="/learn">Explore lessons</Link></Button></div>}
+        {items.map(entry => <button type="button" className={`library-entry ${selected === entry.id ? "selected" : ""}`} key={entry.id} onClick={() => choose(entry.id)}><span className="mono-label">{entry.source === "earned" ? "LESSON REWARD" : entry.source === "saved" ? "SAVED RECIPE" : "YOUR PROMPT"}</span><strong>{entry.title}</strong><small>Version {entry.version}{entry.archived_at ? " · Archived" : ""}</small></button>)}
+        {!items.length && <div className="compact-empty"><h2>{query ? "No matches" : "Room for your next idea"}</h2><p>{query ? "Try a different word or collection." : "Save a project recipe or add a prompt of your own."}</p><Button asChild variant="outline"><Link href="/">Explore projects</Link></Button></div>}
       </div>
       <div className="library-editor" aria-busy={busy}>
         {pending !== undefined && <div className="form-notice" role="alert">You have unsaved changes.<div className="action-row"><Button onClick={save} disabled={busy || !form.title.trim()}>Save changes</Button><Button variant="outline" onClick={() => choose(pending, true)}>Discard and continue</Button><Button variant="ghost" onClick={() => setPending(undefined)}>Keep editing</Button></div></div>}
@@ -104,7 +112,7 @@ export function LibraryWorkspace({ initial, initialItemId }: { initial: LibraryD
         {editing ? <fieldset disabled={busy} className="editor-fields"><div className="editor-topline"><span className="mono-label">{item ? `VERSION ${item.version} / PRIVATE COPY` : "NEW / PRIVATE PROMPT"}</span><span role="status">{dirty ? "Unsaved changes" : item ? "Saved" : "New draft"}</span></div>
           <label className="field-label" htmlFor="item-title">Title</label><Input id="item-title" maxLength={140} value={form.title} onChange={event => change("title", event.target.value)} placeholder="Name your prompt" />
           <Tabs value={activeTab} onValueChange={value => { if (value === "history") void showHistory(); else setActiveTab(value); }}><TabsList><TabsTrigger value="recipe">Prompt</TabsTrigger><TabsTrigger value="notes">Notes & collections</TabsTrigger><TabsTrigger value="history" disabled={!item}>History</TabsTrigger></TabsList>
-            <TabsContent value="recipe"><label className="field-label" htmlFor="item-prompt">Copy-ready instructions</label><Textarea id="item-prompt" className="recipe-textarea" maxLength={30000} value={form.promptText} onChange={event => change("promptText", event.target.value)} placeholder="Write or paste your prompt here…" />{item?.source_url && <a className="text-arrow" href={item.source_url} target="_blank" rel="noreferrer">Open original source →</a>}<p className="field-help">Paste the full recipe into your AI builder. Edits here stay in your private copy.</p><div className="action-row"><CopyButton text={form.promptText} /><Button variant="outline" onClick={download}><Download /> Download .md</Button></div></TabsContent>
+            <TabsContent value="recipe">{form.recipe ? <RecipeContentEditor recipe={form.recipe} onChange={recipe => { setForm(current => ({ ...current, recipe, promptText: recipeText(recipe) })); setDirty(true); }} /> : <><label className="field-label" htmlFor="item-prompt">Copy-ready instructions</label><Textarea id="item-prompt" className="recipe-textarea" maxLength={30000} value={form.promptText} onChange={event => change("promptText", event.target.value)} placeholder="Write or paste your prompt here…" /></>}{item?.source_url && <a className="text-arrow" href={item.source_url} target="_blank" rel="noreferrer">Open original source →</a>}<p className="field-help">Paste the full recipe into your AI builder. Edits here stay in your private copy. Save changes before downloading.</p><div className="action-row"><CopyButton text={form.promptText} /><Button variant="outline" onClick={() => void download()} disabled={dirty || !item}><Download /> {form.recipe?.format === "skill" ? "Download skill" : "Download recipe"}</Button></div></TabsContent>
             <TabsContent value="notes"><label className="field-label" htmlFor="item-notes">My notes</label><Textarea id="item-notes" rows={7} maxLength={6000} value={form.notes} onChange={event => change("notes", event.target.value)} placeholder="What worked? What would you change?" /><label className="field-label" htmlFor="item-tags">Tags, separated by commas</label><Input id="item-tags" value={form.tags} onChange={event => change("tags", event.target.value)} placeholder="web app, client work" />{item && <fieldset className="collection-checks"><legend>Collections</legend>{data.collections.map(collection => <label key={collection.id}><Checkbox disabled={busy} checked={data.memberships.some(link => link.collection_id === collection.id && link.item_id === item.id)} onCheckedChange={checked => void mutate({ action: "setCollection", collectionId: collection.id, itemId: item.id, included: checked === true })} />{collection.title}</label>)}{!data.collections.length && <p>Create a collection on the left to organize this prompt.</p>}</fieldset>}</TabsContent>
             <TabsContent value="history"><p className="field-help">Restoring creates a new version. Earlier versions stay available.</p>{history.map(version => { const saved = JSON.parse(version.snapshot); return <div className="version-entry" key={version.id}><strong>Version {version.version} · {saved.title}</strong><small>{new Date(version.created_at).toLocaleString()}</small><details><summary>Read this version</summary><pre>{saved.promptText}</pre></details><Button variant="outline" disabled={busy || dirty || version.version === item?.version} onClick={async () => { if (!item) return; const response = await mutate({ action: "restoreVersion", id: item.id, version: version.version, expectedVersion: item.version }); const result = response?.result; if (result) { setForm(fields(result)); setMessage("Version restored as a new copy."); setHistory([]); setActiveTab("recipe"); } }}>Restore version</Button></div>; })}</TabsContent>
           </Tabs>

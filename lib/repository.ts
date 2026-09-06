@@ -1,3 +1,6 @@
+import { createRecipeRepository } from "./recipe-repository.ts";
+import { recipeText } from "./recipe-export.ts";
+import { recipeSchema } from "./recipe-types.ts";
 import type { Actor, ItemInput, LibraryItem, LibraryData, PublicLesson, PromptSummary } from "./library-types";
 import type { PromptRecord } from "./content";
 import type { PromptExercise } from "./exercise-types";
@@ -23,7 +26,7 @@ const now = () => new Date().toISOString();
 const uid = () => crypto.randomUUID();
 const safeJson = <T>(text: string, fallback: T): T => { try { return JSON.parse(text) as T; } catch { return fallback; } };
 const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "untitled";
-export const itemSnapshot = (item: LibraryItem) => JSON.stringify({ title: item.title, promptText: item.prompt_text, notes: item.notes, tags: safeJson(item.tags, []) });
+export const itemSnapshot = (item: LibraryItem) => JSON.stringify({ title: item.title, promptText: item.prompt_text, notes: item.notes, tags: safeJson(item.tags, []), ...(item.recipe_snapshot ? { recipe: safeJson(item.recipe_snapshot, null) } : {}) });
 
 export function createRepository(db: SqlDatabase) {
   const q = (sql: string, ...values: unknown[]) => db.prepare(sql).bind(...values);
@@ -49,6 +52,7 @@ export function createRepository(db: SqlDatabase) {
   );
   const requireCreator = (actor: Actor) => { if (!actor.isCreator) throw new AppError(403, "Creator access is required."); };
 
+  const recipes = createRecipeRepository(db);
   const api = {
     async listPrompts() {
       return rows<PromptSummary>("SELECT id,slug,title,promise,category,tags,difficulty,models,verified,quality_score,tested_at,access_mode,version FROM prompts WHERE status='published' ORDER BY verified DESC,quality_score DESC,created_at DESC");
@@ -83,10 +87,13 @@ export function createRepository(db: SqlDatabase) {
     async libraryItemForPrompt(actor: Actor, promptId: string) {
       return q("SELECT * FROM library_items WHERE user_id=? AND prompt_id=?", actor.id, promptId).first<LibraryItem>();
     },
-    async savePrompt(actor: Actor, promptId: string) {
+    async savePrompt(actor: Actor, promptId: string, versionId?: string) {
       const prompt = await q("SELECT * FROM prompts WHERE id=?", promptId).first<Prompt>();
       if (!prompt || !await canAccess(actor, prompt)) throw new AppError(403, "Complete the linked lesson to collect this recipe.");
-      await itemInsert(uid(), actor, prompt, prompt.access_mode === "earned" ? "earned" : "saved", now()).run();
+      const published = await recipes.publishedRecipe(promptId, versionId);
+      if (versionId && !published) throw new AppError(409, "That recipe version is unavailable. Reload the project.");
+      if (published) await q("INSERT OR IGNORE INTO library_items(id,user_id,prompt_id,title,prompt_text,tags,source,recipe_snapshot,source_recipe_version,created_at,updated_at) VALUES (?,?,?,?,?,?,'saved',?,?,?,?)", uid(), actor.id, prompt.id, published.recipe.title, recipeText(published.recipe), JSON.stringify(published.recipe.tags), published.payload, published.id, now(), now()).run();
+      else await itemInsert(uid(), actor, prompt, prompt.access_mode === "earned" ? "earned" : "saved", now()).run();
       const item = await q("SELECT * FROM library_items WHERE user_id=? AND prompt_id=?", actor.id, prompt.id).first<LibraryItem>();
       if (!item) throw new AppError(503, "Could not save your prompt. Try again.");
       await db.batch([versionStatement(item), q("UPDATE library_items SET archived_at=NULL WHERE id=? AND user_id=?", item.id, actor.id)]);
@@ -94,9 +101,10 @@ export function createRepository(db: SqlDatabase) {
     },
     async createItem(actor: Actor, input: ItemInput) {
       const time = now();
-      const item: LibraryItem = { id: uid(), user_id: actor.id, prompt_id: null, title: input.title, prompt_text: input.promptText, source_url: null, tags: JSON.stringify(input.tags), notes: input.notes, source: "personal", version: 1, archived_at: null, created_at: time, updated_at: time };
+      const recipe = input.recipe ? recipeSchema.parse({ ...input.recipe, title: input.title }) : null;
+      const item: LibraryItem = { id: uid(), user_id: actor.id, prompt_id: null, title: input.title, prompt_text: recipe ? recipeText(recipe) : input.promptText, recipe_snapshot: recipe ? JSON.stringify(recipe) : null, source_url: null, tags: JSON.stringify(input.tags), notes: input.notes, source: "personal", version: 1, archived_at: null, created_at: time, updated_at: time };
       await db.batch([
-        q("INSERT INTO library_items(id,user_id,title,prompt_text,tags,notes,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?)", item.id, actor.id, item.title, item.prompt_text, item.tags, item.notes, time, time),
+        q("INSERT INTO library_items(id,user_id,title,prompt_text,recipe_snapshot,tags,notes,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?)", item.id, actor.id, item.title, item.prompt_text, item.recipe_snapshot, item.tags, item.notes, time, time),
         versionStatement(item),
       ]);
       return item;
@@ -104,11 +112,13 @@ export function createRepository(db: SqlDatabase) {
     async updateItem(actor: Actor, id: string, expectedVersion: number, input: ItemInput) {
       const item = await owned(actor, id);
       if (item.version !== expectedVersion) throw new AppError(409, "This prompt changed elsewhere. Reload before saving.");
-      const next = { ...item, title: input.title, prompt_text: input.promptText, tags: JSON.stringify(input.tags), notes: input.notes, version: item.version + 1, updated_at: now() };
+      const recipe = input.recipe === null ? null : input.recipe ? recipeSchema.parse(input.recipe) : item.recipe_snapshot ? recipeSchema.parse(JSON.parse(item.recipe_snapshot)) : null;
+      if (recipe) { recipe.title = input.title; if (recipe.format === "single" && !input.recipe) recipe.steps[0].text = input.promptText; }
+      const next = { ...item, title: input.title, prompt_text: recipe ? recipeText(recipe) : input.promptText, recipe_snapshot: recipe ? JSON.stringify(recipe) : null, tags: JSON.stringify(input.tags), notes: input.notes, version: item.version + 1, updated_at: now() };
       const results = await db.batch([
         versionStatement(item),
         q("INSERT INTO library_versions(id,item_id,user_id,version,snapshot,created_at) SELECT ?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM library_items WHERE id=? AND user_id=? AND version=?)", uid(), id, actor.id, next.version, itemSnapshot(next), next.updated_at, id, actor.id, expectedVersion),
-        q("UPDATE library_items SET title=?,prompt_text=?,tags=?,notes=?,version=?,updated_at=? WHERE id=? AND user_id=? AND version=?", next.title, next.prompt_text, next.tags, next.notes, next.version, next.updated_at, id, actor.id, expectedVersion),
+        q("UPDATE library_items SET title=?,prompt_text=?,recipe_snapshot=?,tags=?,notes=?,version=?,updated_at=? WHERE id=? AND user_id=? AND version=?", next.title, next.prompt_text, next.recipe_snapshot, next.tags, next.notes, next.version, next.updated_at, id, actor.id, expectedVersion),
       ]);
       if (!results[2].meta?.changes) throw new AppError(409, "This prompt changed elsewhere. Reload before saving.");
       return next;
@@ -125,7 +135,7 @@ export function createRepository(db: SqlDatabase) {
       await owned(actor, id);
       const saved = await q("SELECT snapshot FROM library_versions WHERE item_id=? AND user_id=? AND version=?", id, actor.id, version).first<{ snapshot: string }>();
       if (!saved) throw new AppError(404, "That version is unavailable.");
-      return api.updateItem(actor, id, expectedVersion, JSON.parse(saved.snapshot));
+      return api.updateItem(actor, id, expectedVersion, { recipe: null, ...JSON.parse(saved.snapshot) });
     },
     async createCollection(actor: Actor, title: string) {
       const collection = { id: uid(), user_id: actor.id, title, created_at: now() };
@@ -169,11 +179,12 @@ export function createRepository(db: SqlDatabase) {
       const time = now();
       const completionId = uid();
       const itemId = uid();
+      const published = await recipes.publishedRecipe(reward.id);
       const completionGuard = "EXISTS(SELECT 1 FROM lesson_completions WHERE user_id=? AND lesson_id=? AND reward_prompt_id=?)";
       await db.batch([
         q("INSERT OR IGNORE INTO lesson_completions(id,user_id,lesson_id,lesson_version,reward_prompt_id,completed_at) SELECT ?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM lessons WHERE id=? AND version=? AND published=1)", completionId, actor.id, lesson.id, lesson.version, reward.id, time, lesson.id, expectedVersion),
         q("INSERT OR IGNORE INTO prompt_access(id,user_id,prompt_id,source,source_id,created_at) SELECT ?,?,?,'earned',?,? WHERE " + completionGuard, uid(), actor.id, reward.id, lesson.id, time, actor.id, lesson.id, reward.id),
-        q("INSERT OR IGNORE INTO library_items(id,user_id,prompt_id,title,prompt_text,source_url,tags,source,created_at,updated_at) SELECT ?,?,?,?,?,?,?,'earned',?,? WHERE " + completionGuard, itemId, actor.id, reward.id, reward.title, reward.prompt_text, reward.github_url, reward.tags, time, time, actor.id, lesson.id, reward.id),
+        q("INSERT OR IGNORE INTO library_items(id,user_id,prompt_id,title,prompt_text,source_url,tags,source,recipe_snapshot,source_recipe_version,created_at,updated_at) SELECT ?,?,?,?,?,?,?,'earned',?,?,?,? WHERE " + completionGuard, itemId, actor.id, reward.id, published?.recipe.title ?? reward.title, published ? recipeText(published.recipe) : reward.prompt_text, reward.github_url, published ? JSON.stringify(published.recipe.tags) : reward.tags, published?.payload ?? null, published?.id ?? null, time, time, actor.id, lesson.id, reward.id),
       ]);
       const recorded = await q("SELECT reward_prompt_id FROM lesson_completions WHERE user_id=? AND lesson_id=?", actor.id, lesson.id).first<{ reward_prompt_id: string }>();
       if (recorded?.reward_prompt_id !== reward.id) throw new AppError(409, "This lesson changed while saving. Reload and try again.");
@@ -185,12 +196,13 @@ export function createRepository(db: SqlDatabase) {
     async studio(actor: Actor) {
       requireCreator(actor);
       const [prompts, lessons] = await Promise.all([rows("SELECT * FROM prompts ORDER BY updated_at DESC"), rows("SELECT * FROM lessons ORDER BY position,created_at")]);
-      return { prompts, lessons };
+      return { prompts, lessons, recipes: await recipes.recipeStudio(actor) };
     },
     async editPrompt(actor: Actor, id: string | null, expectedVersion: number, input: { title: string; promise: string; promptText: string; category: string; tags: string[]; status: string; accessMode: string }) {
       requireCreator(actor);
       const current = id ? await q("SELECT * FROM prompts WHERE id=?", id).first<Prompt>() : null;
       if (id && !current) throw new AppError(404, "Prompt unavailable.");
+      if (id && await q("SELECT prompt_id FROM recipe_projects WHERE prompt_id=?", id).first()) throw new AppError(409, "Edit this project in Recipe Studio to preserve its published version.");
       if (current && current.version !== expectedVersion) throw new AppError(409, "This prompt changed. Reload before saving.");
       if (input.status === "published" && (!input.promise.trim() || (!input.promptText.trim() && !current?.github_url && !current?.asset_key))) throw new AppError(400, "Add a description and a complete prompt before publishing.");
       if (current?.status === "published" && current.access_mode === "free" && input.accessMode !== "free") throw new AppError(400, "Published free prompts stay free. Create a new reward recipe instead.");
@@ -238,5 +250,5 @@ export function createRepository(db: SqlDatabase) {
       return recordId;
     },
   };
-  return api;
+  return { ...api, ...recipes };
 }

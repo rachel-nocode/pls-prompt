@@ -1,12 +1,12 @@
 # PLS PROMPT
 
-PLS PROMPT is moving toward a curated gallery of working projects and premium build recipes: try the live demo, collect the prompt, prompt pack, or skill, then make it your own.
+PLS PROMPT is a curated gallery of working projects and premium build recipes: try the live demo, collect the prompt, prompt pack, or skill, then make it your own.
 
 The [active pivot plan](docs/pivot-plan.md) replaces the earlier learning-platform roadmap. Recipe-only downloads and interactive proof define this direction; payment processing is outside the current scope. The selected **ASCII Atelier** direction is defined in the [design system](docs/design-system.md), including responsive layouts, reusable components, and preview motion. The four [image-generated explorations](docs/design-explorations/README.md) remain available as design history.
 
 ## Current foundation
 
-The existing application includes a searchable prompt directory, prompt detail pages, private library with collections and version recovery, creator workspace, and interactive beginner lessons. Playable project demos and the new gallery layout are planned, not implemented yet.
+The ASCII Atelier gallery showcases five real browser projects with copyable recipes, native downloads, and independently checked rebuilds. My Library preserves private edits, complete prompt packs or skill files, collections, and history. Studio publishes immutable recipe/demo versions while new drafts stay private. Original prompts and lessons remain available through the archive.
 
 The app uses React, Vinext/Vite, Tailwind, Sites authentication, D1/Drizzle, and R2. Keep the current hosting project and bindings.
 
@@ -14,13 +14,14 @@ The app uses React, Vinext/Vite, Tailwind, Sites authentication, D1/Drizzle, and
 
 - [Active recipe-gallery pivot plan](docs/pivot-plan.md)
 - [ASCII Atelier design system](docs/design-system.md)
+- [Recipe gallery release and validation](docs/recipe-gallery-release.md)
 - [Historical foundation audit](docs/phase-0/README.md)
 - [Historical private library and learning implementation](docs/phase-1.md)
 - [Separate domain setup task](todo.md)
 
 ## Data
 
-The schema lives in `db/schema.ts`; generated migrations live in `drizzle/`. Content setup uses guarded revisions in `lib/seed-database.ts`. Preserve applied migrations, existing public URLs, private library data, and access grants through the pivot.
+The schema lives in `db/schema.ts`; generated migrations live in `drizzle/`. Content setup uses guarded revisions in `lib/seed-database.ts` and `lib/seed-gallery.ts`. Preserve applied migrations, existing public URLs, private library data, and access grants through the pivot.
 
 ## Local checks
 

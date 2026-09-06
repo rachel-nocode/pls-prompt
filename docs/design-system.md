@@ -4,7 +4,7 @@ Version 1.0 · September 5, 2026 · Selected direction: ASCII Atelier
 
 This is the design specification for the recipe-gallery pivot. The user selected [ASCII Atelier](design-explorations/02-ascii-atelier.png) from the four generated mockups. That image establishes the visual direction; this document defines the behavior, responsive rules, and reusable parts that a static mockup cannot show.
 
-The specification is complete for implementation. It has not been applied to the application or verified in a working browser interface. The existing application, data, authentication, and lesson routes remain unchanged by this documentation task. The [active pivot plan](pivot-plan.md) governs product scope and delivery.
+The ASCII Atelier system is implemented in the gallery, project workbench, private library, and creator Studio. Both main screens were checked at 320, 375, 768, 1024, 1440, and 1600 CSS pixels, with an additional 200% root-text scaling check at 320px. The [active pivot plan](pivot-plan.md) governs product scope and delivery.
 
 A [machine-readable token file](design-system.tokens.json) accompanies this document. It is a documentation artifact, not a stylesheet currently loaded by the site.
 
@@ -402,35 +402,35 @@ The installed carousel wrapper provides a starting point for manual navigation. 
 
 ### Visual fidelity
 
-- [ ] Header, hero, and gallery share alignment and consistent spacing.
-- [ ] Condensed display headings and monospace interface text preserve the selected direction.
-- [ ] The hero uses original architectural ASCII artwork with readable real text alongside it.
-- [ ] The gallery is visibly asymmetric on desktop and readable in one column on mobile.
-- [ ] The interface remains grayscale while the explored project's media reveals its original color.
-- [ ] Controls and useful metadata are more readable than the small text in the generated mockup.
+- [x] Header, hero, and gallery share alignment and consistent spacing.
+- [x] Condensed display headings and monospace interface text preserve the selected direction.
+- [x] The hero uses original architectural ASCII artwork with readable real text alongside it.
+- [x] The gallery is visibly asymmetric on desktop and readable in one column on mobile.
+- [x] The interface remains grayscale while the explored project's media reveals its original color.
+- [x] Controls and useful metadata are more readable than the small text in the generated mockup.
 
 ### Behavior
 
-- [ ] Hover and keyboard focus reveal color and pause the relevant carousel at its current position.
-- [ ] Card pause survives pointer departure; global Pause motion survives navigation and return visits where storage is available.
-- [ ] Reduced-motion and touch layouts do not start automatic carousels or ASCII motion.
-- [ ] Manual controls remain usable with motion disabled.
-- [ ] Opening a card on touch works on the first activation and displays the selected preview in color.
-- [ ] Returning from a project restores search, filters, scroll position, and an appropriate focus target.
-- [ ] Copy, download, and save report their real outcomes and preserve private edits.
+- [x] Hover and keyboard focus reveal color and pause the relevant carousel at its current position.
+- [x] Card pause survives pointer departure; global Pause motion survives navigation and return visits where storage is available.
+- [x] Reduced-motion and touch layouts do not start automatic carousels or ASCII motion.
+- [x] Manual controls remain usable with motion disabled.
+- [x] Opening a card on touch works on the first activation and displays the selected preview in color.
+- [x] Returning from a project restores search, filters, scroll position, and an appropriate focus target.
+- [x] Copy, download, and save report their real outcomes and preserve private edits. Private downloads use the saved version; unsaved changes must be saved first.
 
 ### Resilience and accessibility
 
-- [ ] Loading, empty, signed-out, unavailable-demo, failure, and saved states are implemented.
-- [ ] Media failure does not block access to available recipe content.
-- [ ] No horizontal page overflow at the specified verification widths or with enlarged text.
-- [ ] Focus and control boundaries are visible; final rendered contrast is checked.
-- [ ] Embedded previews, expanded views, and accordions can be used and exited with the keyboard.
-- [ ] Only real project captures and accurate build records receive proof-related labels.
-- [ ] Build, type checks, lint, and focused behavior tests pass after implementation.
+- [x] Loading, empty, signed-out, unavailable-demo, failure, and saved states are implemented.
+- [x] Media failure does not block access to available recipe content.
+- [x] No horizontal page overflow at the specified verification widths or with 200% root-text scaling at 320px. Browser zoom and physical-device testing remain separate follow-up checks.
+- [x] Focus and control boundaries are visible; final rendered contrast is checked.
+- [x] Embedded previews, expanded views, and accordions can be used and exited with the keyboard.
+- [x] Only real project captures and accurate build records receive proof-related labels.
+- [x] Build, type checks, lint, and focused behavior tests pass after implementation.
 
 ## 17. Completion record
 
 The selected design direction, palette, type system, layout rules, components, iconography, states, motion behavior, responsive behavior, asset standards, and implementation handoff are documented. The proposed token contrast pairs were calculated and the referenced font sources were checked.
 
-Production fonts and ASCII assets have not been added; reusable components, browser-based visual verification, actual project demos, and application restyling remain implementation work under Phase B and subsequent phases of the pivot plan. No additional user decision is needed to use this document as the implementation baseline.
+Production fonts with licenses, an original procedural ASCII portal, reusable recipe components, and five working demonstrations are implemented. [The release report](recipe-gallery-release.md) records browser checks, automated checks, and remaining human validation. Hero type uses a bounded fluid size between the specified responsive endpoints to avoid accidental wrapping at intermediate desktop widths.

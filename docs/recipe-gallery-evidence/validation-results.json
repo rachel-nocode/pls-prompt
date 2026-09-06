@@ -1,0 +1,67 @@
+{
+  "browser": "Google Chrome headless via Playwright",
+  "sandbox": "allow-scripts",
+  "csp": "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'",
+  "results": [
+    {
+      "demo": "tempo-lab",
+      "status": "passed",
+      "tests": [
+        "Opaque sandbox + exact CSP initialized and sent readiness message",
+        "No desktop horizontal overflow",
+        "64 steps; toggle; clear; A/B; preset; tempo; user-activated Web Audio; play/stop; keyboard step navigation",
+        "320px layout without horizontal overflow; emulated touch interaction"
+      ],
+      "consoleErrors": [],
+      "networkRequests": []
+    },
+    {
+      "demo": "studio-desk",
+      "status": "passed",
+      "tests": [
+        "Opaque sandbox + exact CSP initialized and sent readiness message",
+        "No desktop horizontal overflow",
+        "Sample tasks; add/edit/delete; status move; filters/search; computed progress; reset",
+        "320px layout without horizontal overflow; emulated touch interaction"
+      ],
+      "consoleErrors": [],
+      "networkRequests": []
+    },
+    {
+      "demo": "pixel-garden",
+      "status": "passed",
+      "tests": [
+        "Opaque sandbox + exact CSP initialized and sent readiness message",
+        "No desktop horizontal overflow",
+        "64 accessible tiles; plant/water/grow/erase; seed accounting; day/joy progression; arrows; text map; reset",
+        "320px layout without horizontal overflow; emulated touch interaction"
+      ],
+      "consoleErrors": [],
+      "networkRequests": []
+    },
+    {
+      "demo": "orbit-notes",
+      "status": "passed",
+      "tests": [
+        "Opaque sandbox + exact CSP initialized and sent readiness message",
+        "No desktop horizontal overflow",
+        "Add/edit/delete; search; orbit grouping/filter; pagination; topic edit; accessible text list; reset",
+        "320px layout without horizontal overflow; emulated touch interaction"
+      ],
+      "consoleErrors": [],
+      "networkRequests": []
+    },
+    {
+      "demo": "signal-drift",
+      "status": "passed",
+      "tests": [
+        "Opaque sandbox + exact CSP initialized and sent readiness message",
+        "No desktop horizontal overflow",
+        "Idle/muted default; start; jump physics; pause/resume; restart; real collision/game over; score/session best; reduced motion setting; keyboard controls",
+        "320px layout without horizontal overflow; emulated touch interaction"
+      ],
+      "consoleErrors": [],
+      "networkRequests": []
+    }
+  ]
+}

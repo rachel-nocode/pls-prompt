@@ -1,0 +1,19 @@
+{
+  "captured_at": "2026-09-06T02:16:18.251Z",
+  "backup_sha256": "75de67e5be6a975d9f7d810184afd3731fbc260ad14127ddb3f3f902f026eae1",
+  "scope": "Exact live logical rows restored locally; additive migrations 0002 and 0003 applied; original columns and rows compared exactly. No production write.",
+  "preserved_rows": {
+    "prompts": 6,
+    "lessons": 3,
+    "prompt_saves": 0
+  },
+  "migrations": [
+    "0000_peaceful_siren.sql",
+    "0001_ordinary_baron_strucker.sql",
+    "0002_square_bishop.sql",
+    "0003_cute_changeling.sql"
+  ],
+  "integrity": "passed",
+  "foreign_keys": "passed",
+  "ledger": "Existing deployed source contains immutable 0000/0001 migrations. Sites does not expose its internal applied ledger through database tools. Final deployment must confirm migration acceptance; do not infer live ledger from the local database."
+}

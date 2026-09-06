@@ -6,6 +6,7 @@ export type Actor = { id: string; displayName: string; isCreator: boolean };
 export type LibraryItem = {
   id: string; user_id: string; prompt_id: string | null; title: string; prompt_text: string;
   source_url: string | null; tags: string; notes: string; source: string; version: number;
+  recipe_snapshot?: string | null; source_recipe_version?: string | null;
   archived_at: string | null; created_at: string; updated_at: string;
 };
 export type Collection = { id: string; user_id: string; title: string; created_at: string };
@@ -20,4 +21,4 @@ export type PublicLesson = {
   reward_title: string | null; reward_promise: string | null;
   created_at: string; updated_at: string;
 };
-export type ItemInput = { title: string; promptText: string; notes: string; tags: string[] };
+export type ItemInput = { recipe?: import("./recipe-types").Recipe | null; title: string; promptText: string; notes: string; tags: string[] };

@@ -1,0 +1,238 @@
+[
+  {
+    "id": "gallery-tempo-lab",
+    "slug": "tempo-lab",
+    "recipe": {
+      "title": "Tempo Lab",
+      "summary": "A pocket-sized sequencer. Make a little noise.",
+      "category": "Mini app",
+      "format": "pack",
+      "tags": [
+        "music",
+        "audio",
+        "creative"
+      ],
+      "steps": [
+        {
+          "title": "Build the complete project",
+          "text": "Build one standalone, dependency-free HTML file with inline CSS and JavaScript. It must work offline, without fetch, remote scripts, external fonts/assets, eval, or storage; use only session memory. Use system sans-serif and Georgia where specified. The result is a real working product demonstration: no placeholders, fake action buttons, or fake AI. Make it responsive to 320px with keyboard and touch controls, clear focus indicators, meaningful accessible names, and reduced-motion CSS. Use the attractive palette specified below; surrounding site chrome may grayscale the iframe.\n\nIt must work inside iframe sandbox='allow-scripts', including opaque origin, with this CSP exactly:\ndefault-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'\nInclude that policy in a meta element. After all synchronous initialization, call window.parent.postMessage({type:'pls-demo-ready'}, '*'). Never assume allow-forms, allow-same-origin, persistent storage, or network access. Only perform audio after explicit user activation.\n\nCreate tempo-lab.html, a four-track, 16-step Web Audio sequencer with a deep forest-green background (#102723), lighter green rack (#17362e), and lime kick, peach snare, mint hat, and lavender keys. Use the lowercase wordmark “tempo lab”, a simple CSS meter icon, and the headline “Find your rhythm.” Lay out the 64 step buttons in four labeled rows, with step numbers, visible active states and a moving playhead.\n\nKeep independent editable A and B patterns in memory. Default to 108 BPM; support 70–160 BPM and master level 0–100, initially 65. Provide Play/Stop, Clear current pattern, and three preset choices. Use these zero-based A step lists by track (kick, snare, hat, keys): Late-night pocket [[0,6,8,11],[4,12],[0,2,4,6,8,10,12,14],[0,7,10]]; Broken sunlight [[0,3,8,10],[4,11,12],[0,2,3,6,8,10,14,15],[0,6,12]]; Greenhouse house [[0,4,8,12],[4,12],[2,6,10,14],[0,4,10,14]]. Generate B from A with only the keys shifted by two steps. Preset selection replaces both patterns. Editing and pattern switching work during playback.\n\nCreate/resume AudioContext only after Play. Schedule with a 25ms lookahead timer and 100ms audio horizon; each step is a sixteenth note. Synthesize kick with falling sine pitch, snare/hat with filtered noise and short envelopes, keys with a triangle oscillator cycling C4/Eb4/G4/Bb4 by beat. Master gain silences Stop; cancel visual timers and stop when the document is hidden. Clearly report if Web Audio cannot start.\n\nStep buttons expose aria-pressed; arrows navigate the 64-button grid and Enter/Space toggles normally. At 600px and below, add native track and step selectors plus a large Toggle step button as a precise touch alternative, keeping the compact full pattern visible. Hide only the level slider at that breakpoint. Announce edits and playback changes in a status region."
+        },
+        {
+          "title": "Check and refine the working build",
+          "text": "Review the HTML you just built in the exact sandbox described above. Mobile review: add native Track and Step selectors with a Toggle step button below the sequencer at widths up to 600px so small step cells have a precise touch alternative. Preserve all existing features. Test the updated behavior at 320px and desktop widths, including keyboard input. Return the complete corrected standalone HTML file."
+        }
+      ],
+      "files": [],
+      "setup": "Open a fresh project in Codex or another AI coding workspace that can write and preview HTML. Paste the prompts in order in the same project. Ask it to create the named standalone HTML file, then open that file in a browser. No packages, accounts, API keys, or database are needed. The demonstrated build uses session memory; refresh starts over.",
+      "customize": "Change the preset rhythms, four voice colors, tempo range, or synthesized instrument sounds.",
+      "limits": "This is a browser demo with sample data and no account sync or persistence. AI output can vary; review the result and run the included checks. Chrome functional and emulated touch checks passed; Safari, physical devices, and human usability have not been tested. Audio requires pressing Play; sound quality was not assessed by a listener.",
+      "tool": "Codex",
+      "demo": {
+        "url": "/demos/tempo-lab",
+        "build": "tempo-lab-v1-e668f4cd27aa",
+        "images": [
+          "/previews/tempo-lab-desktop.png",
+          "/previews/tempo-lab-playing-pocket.png",
+          "/previews/tempo-lab-playing-broken-sunlight.png"
+        ],
+        "reviewed": true
+      },
+      "proof": {
+        "builtAt": "2026-09-05",
+        "model": "",
+        "startingPoint": "A new standalone HTML file with inline CSS and JavaScript, no dependencies or external services. The preview images are captures of this working demonstration.",
+        "interventions": "Initial implementation of the shared contract and sequencer specification. Mobile review: add native Track and Step selectors with a Toggle step button below the sequencer at widths up to 600px so small step cells have a precise touch alternative. The downloadable recipe consolidates the implemented specification and recorded repairs; it is not a verbatim original chat transcript or a claim of one-shot success.",
+        "checks": "Opaque sandbox + exact CSP initialized and sent readiness message No desktop horizontal overflow 64 steps; toggle; clear; A/B; preset; tempo; user-activated Web Audio; play/stop; keyboard step navigation 320px layout without horizontal overflow; emulated touch interaction. No console errors or external network requests were observed.",
+        "reproduction": "passed",
+        "reproductionNotes": "A separate Codex agent rebuilt this project in a clean directory from the published recipe instructions, without reading the original implementation or screenshots. 9 grouped Chromium checks passed on 2026-09-05, including the opaque sandbox and 320px/768px layouts. The independent rebuild chose its own note wording and spacing; matching features, not identical pixels, were checked."
+      }
+    }
+  },
+  {
+    "id": "gallery-studio-desk",
+    "slug": "studio-desk",
+    "recipe": {
+      "title": "Studio Desk",
+      "summary": "A little room for your next big project.",
+      "category": "Web app",
+      "format": "pack",
+      "tags": [
+        "productivity",
+        "projects",
+        "workspace"
+      ],
+      "steps": [
+        {
+          "title": "Build the complete project",
+          "text": "Build one standalone, dependency-free HTML file with inline CSS and JavaScript. It must work offline, without fetch, remote scripts, external fonts/assets, eval, or storage; use only session memory. Use system sans-serif and Georgia where specified. The result is a real working product demonstration: no placeholders, fake action buttons, or fake AI. Make it responsive to 320px with keyboard and touch controls, clear focus indicators, meaningful accessible names, and reduced-motion CSS. Use the attractive palette specified below; surrounding site chrome may grayscale the iframe.\n\nIt must work inside iframe sandbox='allow-scripts', including opaque origin, with this CSP exactly:\ndefault-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'\nInclude that policy in a meta element. After all synchronous initialization, call window.parent.postMessage({type:'pls-demo-ready'}, '*'). Never assume allow-forms, allow-same-origin, persistent storage, or network access. Only perform audio after explicit user activation.\n\nCreate studio-desk.html, a calm client-project planner with warm ivory (#f2eee6), parchment cards (#fffdf6), muted olive text, and rust-orange primary actions (#bc5738). Use a Georgia “studio desk” wordmark with a rust square s. mark, the headline “Room to make.”, and a visible SAMPLE SESSION · CHANGES STAY HERE badge. On desktop use a narrow filter sidebar, three computed summary cards, search, and a three-column board. Collapse the sidebar to a filter row below 750px and the board to stacked status sections below 440px.\n\nSeed exactly six projects: Fieldwork / The weekend collection / Art direction / Queued; Olive Press / Something worth opening / Packaging / Queued; Morrow Studio / A quieter kind of identity / Brand identity / In motion; Common Ground / Sounds like summer / Sound design / In motion; Still House / A digital place to land / Web design / Ready; Daybreak / Small gestures, big feeling / Campaign / Ready. Include short, concrete project notes for each. Show All projects, In motion, and Ready filters with real counts. Search title, client, notes, and focus. Compute total count, In motion count, and Ready/total completion percentage with an accessible progress bar; initial progress is 33%.\n\nNew project and clicking a project title open an accessible modal dialog. Edit required title (80 chars), required client (50), optional notes (300), focus (24), and status. Save, Cancel, Delete, Escape dismissal, and reset sample must work. Every card also has a native status select for keyboard/touch movement. Support desktop drag/drop between status columns as an additional interaction. Render user text with textContent. Empty search/columns must have honest empty states.\n\nBecause allow-forms is absent, Save must be an explicit type=button handler that calls reportValidity and updates in-memory state. Enter in single-line editor inputs must prevent the native form action and call the same save function. Never depend on a form submit event. Keep all actions local, with real status announcements and no account, sync, or AI claims."
+        },
+        {
+          "title": "Check and refine the working build",
+          "text": "Review the HTML you just built in the exact sandbox described above. Opaque-sandbox testing found native form submission was blocked before the submit handler. Replace Save with type=button and an explicit save handler, use reportValidity, and handle Enter in single-line inputs without native submission. Preserve all existing features. Test the updated behavior at 320px and desktop widths, including keyboard input. Return the complete corrected standalone HTML file."
+        }
+      ],
+      "files": [],
+      "setup": "Open a fresh project in Codex or another AI coding workspace that can write and preview HTML. Paste the prompts in order in the same project. Ask it to create the named standalone HTML file, then open that file in a browser. No packages, accounts, API keys, or database are needed. The demonstrated build uses session memory; refresh starts over.",
+      "customize": "Replace the six sample projects, rename workflow stages, or change focus areas to fit your work.",
+      "limits": "This is a browser demo with sample data and no account sync or persistence. AI output can vary; review the result and run the included checks. Chrome functional and emulated touch checks passed; Safari, physical devices, and human usability have not been tested.",
+      "tool": "Codex",
+      "demo": {
+        "url": "/demos/studio-desk",
+        "build": "studio-desk-v1-c2435204c17a",
+        "images": [
+          "/previews/studio-desk-desktop.png"
+        ],
+        "reviewed": true
+      },
+      "proof": {
+        "builtAt": "2026-09-05",
+        "model": "",
+        "startingPoint": "A new standalone HTML file with inline CSS and JavaScript, no dependencies or external services. The preview images are captures of this working demonstration.",
+        "interventions": "Initial implementation of the shared contract and project-planner specification. Opaque-sandbox testing found native form submission was blocked before the submit handler. Replace Save with type=button and an explicit save handler, use reportValidity, and handle Enter in single-line inputs without native submission. The downloadable recipe consolidates the implemented specification and recorded repairs; it is not a verbatim original chat transcript or a claim of one-shot success.",
+        "checks": "Opaque sandbox + exact CSP initialized and sent readiness message No desktop horizontal overflow Sample tasks; add/edit/delete; status move; filters/search; computed progress; reset 320px layout without horizontal overflow; emulated touch interaction. No console errors or external network requests were observed.",
+        "reproduction": "passed",
+        "reproductionNotes": "A separate Codex agent rebuilt this project in a clean directory from the published recipe instructions, without reading the original implementation or screenshots. 7 grouped Chromium checks passed on 2026-09-05, including the opaque sandbox and 320px/768px layouts. The independent rebuild chose its own note wording and spacing; matching features, not identical pixels, were checked."
+      }
+    }
+  },
+  {
+    "id": "gallery-pixel-garden",
+    "slug": "pixel-garden",
+    "recipe": {
+      "title": "Pixel Garden",
+      "summary": "Plant something. Watch your tiny world grow.",
+      "category": "Game",
+      "format": "pack",
+      "tags": [
+        "game",
+        "canvas",
+        "creative"
+      ],
+      "steps": [
+        {
+          "title": "Build the complete project",
+          "text": "Build one standalone, dependency-free HTML file with inline CSS and JavaScript. It must work offline, without fetch, remote scripts, external fonts/assets, eval, or storage; use only session memory. Use system sans-serif and Georgia where specified. The result is a real working product demonstration: no placeholders, fake action buttons, or fake AI. Make it responsive to 320px with keyboard and touch controls, clear focus indicators, meaningful accessible names, and reduced-motion CSS. Use the attractive palette specified below; surrounding site chrome may grayscale the iframe.\n\nIt must work inside iframe sandbox='allow-scripts', including opaque origin, with this CSP exactly:\ndefault-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'\nInclude that policy in a meta element. After all synchronous initialization, call window.parent.postMessage({type:'pls-demo-ready'}, '*'). Never assume allow-forms, allow-same-origin, persistent storage, or network access. Only perform audio after explicit user activation.\n\nCreate pixel-garden.html, an 8×8 isometric garden builder using a single canvas and hand-drawn pixel shapes. Use sage (#e7eddb), pale cream panels (#f7f7e9), olive controls, checkerboard green grass, a sandy path, aqua pond, yellow/pink/lavender flowers, and blocky green trees. Use the Georgia wordmark “pixel garden” and headline “A little care goes a long way.” The desktop layout has the world on the left and a compact tool panel on the right; below 650px place tools in four columns below the world. Keep the mobile wordmark on one line.\n\nCanvas logical size is 760×445. Tiles have 66×32 diamond tops and 12px sides, with origin (380,76), depth sorting and an obvious selected tile outline. Seed a deterministic attractive garden on otherwise empty grass using zero-based coordinates: trees (1,1,stage3),(1,2,stage2),(6,1,stage3),(6,6,stage2); flowers (6,2,stage2),(2,5,stage2),(3,6,stage1),(1,5,stage2),(5,5,stage1); ponds (4,1),(5,1),(4,2),(5,2); paths (0,4),(1,4),(2,4),(3,4),(4,4),(4,5),(4,6),(4,7). Draw stems, petals, block canopies, water marks and a soft ground shadow with canvas primitives, never images.\n\nStart on Day 1 with 24 seeds and selection (3,3). Tools: Flowers cost 3, Tree costs 6, Water costs 1, Clear is free. Plant only on grass, beginning at growth 0. Water only plants, once each day. Next day gives 6 seeds, grows each watered plant one stage, then clears watered flags. Flowers cap at stage 2 and yield 4 joy each; trees cap at 3 and yield 8 joy each. Joy is always computed from the live garden. Invalid actions explain the applicable rule without spending seeds. Clear returns any tile to grass. Reset restores the initial garden, day and budget.\n\nClick/tap the isometric tile to apply the tool using inverse-coordinate hit testing. Canvas supports arrow selection and Enter/Space action. Include visible directional buttons plus Use tool, and a collapsible 64-button text map with tile coordinates, contents, growth and watering states. This text map is a complete keyboard/touch alternative to the canvas. Announce action results, and display selected tile, day, seeds and joy."
+        },
+        {
+          "title": "Check and refine the working build",
+          "text": "Review the HTML you just built in the exact sandbox described above. Mobile visual review: keep the wordmark on one line and constrain the small tagline at widths below 650px. Preserve all existing features. Test the updated behavior at 320px and desktop widths, including keyboard input. Return the complete corrected standalone HTML file."
+        }
+      ],
+      "files": [],
+      "setup": "Open a fresh project in Codex or another AI coding workspace that can write and preview HTML. Paste the prompts in order in the same project. Ask it to create the named standalone HTML file, then open that file in a browser. No packages, accounts, API keys, or database are needed. The demonstrated build uses session memory; refresh starts over.",
+      "customize": "Change seed costs, plant colors, garden size, growth rules, or the starting landscape.",
+      "limits": "This is a browser demo with sample data and no account sync or persistence. AI output can vary; review the result and run the included checks. Chrome functional and emulated touch checks passed; Safari, physical devices, and human usability have not been tested.",
+      "tool": "Codex",
+      "demo": {
+        "url": "/demos/pixel-garden",
+        "build": "pixel-garden-v1-2a1e64922538",
+        "images": [
+          "/previews/pixel-garden-canvas.png",
+          "/previews/pixel-garden-desktop.png"
+        ],
+        "reviewed": true
+      },
+      "proof": {
+        "builtAt": "2026-09-05",
+        "model": "",
+        "startingPoint": "A new standalone HTML file with inline CSS and JavaScript, no dependencies or external services. The preview images are captures of this working demonstration.",
+        "interventions": "Initial implementation of the shared contract and garden specification. Mobile visual review: keep the wordmark on one line and constrain the small tagline at widths below 650px. The downloadable recipe consolidates the implemented specification and recorded repairs; it is not a verbatim original chat transcript or a claim of one-shot success.",
+        "checks": "Opaque sandbox + exact CSP initialized and sent readiness message No desktop horizontal overflow 64 accessible tiles; plant/water/grow/erase; seed accounting; day/joy progression; arrows; text map; reset 320px layout without horizontal overflow; emulated touch interaction. No console errors or external network requests were observed.",
+        "reproduction": "passed",
+        "reproductionNotes": "A separate Codex agent rebuilt this project in a clean directory from the published recipe instructions, without reading the original implementation or screenshots. 6 grouped Chromium checks passed on 2026-09-05, including the opaque sandbox and 320px/768px layouts. The independent rebuild chose its own note wording and spacing; matching features, not identical pixels, were checked. Joy rewards count only fully grown plants."
+      }
+    }
+  },
+  {
+    "id": "gallery-orbit-notes",
+    "slug": "orbit-notes",
+    "recipe": {
+      "title": "Orbit Notes",
+      "summary": "Give your thoughts a place to orbit.",
+      "category": "Web app",
+      "format": "pack",
+      "tags": [
+        "notes",
+        "ideas",
+        "workspace"
+      ],
+      "steps": [
+        {
+          "title": "Build the complete project",
+          "text": "Build one standalone, dependency-free HTML file with inline CSS and JavaScript. It must work offline, without fetch, remote scripts, external fonts/assets, eval, or storage; use only session memory. Use system sans-serif and Georgia where specified. The result is a real working product demonstration: no placeholders, fake action buttons, or fake AI. Make it responsive to 320px with keyboard and touch controls, clear focus indicators, meaningful accessible names, and reduced-motion CSS. Use the attractive palette specified below; surrounding site chrome may grayscale the iframe.\n\nIt must work inside iframe sandbox='allow-scripts', including opaque origin, with this CSP exactly:\ndefault-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'\nInclude that policy in a meta element. After all synchronous initialization, call window.parent.postMessage({type:'pls-demo-ready'}, '*'). Never assume allow-forms, allow-same-origin, persistent storage, or network access. Only perform audio after explicit user activation.\n\nCreate orbit-notes.html, a working notes app in a pale lavender palette (#f3f1fa) with plum text, violet actions (#8771b4), and peach/sage/lilac note groups. Use the lowercase wordmark “orbit notes” with a CSS orbit mark and headline “Let your thoughts wander.” Keep all notes explicitly described as a sample constellation with session-only edits.\n\nArrange editable note cards around an editable central topic on a 470px-high desktop board with three elliptical orbit outlines. Default topic: “A softer kind of creative life”. Show six notes per visual page at angles -90,-30,30,90,150,210 degrees, with radius 34% horizontally and 35% vertically; add working previous/next pagination when needed. Cards expose group, title, and a 75-character body preview. Seed six notes in this order: “What if it felt like Sunday?” (Spark), “Collect the little things” (Explore), “Less, but with feeling” (Shape), “A sound you can almost touch” (Spark), “Follow the unexpected” (Explore), “Leave something unfinished” (Shape), each with a short relevant creative thought.\n\nAdd thought opens an accessible modal. Notes have a required title up to 65 characters, optional body up to 600, and a Spark/Explore/Shape orbit. Save, Cancel, Delete and Escape dismissal must work. Clicking the central topic edits it in the same dialog, with note-body/group/deletion controls hidden. Provide search over title/body, All/Spark/Explore/Shape filters, computed total note/group/match counts, honest empty states, and Reset sample. A new note clears filtering and search and opens its final visual page. Render user text safely with textContent.\n\nA Use text list control switches to a full editable text list of all matching notes, with full bodies. At 620px and below, automatically use a two-column text list and a prominent editable central-topic button; hide only the visual orbit/pager/view toggle. Include clear focus states and accessible editor labels.\n\nBecause allow-forms is absent, use explicit type=button Save handlers and reportValidity; intercept Enter in the title input to call the same save function. Never depend on a native form submit event."
+        },
+        {
+          "title": "Check and refine the working build",
+          "text": "Review the HTML you just built in the exact sandbox described above. Apply the sandbox form repair identified during planner testing: explicit type=button Save, reportValidity, and Enter handling in the title input. Confirm both note and topic editors work under allow-scripts only. Preserve all existing features. Test the updated behavior at 320px and desktop widths, including keyboard input. Return the complete corrected standalone HTML file."
+        }
+      ],
+      "files": [],
+      "setup": "Open a fresh project in Codex or another AI coding workspace that can write and preview HTML. Paste the prompts in order in the same project. Ask it to create the named standalone HTML file, then open that file in a browser. No packages, accounts, API keys, or database are needed. The demonstrated build uses session memory; refresh starts over.",
+      "customize": "Rename the center topic, replace sample notes, change orbit groups, or add fields to each note.",
+      "limits": "This is a browser demo with sample data and no account sync or persistence. AI output can vary; review the result and run the included checks. Chrome functional and emulated touch checks passed; Safari, physical devices, and human usability have not been tested.",
+      "tool": "Codex",
+      "demo": {
+        "url": "/demos/orbit-notes",
+        "build": "orbit-notes-v1-718390577361",
+        "images": [
+          "/previews/orbit-notes-desktop.png"
+        ],
+        "reviewed": true
+      },
+      "proof": {
+        "builtAt": "2026-09-05",
+        "model": "",
+        "startingPoint": "A new standalone HTML file with inline CSS and JavaScript, no dependencies or external services. The preview images are captures of this working demonstration.",
+        "interventions": "Initial implementation of the shared contract and orbit-notes specification. Apply the sandbox form repair identified during planner testing: explicit type=button Save, reportValidity, and Enter handling in the title input. Confirm both note and topic editors work under allow-scripts only. The downloadable recipe consolidates the implemented specification and recorded repairs; it is not a verbatim original chat transcript or a claim of one-shot success.",
+        "checks": "Opaque sandbox + exact CSP initialized and sent readiness message No desktop horizontal overflow Add/edit/delete; search; orbit grouping/filter; pagination; topic edit; accessible text list; reset 320px layout without horizontal overflow; emulated touch interaction. No console errors or external network requests were observed.",
+        "reproduction": "passed",
+        "reproductionNotes": "A separate Codex agent rebuilt this project in a clean directory from the published recipe instructions, without reading the original implementation or screenshots. 8 grouped Chromium checks passed on 2026-09-05, including the opaque sandbox and 320px/768px layouts. The independent rebuild chose its own note wording and spacing; matching features, not identical pixels, were checked."
+      }
+    }
+  },
+  {
+    "id": "gallery-signal-drift",
+    "slug": "signal-drift",
+    "recipe": {
+      "title": "Signal Drift",
+      "summary": "One more jump. One more run.",
+      "category": "Game",
+      "format": "single",
+      "tags": [
+        "game",
+        "runner",
+        "canvas"
+      ],
+      "steps": [
+        {
+          "title": "Build the complete project",
+          "text": "Build one standalone, dependency-free HTML file with inline CSS and JavaScript. It must work offline, without fetch, remote scripts, external fonts/assets, eval, or storage; use only session memory. Use system sans-serif and Georgia where specified. The result is a real working product demonstration: no placeholders, fake action buttons, or fake AI. Make it responsive to 320px with keyboard and touch controls, clear focus indicators, meaningful accessible names, and reduced-motion CSS. Use the attractive palette specified below; surrounding site chrome may grayscale the iframe.\n\nIt must work inside iframe sandbox='allow-scripts', including opaque origin, with this CSP exactly:\ndefault-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'\nInclude that policy in a meta element. After all synchronous initialization, call window.parent.postMessage({type:'pls-demo-ready'}, '*'). Never assume allow-forms, allow-same-origin, persistent storage, or network access. Only perform audio after explicit user activation.\n\nCreate signal-drift.html, a polished endless side-scrolling runner with the headline “Find your flow.” Use a dark navy shell (#1d2430), a dusk gradient sky, peach sun, layered mauve hills, a flat dark ground, tiny stars, and a small pixel astronaut with a trailing scarf. Canvas logical size is 900×390 with ground at y=303. Above the game show real distance and session best, zero-padded to four digits. Below it show Jump, Pause/Resume, Restart, Sound off/on, Reduced motion, keyboard instructions, and an honest session-memory note.\n\nInitial state is idle and silent with a frozen attractive scene and an overlay reading “Chase the quiet.” Start drifting begins the real simulation; it must never autoplay. Player is x=115, 26×34px. Gravity is 1650px/s² and ground jumps use -610px/s velocity; no midair jumps. Start speed 250px/s grows by .23×distance, capped at 400. Distance grows by dt×speed×.065. Start obstacles at x=650 (28×39) and x=1080 (35×48); subsequent obstacles use a seeded generator (seed 42, LCG 1664525/1013904223) for 350–490px gaps, 25–40px widths and 32–55px heights. Use real inset AABB collision; end the run and update the session best on collision. Use requestAnimationFrame and cap dt at .035 seconds.\n\nPause freezes gameplay and shows “Take a breath.” with a working Resume action. Game-over overlay shows achieved distance and Drift again. Restart resets the run and starts immediately. Space or ArrowUp jumps, P pauses/resumes, R restarts, tapping the scene jumps, and all actions have visible keyboard/touch buttons. Avoid intercepting text inputs and avoid duplicate Space behavior on focused buttons. Automatically pause when the document becomes hidden. Announce state changes accessibly without live-announcing every animation frame.\n\nSound is off by default. If explicitly enabled, synthesize quiet short jump and collision tones with Web Audio; never load audio files. Reduced motion defaults to the user's media preference and has a real checkbox; remove parallax, scarf/dust animation and running gait while preserving necessary game movement. At 320px allow controls to wrap and keep all actions available. Best score and settings do not persist after reload."
+        }
+      ],
+      "files": [],
+      "setup": "Open a fresh project in Codex or another AI coding workspace that can write and preview HTML. Paste the prompts in order in the same project. Ask it to create the named standalone HTML file, then open that file in a browser. No packages, accounts, API keys, or database are needed. The demonstrated build uses session memory; refresh starts over.",
+      "customize": "Change skyline colors, obstacle timing, gravity, jump strength, or the runner’s shape.",
+      "limits": "This is a browser demo with sample data and no account sync or persistence. AI output can vary; review the result and run the included checks. Chrome functional and emulated touch checks passed; Safari, physical devices, and human usability have not been tested.",
+      "tool": "Codex",
+      "demo": {
+        "url": "/demos/signal-drift",
+        "build": "signal-drift-v1-77c81eb1645a",
+        "images": [
+          "/previews/signal-drift-desktop.png",
+          "/previews/signal-drift-mid-jump.png",
+          "/previews/signal-drift-run-complete.png"
+        ],
+        "reviewed": true
+      },
+      "proof": {
+        "builtAt": "2026-09-05",
+        "model": "",
+        "startingPoint": "A new standalone HTML file with inline CSS and JavaScript, no dependencies or external services. The preview images are captures of this working demonstration.",
+        "interventions": "Initial implementation of the shared contract and runner specification; no implementation repair was needed after the functional checks. The downloadable recipe consolidates the implemented specification and recorded repairs; it is not a verbatim original chat transcript or a claim of one-shot success.",
+        "checks": "Opaque sandbox + exact CSP initialized and sent readiness message No desktop horizontal overflow Idle/muted default; start; jump physics; pause/resume; restart; real collision/game over; score/session best; reduced motion setting; keyboard controls 320px layout without horizontal overflow; emulated touch interaction. No console errors or external network requests were observed.",
+        "reproduction": "passed",
+        "reproductionNotes": "A separate Codex agent rebuilt this project in a clean directory from the published recipe instructions, without reading the original implementation or screenshots. 7 grouped Chromium checks passed on 2026-09-05, including the opaque sandbox and 320px/768px layouts. The independent rebuild chose its own note wording and spacing; matching features, not identical pixels, were checked."
+      }
+    }
+  }
+]
