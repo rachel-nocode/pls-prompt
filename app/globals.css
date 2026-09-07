@@ -677,3 +677,54 @@ body :where(a,button):focus-visible { position: relative; z-index: 2; }
 
 .recipe-version-label { white-space: normal; max-width: 100%; }
 .recipe-actions button, .recipe-actions a { max-width: 100%; flex-shrink: 1; }
+
+/* Recipe pages use a single document beneath the playable demo. */
+.project-page-minimal { max-width: 1120px; margin-inline: auto; }
+.project-page-minimal .project-heading { margin: 24px 0; gap: 24px; }
+.project-page-minimal .project-heading h1 { font: 500 clamp(1.75rem, 3vw, 2.5rem)/1.15 var(--sans, Arial, sans-serif); letter-spacing: -.04em; margin: 0 0 8px; }
+.project-page-minimal .project-heading p { font-size: .9375rem; margin: 0; }
+.project-page-minimal .demo-panel { border: 0; border-radius: 0; background: transparent; }
+.project-page-minimal .demo-toolbar { padding: 0 0 12px; border: 0; }
+.project-page-minimal .demo-stage { border-radius: 8px; overflow: hidden; }
+.project-page-minimal .demo-stage > img { height: 560px; min-height: 0; object-fit: contain; }
+.project-page-minimal .demo-stage iframe { height: 620px; }
+.project-page-minimal .demo-thumbnail-strip { padding: 12px 0 0; }
+.recipe-document { margin-top: 36px; min-width: 0; border-top: 1px solid #303030; }
+.recipe-document-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; padding: 12px 0; border-bottom: 1px solid #303030; }
+.recipe-document-title { display: flex; align-items: baseline; gap: 12px; }
+.recipe-document-title h2 { font-size: 1rem; font-weight: 500; margin: 0; }
+.recipe-document-title > span { color: #a3a3a3; font-size: .75rem; }
+.recipe-document-actions { display: flex; flex-wrap: wrap; gap: 4px; margin-left: auto; }
+.recipe-document-actions button { font-size: .75rem; box-shadow: none; }
+.recipe-document [data-slot="tabs-content"] { margin: 0; min-width: 0; }
+.recipe-markdown-preview { max-width: 82ch; margin: 0 auto; padding: 32px 0 48px; color: #c9c9c9; font-size: .9375rem; line-height: 1.8; overflow-wrap: anywhere; }
+.recipe-markdown-preview :is(h1,h2,h3,h4,h5,h6) { color: #eee; font-family: inherit; font-weight: 600; line-height: 1.35; margin: 1.8em 0 .6em; letter-spacing: -.02em; }
+.recipe-markdown-preview h1 { font-size: 1.75rem; margin-top: 0; }
+.recipe-markdown-preview h2 { font-size: 1.25rem; }
+.recipe-markdown-preview h3 { font-size: 1.05rem; }
+.recipe-markdown-preview :is(p,ul,ol,blockquote,pre,table) { margin: 0 0 1.2em; }
+.recipe-markdown-preview ul { list-style: disc; padding-left: 1.5em; }
+.recipe-markdown-preview ol { list-style: decimal; padding-left: 1.5em; }
+.recipe-markdown-preview li { margin: .35em 0; }
+.recipe-markdown-preview li > p { margin: .35em 0; }
+.recipe-markdown-preview a { text-decoration: underline; text-underline-offset: 3px; color: #f3f3f3; }
+.recipe-markdown-preview blockquote { border-left: 2px solid #555; padding-left: 18px; color: #aaa; }
+.recipe-markdown-preview code { font-family: monospace; font-size: .9em; background: #181818; padding: 2px 4px; border-radius: 3px; }
+.recipe-markdown-preview pre { background: #151515; padding: 16px; overflow-x: auto; border-radius: 4px; }
+.recipe-markdown-preview pre code { background: none; padding: 0; }
+.markdown-table-scroll { overflow-x: auto; }
+.recipe-markdown-preview table { border-collapse: collapse; width: 100%; }
+.recipe-markdown-preview :is(th,td) { border-bottom: 1px solid #333; text-align: left; padding: 8px 12px; }
+.recipe-markdown-source { margin: 0; padding: 28px 0; font: .8125rem/1.8 monospace; white-space: pre-wrap; overflow-wrap: anywhere; color: #c9c9c9; }
+.recipe-build-record { border-top: 1px solid #303030; padding: 20px 0 40px; color: #aaa; font-size: .875rem; line-height: 1.7; }
+.recipe-build-record summary { color: #ddd; cursor: pointer; }
+.recipe-build-record h3 { color: #ddd; margin-top: 20px; font-weight: 500; }
+.recipe-build-record p { margin: 12px 0; white-space: pre-wrap; }
+@media (max-width:767px) {
+  .project-page-minimal .demo-stage > img { height: 340px; }
+  .project-page-minimal .demo-stage iframe { height: 600px; }
+  .recipe-document-toolbar { gap: 8px 16px; }
+  .recipe-document-title { width: 100%; }
+  .recipe-document-actions { margin-left: 0; }
+  .recipe-markdown-preview { padding-top: 24px; font-size: .875rem; }
+}

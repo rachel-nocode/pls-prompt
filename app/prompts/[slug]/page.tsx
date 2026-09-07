@@ -29,7 +29,13 @@ export default async function PromptPage({ params, searchParams }: { params: Pro
   if (published) {
     const recipe = published.recipe;
     const saved = actor ? await store.libraryItemForPrompt(actor, prompt.id) : null;
-    return <main><SiteHeader /><article className="project-page"><Link className="project-back" href={returnTo}><ArrowLeft /> Back to collection</Link><header className="project-heading"><div><span className="project-type">{recipe.category}</span><h1>{recipe.title}</h1><p>{recipe.summary}</p></div><span className="recipe-version-label">RECIPE {String(published.version).padStart(2, "0")} / {recipe.proof.builtAt}</span></header><div className="project-workbench"><ProjectDemo demo={recipe.demo} title={recipe.title} /><RecipePanel recipe={recipe} promptId={prompt.id} slug={slug} versionId={published.id} signIn={actor ? null : chatGPTSignInPath(`/prompts/${slug}`)} savedId={saved?.id} /><section className="build-notes"><h2>How it was made.</h2><p>{recipe.proof.startingPoint}</p><dl><div><dt>BUILT WITH</dt><dd>{recipe.tool}{recipe.proof.model ? ` · ${recipe.proof.model}` : ""}</dd></div><div><dt>BUILD RECORD</dt><dd>{recipe.demo.build}</dd></div><div><dt>STEPS & INTERVENTIONS</dt><dd>{recipe.proof.interventions}</dd></div><div><dt>WHAT WAS CHECKED</dt><dd>{recipe.proof.checks}</dd></div></dl><details><summary>Recipe reproduction</summary><p>{recipe.proof.reproductionNotes}</p></details></section></div></article></main>;
+    return <main><SiteHeader /><article className="project-page project-page-minimal">
+      <Link className="project-back" href={returnTo}><ArrowLeft /> Back to collection</Link>
+      <header className="project-heading"><div><h1>{recipe.title}</h1><p>{recipe.summary}</p></div><span className="recipe-version-label">{recipe.category} · v{published.version}</span></header>
+      <ProjectDemo demo={recipe.demo} title={recipe.title} />
+      <RecipePanel recipe={recipe} promptId={prompt.id} slug={slug} versionId={published.id} signIn={actor ? null : chatGPTSignInPath(`/prompts/${slug}`)} savedId={saved?.id} />
+      <details className="recipe-build-record"><summary>How it was made</summary><p>{recipe.proof.startingPoint}</p><p>{recipe.tool}{recipe.proof.model ? ` · ${recipe.proof.model}` : ""} · {recipe.proof.builtAt}</p><h3>Build record</h3><p>{recipe.demo.build}</p><h3>Steps & interventions</h3><p>{recipe.proof.interventions}</p><h3>What was checked</h3><p>{recipe.proof.checks}</p><h3>Recipe reproduction</h3><p>{recipe.proof.reproductionNotes}</p></details>
+    </article></main>;
   }
   const models = list<string>(prompt.models);
   const anatomy = list<{ label: string; text: string }>(prompt.anatomy);

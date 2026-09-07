@@ -90,3 +90,13 @@ test("retired lesson endpoints reject submissions without granting recipes", asy
     assert.match((await response.json()).error, /no longer available/);
   }
 });
+
+test("recipe markdown preview formats content without enabling HTML or editing", async () => {
+  const { MarkdownPreview } = await vite.ssrLoadModule("/components/markdown-preview.tsx");
+  const html = renderToStaticMarkup(React.createElement(MarkdownPreview, { text: '# Build a project\n\n**Clear outcome**\n\n- First step\n- Second step\n\n```js\nconst safe = true;\n```\n\n<script>alert(1)</script>\n\n[Unsafe](javascript:alert%281%29)' }));
+  assert.match(html, /<h1>Build a project<\/h1>/);
+  assert.match(html, /<strong>Clear outcome<\/strong>/);
+  assert.match(html, /<li>First step<\/li>/);
+  assert.match(html, /<pre><code/);
+  assert.doesNotMatch(html, /<script|href="javascript:|<textarea|contenteditable/i);
+});

@@ -438,3 +438,7 @@ Production fonts with licenses, an original procedural ASCII portal, reusable re
 ## Gallery refinement — September 6, 2026
 
 Refero (https://refero.design/) is an additional reference for a clean, minimal browsing experience. Keep full interactive apps and their recipes as the gallery focus. The homepage no longer displays the Original Collection or a secondary list of legacy prompts. Preserve the established ASCII Atelier direction while reducing competing content.
+
+## Recipe reading layout — September 6, 2026
+
+Recipe pages now follow one vertical reading order: compact title, playable demo, then a read-only Markdown document. Preview is selected by default; Markdown exposes the exact source without editing. A single toolbar groups copy, download, and save actions. Setup, all prompt steps or skill files, customization, and limits stay in the same document. Build provenance remains available in a collapsed text disclosure below. Use flat surfaces and hairline section separators instead of nested cards or a split sidebar. Reference: https://styles.refero.design/style/6c0b77d3-71f9-469d-98aa-4ce1d6d76ac8 (the reference viewer layout, not its example brand palette).
