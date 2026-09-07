@@ -127,3 +127,11 @@ Live HTML catalog plus all 14 live prompt rows inspected through Sites (two page
 - Recipe version: 1 (ordered build + verification pack).
 - Status: Published 2026-09-06 at 09:42 America/Los_Angeles, Sites version 6. Live project: https://plsprompt.com/prompts/light-relay. Deployment appgdep_6a9d9802a7448191ba4e1209c546f8ec succeeded from source 6419bc9eb2e71af8e3acca61db3236eab0026192. Live desktop/mobile puzzle, retained five demos and exact authenticated Markdown attachment verified. Owner-only audience unchanged. Native download passed locally; temporary-header live browser download was canceled, so hosted attachment was checked over authenticated HTTP. This is the sole new publication for this local day.
 
+
+### 2026-09-07 — glyph-loom
+- Purpose: Create a binary pixel tile and explore its repeating textile-like pattern.
+- Mechanics: Freehand Bresenham drawing; ink/erase; left/right and two-axis mirrored stamping; keyboard and coordinate input; 50-action undo/redo; deterministic presets; 3x3 live repeat; ASCII text output.
+- Distinguishing features: A visual pattern-authoring instrument. Full 15-entry ledger and live catalog (all 15 prompt rows, final has_more=false; six gallery links) checked. No existing project provides pixel drawing, symmetry editing, seamless repeated-tile visualization or ASCII tile export. Pixel Garden uses planting/growth/resource simulation; Light Relay uses fixed-mirror optical puzzle solving. Other entries use notes, task/content/client/research workflows, runner physics, audio sequencing or text recipes. No concept reuse.
+- Recipe version: 1 (ordered build and verification pack).
+- Status: Validated, awaiting publication. Original 13 Chromium groups, independent reproduction 19 groups, eight local production-Worker integration groups, build/typecheck/lint and 72 repository tests passed. Native recipe download completed; analytics HEAD +0 / GET +1 / bot and error +0. Resume publication of this entry if interrupted; no September 7 publication exists yet.
+- Repository baseline: clean 51c04cd; preserves September 6 gallery removal and vertical read-only Markdown recipe layout. Sites version 8, existing owner-only audience revision 1. No other active repository process/task found; automation run lock held.

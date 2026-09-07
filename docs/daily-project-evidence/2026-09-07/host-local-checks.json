@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-07T17:32:05.061Z",
+  "base": "http://127.0.0.1:5178",
+  "checks": [
+    "Catalog retains existing six and adds Glyph Loom",
+    "Integrated demo readiness and mirrored interaction",
+    "Read-only Markdown matches ordered recipe",
+    "Page widths and mobile embedded interaction",
+    "Exact hosted Markdown attachment and CSP isolation",
+    "Native browser recipe download completes",
+    "Download analytics HEAD +0, GET +1, bot/error +0",
+    "No page script errors"
+  ],
+  "errors": [],
+  "liveNativeDownloadTested": false
+}

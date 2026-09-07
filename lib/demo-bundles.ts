@@ -4,6 +4,7 @@ import demo2 from "../demo-assets/pixel-garden.html?raw";
 import demo3 from "../demo-assets/orbit-notes.html?raw";
 import demo4 from "../demo-assets/signal-drift.html?raw";
 import lightRelay from "../demo-assets/light-relay.html?raw";
+import glyphLoom from "../demo-assets/glyph-loom.html?raw";
 export const demoBundles: Record<string,string> = {
   "tempo-lab": demo0,
   "studio-desk": demo1,
@@ -11,4 +12,5 @@ export const demoBundles: Record<string,string> = {
   "orbit-notes": demo3,
   "signal-drift": demo4,
   "light-relay": lightRelay,
+  "glyph-loom": glyphLoom,
 };

@@ -1,0 +1,115 @@
+{
+  "date": "2026-09-07T17:24:10.570Z",
+  "checks": [
+    "Opaque origin, ready message and storage denial",
+    "Deterministic presets, binary ASCII shape, count and coverage",
+    "Both-axis stamping, no-op history, undo and redo",
+    "Left/right mode, invalid coordinate inputs and redo invalidation",
+    "Invert twice, palette only affects render, 3x3 repeat exact pixels",
+    "Pointer interpolation and single-action undo",
+    "Keyboard edges, precise stamp and retained focus",
+    "History cap retains last 50 changed actions",
+    "Reset restores entire workshop",
+    "Select ASCII and honest clipboard success/denial branches",
+    "Six responsive widths and 200% root text",
+    "Touch drawing and pointer cancellation commit one stroke",
+    "No script errors or external requests"
+  ],
+  "layouts": [
+    {
+      "width": 320,
+      "scroll": 320,
+      "canvas": [
+        {
+          "w": 244,
+          "h": 244
+        },
+        {
+          "w": 244,
+          "h": 244
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "scroll": 375,
+      "canvas": [
+        {
+          "w": 299,
+          "h": 299
+        },
+        {
+          "w": 299,
+          "h": 299
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "scroll": 768,
+      "canvas": [
+        {
+          "w": 284,
+          "h": 284
+        },
+        {
+          "w": 284,
+          "h": 284
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "scroll": 1024,
+      "canvas": [
+        {
+          "w": 412,
+          "h": 412
+        },
+        {
+          "w": 412,
+          "h": 412
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "scroll": 1440,
+      "canvas": [
+        {
+          "w": 490,
+          "h": 490
+        },
+        {
+          "w": 490,
+          "h": 490
+        }
+      ]
+    },
+    {
+      "width": 1600,
+      "scroll": 1600,
+      "canvas": [
+        {
+          "w": 490,
+          "h": 490
+        },
+        {
+          "w": 490,
+          "h": 490
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "scroll": 320,
+      "textScale": 2
+    }
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:5177/",
+    "http://127.0.0.1:5177/demo"
+  ],
+  "notes": "Clipboard success/denial branches injected; actual sandbox permission reported separately. Chromium + touch emulation; no physical device or screen-reader study."
+}

@@ -8,6 +8,7 @@ import { DatabaseSync } from "node:sqlite";
 import test from "node:test";
 import { createRepository } from "../lib/repository.ts";
 import { seedGallery } from "../lib/seed-gallery.ts";
+import dailyContent from "../lib/daily-project-content.json" with { type: "json" };
 import { seedDailyProjects } from "../lib/seed-daily-projects.ts";
 import { recordRecipeDownload, downloadReport } from "../lib/download-analytics.ts";
 import { seedDatabase } from "../lib/seed-database.ts";
@@ -160,7 +161,7 @@ test("daily addition preserves all existing rows and private copies; repeat seed
  const saved=await store.savePrompt(member,"gallery-tempo-lab");
  const tables=["prompts","recipe_versions","recipe_projects","library_items","library_versions","prompt_access"];
  const before=Object.fromEntries(tables.map(table=>[table,sqlite.prepare(`SELECT * FROM ${table} ORDER BY rowid`).all()]));
- await seedDailyProjects(db);assert.equal((await store.gallery()).length,6);
+ await seedDailyProjects(db);assert.equal((await store.gallery()).length,5+dailyContent.length);
  for(const table of tables){const after=sqlite.prepare(`SELECT * FROM ${table} ORDER BY rowid`).all();for(const row of before[table])assert.ok(after.some(x=>JSON.stringify(x)===JSON.stringify(row)),table);}
  assert.equal((await store.libraryItemForPrompt(member,"gallery-tempo-lab")).id,saved.id);
  const original=await store.publishedRecipe("daily-light-relay");assert.equal(original.id,"daily-light-relay-v1");assert.deepEqual(publicationProblems(original.recipe),[]);
@@ -168,7 +169,7 @@ test("daily addition preserves all existing rows and private copies; repeat seed
  assert.equal(download.filename,"light-relay.md");assert.ok(text.indexOf('1. Build Light Relay')<text.indexOf('2. Verify and repair'));assert.ok(text.includes(original.recipe.setup));assert.ok(text.includes(original.recipe.limits));assert.ok(!text.includes('<!doctype html>'));
  await recordRecipeDownload(db,"daily-light-relay",original.id);assert.equal((await downloadReport(db)).find(r=>r.slug==="light-relay").downloads,1);
  await store.editRecipe(creator,"daily-light-relay",1,{...original.recipe,title:"Creator's revised Light Relay"},true,true);
- await seedDailyProjects(db);assert.equal((await store.gallery()).length,6);assert.equal((await store.publishedRecipe("daily-light-relay")).recipe.title,"Creator's revised Light Relay");
+ await seedDailyProjects(db);assert.equal((await store.gallery()).length,5+dailyContent.length);assert.equal((await store.publishedRecipe("daily-light-relay")).recipe.title,"Creator's revised Light Relay");
  assert.equal((await downloadReport(db)).find(r=>r.slug==="light-relay").downloads,1);
 });
 
@@ -179,5 +180,20 @@ test("daily seed transaction rolls back failures and tolerates concurrent comple
  await seedDailyProjects(db);const marker=sqlite.prepare("SELECT * FROM content_revisions WHERE id LIKE 'daily-project-%'").get();
  sqlite.prepare("DELETE FROM content_revisions WHERE id=?").run(marker.id);
  db.beforeBatch=()=>sqlite.prepare("INSERT INTO content_revisions(id,applied_at) VALUES (?,?)").run(marker.id,marker.applied_at);
- await seedDailyProjects(db);assert.equal((await store.gallery()).length,6);
+ await seedDailyProjects(db);assert.equal((await store.gallery()).length,5+dailyContent.length);
+});
+
+
+test("every daily recipe has matching demo, real previews and ordered recipe-only export",async t=>{
+ const {store,db}=await setup(t);await seedGallery(db);await seedDailyProjects(db);
+ for(const entry of dailyContent){
+  const version=await store.publishedRecipe(entry.id);assert.deepEqual(publicationProblems(version.recipe),[]);
+  const file=readFileSync(new URL(`../demo-assets/${entry.slug}.html`,import.meta.url),"utf8");
+  assert.ok(file.includes("pls-demo-ready"));
+  for(const image of version.recipe.demo.images)assert.ok(readFileSync(new URL(`../public${image}`,import.meta.url)).length>1000);
+  const download=recipeDownload(version.recipe,version.id,entry.slug);const body=new TextDecoder().decode(download.bytes);
+  assert.equal(download.filename,entry.slug+".md");assert.ok(body.includes(version.recipe.setup));assert.ok(body.includes(version.recipe.customize));assert.ok(body.includes(version.recipe.limits));
+  let previous=-1;for(const [i,step] of version.recipe.steps.entries()){const index=body.indexOf(`## ${i+1}. ${step.title}`);assert.ok(index>previous);assert.ok(body.includes(step.text));previous=index}
+  assert.ok(!body.includes("<!doctype html>"));
+ }
 });

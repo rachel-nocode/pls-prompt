@@ -1,0 +1,103 @@
+{
+  "model": "GPT-6 Astra (High), inherited parent configuration",
+  "checks": [
+    {
+      "name": "Opaque-origin readiness, initial state, exact ASCII shape",
+      "result": "PASS"
+    },
+    {
+      "name": "All deterministic presets, 256 cells and repeat pixels",
+      "result": "PASS"
+    },
+    {
+      "name": "Both axes, no-op stamp, one-step Undo/Redo, erase with None",
+      "result": "PASS"
+    },
+    {
+      "name": "Left/right mirror and tile-only history",
+      "result": "PASS"
+    },
+    {
+      "name": "Sparse pointer interpolation and single undo",
+      "result": "PASS"
+    },
+    {
+      "name": "Pointer exit clamps and keeps completed marks",
+      "result": "PASS"
+    },
+    {
+      "name": "Lost pointer capture finalizes once",
+      "result": "PASS"
+    },
+    {
+      "name": "Touch drag and touch cancellation",
+      "result": "PASS"
+    },
+    {
+      "name": "Diagonal Bresenham and primary-button filtering",
+      "result": "PASS"
+    },
+    {
+      "name": "Active stroke is finalized before settings action",
+      "result": "PASS"
+    },
+    {
+      "name": "Keyboard clamp, Home/End, Space/Enter, focus and inputs",
+      "result": "PASS"
+    },
+    {
+      "name": "Reject empty, 0, 17 and fractional coordinates without history",
+      "result": "PASS"
+    },
+    {
+      "name": "No-op clear/preset/stamp history and redo invalidation",
+      "result": "PASS"
+    },
+    {
+      "name": "50-action undo cap",
+      "result": "PASS"
+    },
+    {
+      "name": "Double invert identity, palette ASCII invariance, metrics",
+      "result": "PASS"
+    },
+    {
+      "name": "Reset restores all settings and empties history",
+      "result": "PASS"
+    },
+    {
+      "name": "Copy success, fallback success, denial and full selection",
+      "result": "PASS"
+    },
+    {
+      "name": "Responsive widths and 200% root text: no page overflow, square canvases",
+      "result": "PASS"
+    },
+    {
+      "name": "No external requests or script errors",
+      "result": "PASS"
+    }
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:53053/host",
+    "http://127.0.0.1:53053/glyph-loom.html"
+  ],
+  "repairs": [
+    "Test harness scrolls editor into view before coordinate-based pointer interactions; first run clicked outside the scrolled viewport."
+  ],
+  "limitations": [
+    "Independent agent reproduction, not independent human-user coverage.",
+    "Clipboard success and denial simulated because opaque-origin clipboard access is browser-policy dependent.",
+    "Touch exercised through Chromium CDP emulation; no physical touchscreen.",
+    "Only Chromium tested."
+  ],
+  "result": "PASS",
+  "completedAt": "2026-09-07T17:23:18.293414+00:00",
+  "sourceSpecification": "/tmp/glyph-loom-pack.json",
+  "independence": "Read only provided pack as product specification; no original demo/repository inspection or edits.",
+  "visualInspection": [
+    "changed.png at desktop: balanced two-panel layout and readable controls/output",
+    "width-320-text-2.png: stacked layout, controls wrap without page overflow; ASCII has internal horizontal scrolling at enlarged text"
+  ]
+}
