@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-07T17:37:06.354Z",
+  "base": "https://plsprompt.com",
+  "checks": [
+    "Catalog retains existing six and adds Glyph Loom",
+    "Integrated demo readiness and mirrored interaction",
+    "Read-only Markdown matches ordered recipe",
+    "Page widths and mobile embedded interaction",
+    "Exact hosted Markdown attachment and CSP isolation",
+    "No page script errors"
+  ],
+  "errors": [],
+  "liveNativeDownloadTested": false
+}

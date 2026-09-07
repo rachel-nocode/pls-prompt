@@ -1,0 +1,19 @@
+{
+  "project": "appgprj_6a9b0e238298819192acff75b494985a",
+  "version": 9,
+  "versionId": "appgprj_6a9b0e238298819192acff75b494985a~appgver_2159cc375968819183867bc23a9b87c5",
+  "deployment": "appgdep_6a9ef57b54508191b8fc5f87875b33d3",
+  "status": "succeeded",
+  "source": "979046cf36bc26dd0fa4f636d6346caf345cfe73",
+  "publishedAt": "2026-09-07T17:33:59.597844+00:00",
+  "url": "https://plsprompt.com/prompts/glyph-loom",
+  "access": {
+    "mode": "custom",
+    "users": 1,
+    "groups": 0,
+    "externalVisitors": 0,
+    "revision": 1
+  },
+  "environmentRevision": 1,
+  "nativeDownload": "passed locally; live authenticated attachment bytes checked, not native live browser save"
+}
