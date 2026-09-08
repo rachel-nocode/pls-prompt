@@ -1,0 +1,16 @@
+{
+  "at": "2026-09-08T16:15:47.754Z",
+  "base": "http://127.0.0.1:5178",
+  "checks": [
+    "Catalog retains all seven projects and adds Curve Cabinet",
+    "Integrated readiness, curve editing and host reset",
+    "Read-only Markdown includes complete ordered recipe",
+    "Six page widths and mobile demo controls",
+    "Exact Markdown attachment, matching demo source and CSP",
+    "Native browser recipe download completes",
+    "Download analytics HEAD +0, GET +1, bot/error +0",
+    "No page script errors"
+  ],
+  "errors": [],
+  "nativeDownloadTested": true
+}

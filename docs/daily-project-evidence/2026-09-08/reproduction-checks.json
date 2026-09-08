@@ -1,0 +1,35 @@
+{
+  "model": "GPT-6 Astra, High (inherited parent configuration)",
+  "artifact": "Independent empty-directory reproduction from /tmp/curve-recipe.json only",
+  "checks": [
+    "Opaque sandbox readiness, initial state, canonical CSS",
+    "Four exact presets at 0%,25%,50%,75%,100%; sample, markers, lead, pressed state and CSS",
+    "Custom crossing coordinates and valid rounded atomic apply",
+    "Invalid blank, NaN-like, range and duration inputs retain committed math/export and text",
+    "Pending edits leave animation and committed output alone; preset/reset replace fields",
+    "Keyboard .01/Shift .1 increments, clamps, focus, unrelated key default",
+    "Real mouse drag rounds and clamps with pointer capture and release",
+    "Secondary mouse button, secondary pointer and different-pointer move ignored; cancel/lost capture terminate",
+    "Play/pause/resume/replay/completion, single RAF, curve/scrub/reset cancellation",
+    "Hidden-document branch pauses and returning visible remains paused (injected visibility)",
+    "Reduced-motion dynamic and initial disable play/replay while permitting scrub and reset",
+    "Injected clipboard API success, rejection fallback success, false/throw failure, selection",
+    "320,375,768,1024,1440,1600 widths and 200% root text have no horizontal overflow; fields/handles stay inside viewport",
+    "Touch emulation uses real CDP touch events with capture and same bounds",
+    "No script errors and zero network requests across browser suite"
+  ],
+  "repairs": [
+    "Browser math check repaired negative-zero lead display by rounding before choosing sign.",
+    "Code inspection before browser run: capture timeline input before pause() rerenders its value."
+  ],
+  "limitations": [
+    "Chromium only; touch uses CDP emulation rather than physical hardware.",
+    "Clipboard tests explicitly inject API results; real clipboard permission was not tested.",
+    "Hidden-document handling uses injected document.hidden and visibilitychange in a real browser; actual operating-system backgrounding was not tested.",
+    "NaN-like number input is browser-normalized to blank, and rejection is verified after that normalization.",
+    "No physical pen device or screen-reader test was performed."
+  ],
+  "status": "passed",
+  "runTime": "2026-09-08T16:11:44.646Z",
+  "accessibilityReview": "RAF metrics use plain strong text and transport state plain p; only action/error/completion status is aria-live polite. No output implicit live region."
+}

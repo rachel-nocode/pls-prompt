@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-08T16:12:14.061Z",
+  "checks": [
+    "Opaque readiness, isolation and exact initial CSS/math",
+    "Four preset curves and comparison lanes agree with independent inversion",
+    "Atomic inputs, invalid preservation, crossing handles and canonical output",
+    "Keyboard precise editing and clamps preserve focus and elapsed",
+    "Real mouse drag, clamp, termination and non-primary rejection",
+    "Play pause resume replay completion and editing pause",
+    "Hidden document pauses and returning never auto-resumes",
+    "Reduced motion initially and dynamically disables playback but permits scrub",
+    "CSS selection and injected copy success and denial",
+    "Reset clears invalid draft and restores all initial state",
+    "Responsive widths and 200% text fit controls and graph",
+    "Touch-emulated drag and pointer-cancel stops changes",
+    "No script errors or external requests"
+  ],
+  "errors": [],
+  "limits": [
+    "Chromium only",
+    "Touch emulated",
+    "Clipboard APIs and hidden-document branch injected",
+    "No physical device or screen-reader study"
+  ]
+}
