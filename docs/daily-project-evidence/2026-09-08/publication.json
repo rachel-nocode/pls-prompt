@@ -1,0 +1,42 @@
+{
+  "projectId": "appgprj_6a9b0e238298819192acff75b494985a",
+  "version": {
+    "id": "appgprj_6a9b0e238298819192acff75b494985a~appgver_31a692e568d88191a702c839e2d1a45c",
+    "project_id": "appgprj_6a9b0e238298819192acff75b494985a",
+    "version_number": 10,
+    "source": {
+      "commit_sha": "15cd2aa23c955adac99b5c04e643a3d66b4222c8"
+    },
+    "archive_storage": {
+      "archive_format": "tar",
+      "sediment_file_id": "file_00000000fc488230b5a75440941b491a",
+      "content_hash": "sha256:1bd56c25a2eb9a653ac3df5081d4d0310060e0fec213262df3a4d6346ad21394",
+      "size_bytes": 6512640,
+      "file_count": 134
+    },
+    "screenshot_url": null
+  },
+  "deployment": {
+    "id": "appgdep_6aa03567ca7c8191beec61ac6431d209",
+    "project_id": "appgprj_6a9b0e238298819192acff75b494985a",
+    "title": "PlsPrompt",
+    "version_id": "appgprj_6a9b0e238298819192acff75b494985a~appgver_31a692e568d88191a702c839e2d1a45c",
+    "type": "publish",
+    "status": "succeeded",
+    "url": "https://plsprompt.witch-audio.chatgpt.site",
+    "screenshot_asset_pointer": null,
+    "provider_deployment_id": "site---6a9b0e238298819192acff75b494985a",
+    "failure_message": null,
+    "env_set_revision": 1,
+    "updated_at": "2026-09-08T16:18:59.979606+00:00"
+  },
+  "access": {
+    "mode": "custom",
+    "userCount": 1,
+    "externalVisitors": 0,
+    "workspaceGroups": 0,
+    "tenantGroups": 0,
+    "revision": 1
+  },
+  "liveProject": "https://plsprompt.com/prompts/curve-cabinet"
+}
