@@ -6,6 +6,7 @@ import demo4 from "../demo-assets/signal-drift.html?raw";
 import lightRelay from "../demo-assets/light-relay.html?raw";
 import glyphLoom from "../demo-assets/glyph-loom.html?raw";
 import curveCabinet from "../demo-assets/curve-cabinet.html?raw";
+import chanceDrawer from "../demo-assets/chance-drawer.html?raw";
 export const demoBundles: Record<string,string> = {
   "tempo-lab": demo0,
   "studio-desk": demo1,
@@ -15,4 +16,5 @@ export const demoBundles: Record<string,string> = {
   "light-relay": lightRelay,
   "glyph-loom": glyphLoom,
   "curve-cabinet": curveCabinet,
+  "chance-drawer": chanceDrawer,
 };

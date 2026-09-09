@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T16:11:33.378Z",
+  "checks": [
+    "Opaque readiness, storage denial and initial exact results",
+    "Exhaustive DP vs independent binomial/hypergeometric formulas",
+    "Presets and all event operators",
+    "Atomic invalid input and pending-edit preservation",
+    "Zero counts, full-bag draws and replacement boundaries",
+    "Deterministic sampling, depletion, batch and history",
+    "10,000-trial cap and clear enables controls",
+    "Report selection and injected copy branches",
+    "Keyboard focus and reset",
+    "Six widths and 200 percent root text without clipping",
+    "Real desktop and sampled preview captures",
+    "Touch emulation and reduced motion",
+    "No script errors or external requests"
+  ],
+  "errors": [],
+  "external": []
+}

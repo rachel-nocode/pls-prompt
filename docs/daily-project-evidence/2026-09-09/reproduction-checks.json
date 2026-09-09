@@ -1,0 +1,256 @@
+{
+  "started": "2026-09-09T16:09:37.162Z",
+  "tests": [
+    {
+      "name": "Opaque sandbox, CSP, readiness, denied storage",
+      "status": "pass",
+      "detail": "ready origin null; localStorage SecurityError; exact CSP"
+    },
+    {
+      "name": "Balanced initial metrics and distribution",
+      "status": "pass",
+      "detail": [
+        0.16666666666666666,
+        0.5,
+        0.30000000000000004,
+        0.03333333333333333
+      ]
+    },
+    {
+      "name": "Exhaustive independent combinatorics comparison",
+      "status": "pass",
+      "detail": {
+        "cases": 8590,
+        "outcomes": 55340,
+        "operatorChecks": 166020,
+        "maxError": 3.3306690738754696e-16
+      }
+    },
+    {
+      "name": "Hand calculations and preset immediate commits",
+      "status": "pass",
+      "detail": "Alternate distribution 20/60/20/0; Balanced least2 33.33%, most2 96.67%; Rare 30%; Replacement 28.80%"
+    },
+    {
+      "name": "Edit isolation; validation atomicity and preserved text/trials/report",
+      "status": "pass",
+      "detail": {
+        "rejections": 12,
+        "note": "number input sanitizes nonfinite assignment to blank; blank/nonfinite rejection path verified"
+      }
+    },
+    {
+      "name": "Clear preserves pending fields; reset discards edits and errors",
+      "status": "pass"
+    },
+    {
+      "name": "Deterministic simulation, depletion, ordered actual history and exactly 100",
+      "status": "pass",
+      "detail": {
+        "trials": 101,
+        "matches": 51,
+        "randomCalls": 303,
+        "history": [
+          {
+            "number": 101,
+            "picks": [
+              "A",
+              "B",
+              "A"
+            ],
+            "count": 2,
+            "match": true
+          },
+          {
+            "number": 100,
+            "picks": [
+              "B",
+              "B",
+              "B"
+            ],
+            "count": 0,
+            "match": false
+          },
+          {
+            "number": 99,
+            "picks": [
+              "A",
+              "B",
+              "A"
+            ],
+            "count": 2,
+            "match": true
+          },
+          {
+            "number": 98,
+            "picks": [
+              "B",
+              "B",
+              "B"
+            ],
+            "count": 0,
+            "match": false
+          },
+          {
+            "number": 97,
+            "picks": [
+              "A",
+              "B",
+              "A"
+            ],
+            "count": 2,
+            "match": true
+          },
+          {
+            "number": 96,
+            "picks": [
+              "B",
+              "B",
+              "B"
+            ],
+            "count": 0,
+            "match": false
+          },
+          {
+            "number": 95,
+            "picks": [
+              "A",
+              "B",
+              "A"
+            ],
+            "count": 2,
+            "match": true
+          },
+          {
+            "number": 94,
+            "picks": [
+              "B",
+              "B",
+              "B"
+            ],
+            "count": 0,
+            "match": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "Boundary experiments and zero-probability selected outcome labels",
+      "status": "pass",
+      "detail": "zero A/B, whole bag, target 0/n, ten replacement picks from single token, selected impossible event"
+    },
+    {
+      "name": "Cap disables before exceeding 10000 and clear re-enables",
+      "status": "pass",
+      "detail": {
+        "cappedAt": 10000,
+        "focus": "once and hundred transfer to Clear at cap"
+      }
+    },
+    {
+      "name": "Rounded negative zero normalization",
+      "status": "pass",
+      "detail": "Controlled display rounding edge; normal committed exact restored afterward"
+    },
+    {
+      "name": "Keyboard, button focus, full report selection and clipboard branches",
+      "status": "pass",
+      "detail": {
+        "nativeResult": "Copied",
+        "branches": [
+          "injected async success",
+          "async denial + fallback success",
+          "both denied",
+          "guarded getters and execCommand throws"
+        ]
+      }
+    },
+    {
+      "name": "Responsive widths and 200% root text with no horizontal overflow",
+      "status": "pass",
+      "detail": [
+        {
+          "width": 320,
+          "scroll": 320,
+          "body": 320,
+          "columns": "296px",
+          "distributionColumns": "270px",
+          "smallestAction": 44,
+          "smallestLabel": 14
+        },
+        {
+          "width": 375,
+          "scroll": 375,
+          "body": 375,
+          "columns": "351px",
+          "distributionColumns": "156.5px 156.5px",
+          "smallestAction": 44,
+          "smallestLabel": 14
+        },
+        {
+          "width": 768,
+          "scroll": 768,
+          "body": 768,
+          "columns": "431.953px 269.984px",
+          "distributionColumns": "163.297px 163.312px 163.297px 163.312px",
+          "smallestAction": 44,
+          "smallestLabel": 14
+        },
+        {
+          "width": 1024,
+          "scroll": 1024,
+          "body": 1024,
+          "columns": "580.031px 362.531px",
+          "distributionColumns": "220.906px 220.906px 220.906px 220.906px 0px 0px",
+          "smallestAction": 44,
+          "smallestLabel": 14
+        },
+        {
+          "width": 1440,
+          "scroll": 1440,
+          "body": 1440,
+          "columns": "820.688px 512.938px",
+          "distributionColumns": "314.906px 314.906px 314.906px 314.906px 0px 0px 0px 0px 0px",
+          "smallestAction": 44,
+          "smallestLabel": 14
+        },
+        {
+          "width": 1600,
+          "scroll": 1600,
+          "body": 1600,
+          "columns": "873.844px 546.156px",
+          "distributionColumns": "336.5px 336.5px 336.5px 336.5px 0px 0px 0px 0px 0px",
+          "smallestAction": 44,
+          "smallestLabel": 14
+        }
+      ]
+    },
+    {
+      "name": "Touch emulation interactions",
+      "status": "pass",
+      "detail": "375px mobile/touch emulation Draw once/Clear trials"
+    },
+    {
+      "name": "No external requests or script errors",
+      "status": "pass",
+      "detail": {
+        "errors": [],
+        "external": []
+      }
+    }
+  ],
+  "repairs": [
+    "Fixed an extra closing parenthesis in the distribution grid after inspecting computed CSS; added explicit grayscale accent color.",
+    "Applied clarified cap focus behavior: when focused draw control disables, focus Clear trials; verified Copy fallback focus restoration.",
+    "Expanded screenshot host iframe to document height to capture complete initial and sampled artifact."
+  ],
+  "limits": [
+    "Chromium only; touch emulation is not physical-device testing.",
+    "Clipboard success/denial branches use injected browser APIs; native sandbox clipboard behavior also checked.",
+    "Independent agent reproduction from prompt files only; not independent-human testing or pixel comparison."
+  ],
+  "finished": "2026-09-09T16:09:48.587Z",
+  "passed": 14,
+  "failed": 0,
+  "serverStopped": true
+}
