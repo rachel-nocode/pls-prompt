@@ -10,5 +10,5 @@ Stack: dependency-free demo; existing Vinext/React/Sites host.
 - [x] Fresh-context reproduction research outside Site checkout, then read-only spec and quality reviews.
 - [x] Extend lib/demo-bundles.ts and lib/daily-project-content.json, add public/previews/chance-drawer-*.png and honest proof. Preserve earlier JSON entries exactly as data.
 - [x] Build, typecheck, lint, repository regression tests, opaque-frame behavior, responsive and local production host/analytics/download checks.
-- [ ] Commit exact validated source, push to credential-returned Sites repository, package helper, save, deploy to existing audience, verify terminal success/live project and exact recipe attachment.
-- [ ] Record source/deployment, ledger publication and memory; remove own lock and stop own servers.
+- [x] Commit exact validated source, push to credential-returned Sites repository, package helper, save, deploy to existing audience, verify terminal success/live project and exact recipe attachment.
+- [x] Record source/deployment, ledger publication and memory; remove own lock and stop own servers.
