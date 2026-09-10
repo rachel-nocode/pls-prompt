@@ -1,0 +1,14 @@
+{
+  "at": "2026-09-10T16:59:22.724Z",
+  "base": "https://plsprompt.com",
+  "checks": [
+    "Catalog retains nine projects and adds Revision Lens",
+    "Integrated readiness, line comparison and host reset",
+    "Read-only Markdown includes complete ordered recipe",
+    "Six page widths and mobile demo controls",
+    "Exact Markdown attachment, matching demo source and CSP",
+    "No page script errors"
+  ],
+  "errors": [],
+  "nativeDownloadTested": false
+}

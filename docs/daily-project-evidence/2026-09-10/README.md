@@ -22,4 +22,4 @@ Chromium/Chrome only; touch emulated and clipboard branches injected. No Safari,
 
 ## Publication
 
-Pending validated release. This is the only September 10 daily entry; resume it if interrupted.
+Sites version 12 succeeded at 2026-09-10T16:58:32.529882+00:00 from exact validated/pushed source 5186312bd63b3fa1e7ab3630febf116dde5d1d3f. Deployment appgdep_6aa2e1aa8e8881918c2bb000790272d1. Native success URL https://plsprompt.witch-audio.chatgpt.site; verified custom project URL https://plsprompt.com/prompts/revision-lens. All six live host groups passed; ten gallery demos present, exact demo source/CSP matched, and live authenticated recipe attachment equals native local download byte-for-byte. Existing owner-only audience retained, environment revision 1. Sole September 10 publication. Owned preview servers stopped and lock removed at completion.
