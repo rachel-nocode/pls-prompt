@@ -1,0 +1,101 @@
+{
+  "runTime": "2026-09-10T16:52:41.280Z",
+  "browser": "Installed Google Chrome, Playwright Chromium driver, headless",
+  "passed": 20,
+  "failed": 1,
+  "results": [
+    {
+      "name": "Initial committed counts and screenshot",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(s.report.includes(x))\n\n    at file:///private/tmp/pls-revision-reproduction/check.mjs:12:177\n    at async check (file:///private/tmp/pls-revision-reproduction/check.mjs:6:35)\n    at async file:///private/tmp/pls-revision-reproduction/check.mjs:12:1"
+    },
+    {
+      "name": "Null-origin ready and storage denied",
+      "passed": true
+    },
+    {
+      "name": "Packing counts and line screenshot",
+      "passed": true
+    },
+    {
+      "name": "Exhaustive independent edit-distance oracle: 961 sequence pairs",
+      "passed": true
+    },
+    {
+      "name": "Deletion-first deterministic tie",
+      "passed": true
+    },
+    {
+      "name": "Empty, identical, addition, removal, repeated, case and punctuation behavior",
+      "passed": true
+    },
+    {
+      "name": "Unicode Word whitespace normalization and equal status",
+      "passed": true
+    },
+    {
+      "name": "Line blank/whitespace/terminal, CRLF/lone-CR normalization and report JSON",
+      "passed": true
+    },
+    {
+      "name": "Literal HTML/script-like input is inert",
+      "passed": true
+    },
+    {
+      "name": "200 units accepted; 201 rejected atomically without truncation",
+      "passed": true
+    },
+    {
+      "name": "6000 UTF-16 units accepted; 6001 rejected atomically; both fields validated",
+      "passed": true
+    },
+    {
+      "name": "Edits and mode stay pending; Swap stages raw text; Compare commits",
+      "passed": true
+    },
+    {
+      "name": "Changes only keeps report/counts; persists Compare/Swap/Clear; empty message/context",
+      "passed": true
+    },
+    {
+      "name": "Presets and Reset replace pending edits and reset filter; button focus survives",
+      "passed": true
+    },
+    {
+      "name": "Select report selects all; injected clipboard success, fallback success/failure and focus",
+      "passed": true
+    },
+    {
+      "name": "Keyboard activation and navigation",
+      "passed": true
+    },
+    {
+      "name": "Six widths and 200% root font at 320: no horizontal overflow with 6000-char unbroken content",
+      "passed": true
+    },
+    {
+      "name": "Reduced motion has no animations",
+      "passed": true
+    },
+    {
+      "name": "Touch emulation presets and comparison",
+      "passed": true
+    },
+    {
+      "name": "All button/select/textarea targets at least 44px and labels at least 14px",
+      "passed": true
+    },
+    {
+      "name": "Zero external requests and no page script errors",
+      "passed": true
+    }
+  ],
+  "requests": [
+    "http://127.0.0.1:5181/",
+    "http://127.0.0.1:5181/revision-lens.html",
+    "http://127.0.0.1:5181/",
+    "http://127.0.0.1:5181/revision-lens.html"
+  ],
+  "scriptErrors": [],
+  "serverStopped": true
+}

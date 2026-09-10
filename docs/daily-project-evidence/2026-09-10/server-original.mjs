@@ -1,0 +1,3 @@
+import http from 'node:http';import fs from 'node:fs';
+const file=new URL('../../../demo-assets/revision-lens.html',import.meta.url);
+http.createServer((req,res)=>{res.setHeader('content-type','text/html');if(req.url==='/demo'){res.end(fs.readFileSync(file));return}res.end(`<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><body style="margin:0"><iframe title="Revision Lens QA" src="/demo" sandbox="allow-scripts" style="width:100%;height:7000px;border:0"></iframe><script>window.ready=[];addEventListener('message',e=>ready.push({origin:e.origin,data:e.data}))</script>`)}).listen(5177,'127.0.0.1',()=>console.log('http://127.0.0.1:5177'));

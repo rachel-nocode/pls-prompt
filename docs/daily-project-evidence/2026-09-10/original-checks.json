@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-10T16:53:27.609Z",
+  "checks": [
+    "Opaque readiness, storage denial and initial 5/2/2 counts",
+    "Exhaustive minimum-edit and reconstruction oracle",
+    "Word normalization, empty, one-sided, repeated, case and punctuation",
+    "Line empty/whitespace/terminal and CR normalization",
+    "Staging, swap, filter, clear, reset and presets",
+    "200/201 units and 6000/6001 characters atomic boundaries",
+    "User HTML remains inert and JSON report reconstructs normalized inputs",
+    "Report selection and injected clipboard success, fallback and denial",
+    "Six widths, long text, 200% root font and real previews",
+    "Keyboard compare and no external requests or script errors",
+    "Touch emulation and reduced motion"
+  ],
+  "errors": [],
+  "external": [],
+  "oraclePairs": 14641
+}

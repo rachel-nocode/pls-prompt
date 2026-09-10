@@ -152,3 +152,11 @@ Live HTML catalog plus all 14 live prompt rows inspected through Sites (two page
 - Recipe version: 1 (consolidated build and verification pack).
 - Status: Published 2026-09-09 at 09:15 America/Los_Angeles, Sites version 11. https://plsprompt.com/prompts/chance-drawer. Deployment appgdep_6aa186005cfc8191aefc782933f5c9e2 succeeded from exact source ffb1904e3307a559ba3484346a3ded9391a20aa0. Original 13 Chromium groups; independent reproduction 14 groups; exhaustive 8,590-configuration math checks; local production host eight groups; live host six groups; build/typecheck/lint and 72 regressions passed. Native recipe download locally; live authenticated attachment byte-identical. Analytics locally HEAD +0 / GET +1 / bot/error +0. Owner-only audience revision 1 unchanged. Sole new publication for September 9; do not add another project this local day.
 - Baseline: clean 044f663, Sites version 10, existing owner-only audience revision 1. Exclusive run lock; no competing repo process; user-specified active checkout retained, no sources edits.
+
+### 2026-09-10 — revision-lens
+- Purpose: Compare two text revisions and inspect exact additions, removals and unchanged context.
+- Mechanics: Word/line normalization, deterministic LCS minimal diff, contiguous runs, staged edits, changes-only filter, reversible JSON-escaped text report.
+- Distinguishing features: Full 18-concept ledger and all 18 live rows (0/6/14, final has_more=false), plus nine gallery links checked. No earlier entry compares two texts or produces a reversible diff. Existing voice-rewrite recipe transforms prose; this deterministically compares it. Other concepts use probability, curves, painting, optics, garden, runner, sequencer and workspaces. No renamed concept or reskin.
+- Recipe version: 1 (consolidated build and verification pack).
+- Status: Validated draft ready for publication. Original 11 Chromium groups / 14,641 sequence pairs; independent reproduction 21 groups / 961 pairs; local host eight groups; build/typecheck/lint and 72 regressions passed. Recipe native download and local analytics verified. Resume this entry; do not create another September 10 project.
+- Baseline: clean 733e5a4 on codex/recipe-gallery; Sites version 11; owner-only audience revision 1. Exclusive run lock, no competing process, active checkout retained.
