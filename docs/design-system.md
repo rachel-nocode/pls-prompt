@@ -30,6 +30,6 @@ public/monopo-liquid-v2.png is an imagegen asset generated for this redesign usi
 
 ## Release state
 
-User approved the revised dark design, authorized public access without authentication, and requested a search-only header. Release validation and publication are in progress.
+User approved the revised dark design, authorized public access without authentication, and requested a search-only header. Published September 10, 2026 as Sites version 13 at https://plsprompt.com with public audience. Anonymous navigation, copying and Markdown downloads verified in a fresh browser.
 
 Prior design history: [ASCII Atelier](design-system-2026-09-05.md).

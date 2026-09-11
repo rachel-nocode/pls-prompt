@@ -171,13 +171,21 @@ User-requested replacement, independent of the paused daily automation. Exactly 
 - Mechanics: Three sample recipes, committed integer serving count, proportional fractional ingredient scaling, checklist and text export.
 - Distinctness: No existing ledger entry handles meal quantities or ingredient shopping; visually warm ivory/tomato with illustrated plates.
 - Recipe version: 1, single complete build prompt.
-- Status: Implemented and checked locally; revised visual approved, preparing public release without authentication.
+- Status: Published September 10, 2026 in Sites version 13; anonymous page, demo and Markdown access verified.
 
 ### window-seat
 - Purpose: Pick a time to meet across cities without losing local date or daylight-saving context.
 - Mechanics: UTC date/quarter-hour timeline, Intl timezone conversion, three city selectors, preferred-hours overlap search and meeting-note export.
 - Distinctness: No existing ledger entry models global time conversion or cross-city overlap; visually cobalt/sky with aircraft-window clocks.
 - Recipe version: 1, single complete build prompt.
-- Status: Implemented and checked locally; revised visual approved, preparing public release without authentication.
+- Status: Published September 10, 2026 in Sites version 13; anonymous page, demo and Markdown access verified.
 
 Rebuild checks use separately authored source implementations by the same agent; they are not blind second-model verification. Build records disclose this limitation. No exact visual reproduction guarantee.
+
+### Public release verification
+- Deployed source: 72a73f8398c311664c3e63566f5dad342bd1db08; Sites version 13; public audience revision 2.
+- Header contains only the home wordmark and subtle pill-shaped search input, per browser annotations.
+- Authentication code, account/library/creator/upload routes and associated UI removed. The Worker rejects mutations and former private paths, regardless of identity headers. Database records and immutable versions remain preserved; former access-restricted lesson rewards are excluded from the public catalog.
+- Build, typecheck, lint and 76 tests passed. 126 local production HTTP checks passed (includes one pre-existing local QA prompt). Fresh browser verified pill search, copies, native downloads, demos, five widths and reduced motion.
+- Both live domains verified anonymously: all 14 public prompt detail pages and downloads returned 200; private/retired routes returned 404. Actual Supper Club clipboard and native Markdown download verified. Public gallery contains eight apps, including exactly the two manual replacements.
+- Browser evidence: output/playwright/live-public-hero.png; detailed local logs under work/editorial-redesign/. Daily automation remains paused.
