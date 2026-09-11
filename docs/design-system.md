@@ -4,7 +4,7 @@ Updated September 10, 2026. This replaces ASCII Atelier on the public gallery an
 
 ## Authoritative references
 
-The user supplied DESIGN.md and three Monopo Saigon screenshots on September 10. Screenshots take precedence where the generated reference document differs: the actual target has a dark hero and pure-black gallery, with two staggered project columns. The previous white split hero and pastel orb were explicitly rejected and are not part of this design.
+The user supplied DESIGN.md and three Monopo Saigon screenshots on September 10. Screenshots take precedence where the generated reference document differs: the actual target has a dark hero and pure-black gallery, with two staggered project columns; the user subsequently requested an aligned four-column desktop grid. The previous white split hero and pastel orb were explicitly rejected and are not part of this design.
 
 ## Composition
 
@@ -12,8 +12,8 @@ The user supplied DESIGN.md and three Monopo Saigon screenshots on September 10.
 - Small floating PlsPrompt wordmark and a subtle pill-shaped search input only. No rounded outer frame.
 - One restrained centered white title: “Ideas, brought to life.” Roughly 54px at 1440px, not the oversized 225px value from generated documentation.
 - Circular typographic scroll cue at lower left, aligned to body container.
-- Pure-black selected-project section, 1078px maximum width, large vertical gaps, two columns offset by 140px with 64px gutter.
-- Actual app screenshots appear without borders, card shells, shadows or grayscale filters. Their aspect ratio is preserved so app controls and labels are not cropped away. Titles and short descriptions remain understated below each image.
+- Pure-black selected-project section, 1280px maximum width, four equal aligned columns from 1024px, two tablet columns at 768–1023px, and one mobile column. Desktop gutters are 24px with 56px row spacing; all vertical staggering is removed.
+- Actual app screenshots appear without borders, card shells, shadows or grayscale filters. Each cover uses a consistent 16:10 frame with object-fit: contain, preserving the complete app image without cropping. Titles and short descriptions remain understated below each image.
 - On mobile, projects become one column and the hero title is 34px. Search remains visible and native controls stay reachable.
 
 ## Typography and palette
