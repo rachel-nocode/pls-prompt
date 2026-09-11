@@ -29,7 +29,6 @@ export default async function PromptPage({ params, searchParams }: { params: Pro
       <header className="project-heading"><div><h1>{recipe.title}</h1><p>{recipe.summary}</p></div><span className="recipe-version-label">{recipe.category} · v{published.version}</span></header>
       <ProjectDemo demo={recipe.demo} title={recipe.title} />
       <RecipePanel recipe={recipe} />
-      <details className="recipe-build-record"><summary>How it was made</summary><p>{recipe.proof.startingPoint}</p><p>{recipe.tool}{recipe.proof.model ? ` · ${recipe.proof.model}` : ""} · {recipe.proof.builtAt}</p><h3>Build record</h3><p>{recipe.demo.build}</p><h3>Steps & interventions</h3><p>{recipe.proof.interventions}</p><h3>What was checked</h3><p>{recipe.proof.checks}</p><h3>Recipe reproduction</h3><p>{recipe.proof.reproductionNotes}</p></details>
     </article></main>;
   }
   const models = list<string>(prompt.models);
