@@ -160,3 +160,24 @@ Live HTML catalog plus all 14 live prompt rows inspected through Sites (two page
 - Recipe version: 1 (consolidated build and verification pack).
 - Status: Published 2026-09-10 at 09:58 America/Los_Angeles, Sites version 12. https://plsprompt.com/prompts/revision-lens. Deployment appgdep_6aa2e1aa8e8881918c2bb000790272d1 succeeded from exact validated/pushed source 5186312bd63b3fa1e7ab3630febf116dde5d1d3f. Original 11 Chromium groups / 14,641 sequence pairs; independent reproduction 21 groups / 961 pairs; local host eight groups; live host six groups; build/typecheck/lint and 72 regressions passed. Native recipe download locally; live authenticated attachment byte-identical. Analytics locally HEAD +0 / GET +1 / bot/error +0. Owner-only audience revision 1 unchanged. Sole new publication for September 10; do not add another today.
 - Baseline: clean 733e5a4 on codex/recipe-gallery; Sites version 11; owner-only audience revision 1. Exclusive run lock, no competing process, active checkout retained.
+
+
+## Manual editorial replacement — 2026-09-10
+
+User-requested replacement, independent of the paused daily automation. Exactly two new entries total. Full live catalog inspected across offsets 0/6/14; final has_more=false, 19 records. Latest four automation records verified by created_at and then explicitly named by the user: glyph-loom, curve-cabinet, chance-drawer, revision-lens. All four are being retired to recoverable drafts; immutable versions and private copies remain intact. Light Relay and five original demos remain showcased. This supersedes daily publication limits for these two explicitly requested manual additions only; automation remains PAUSED.
+
+### supper-club
+- Purpose: Scale a small menu to a group and prepare a checkable shopping list.
+- Mechanics: Three sample recipes, committed integer serving count, proportional fractional ingredient scaling, checklist and text export.
+- Distinctness: No existing ledger entry handles meal quantities or ingredient shopping; visually warm ivory/tomato with illustrated plates.
+- Recipe version: 1, single complete build prompt.
+- Status: Implemented and checked locally; revised visual approved, preparing public release without authentication.
+
+### window-seat
+- Purpose: Pick a time to meet across cities without losing local date or daylight-saving context.
+- Mechanics: UTC date/quarter-hour timeline, Intl timezone conversion, three city selectors, preferred-hours overlap search and meeting-note export.
+- Distinctness: No existing ledger entry models global time conversion or cross-city overlap; visually cobalt/sky with aircraft-window clocks.
+- Recipe version: 1, single complete build prompt.
+- Status: Implemented and checked locally; revised visual approved, preparing public release without authentication.
+
+Rebuild checks use separately authored source implementations by the same agent; they are not blind second-model verification. Build records disclose this limitation. No exact visual reproduction guarantee.

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "editorial-supper-club",
+    "slug": "supper-club",
+    "recipe": {
+      "title": "Supper Club",
+      "summary": "A few friends, a good dinner, and a shopping list that does the maths.",
+      "category": "Mini app",
+      "format": "single",
+      "tags": [
+        "food",
+        "cooking",
+        "servings",
+        "shopping"
+      ],
+      "steps": [
+        {
+          "title": "Build Supper Club",
+          "text": "Build Supper Club, a standalone recipe-scaling mini app in supper-club.html using only inline HTML, CSS and JavaScript. Make the functioning product, not a landing page. No packages, external images, APIs, account, storage or purchases. It runs inside an opaque iframe sandbox=\"allow-scripts\". Send parent.postMessage({type:'pls-demo-ready'}, '*') once initialized. Include viewport meta and a restrictive inline-only CSP. Keep all data in memory; reload starts fresh.\n\nVISUAL DIRECTION\nA sunny little neighborhood supper club: warm ivory #fff8e8, tomato red #ad321f, peach #f3b995, olive #345c40. Huge Georgia serif title, tiny uppercase sans section labels, readable system-sans controls. Desktop has recipe/menu column, large central illustrated plate, and a paper shopping list on the right; stack all three on phones. Create the plate with inline SVG using circles, curved shapes and herbs; no borrowed food photos. Include three recipe tabs, concise cooking instructions, and clearly labeled serving controls. Bright flat colors, generous blank space, thin dashed dividers, soft rounded illustration backgrounds. Default title 'A few friends. A very good dinner.' The selected recipe's dish name must stay visible. Use no animation.\n\nEXACT RECIPES\nLemon pasta, base servings 2, 20 minutes: Pasta 200 g; Lemon 1 whole; Olive oil 30 ml; Parmesan 50 g; Basil 10 g. Steps: Cook pasta until tender and reserve a little water. Toss warm pasta with olive oil and lemon juice. Add Parmesan, loosen with pasta water, finish with basil.\nBean tacos, base servings 2, 15 minutes: Tortillas 6 whole; Cooked beans 300 g; Tomato 2 whole; Lime 1 whole; Yogurt 60 g. Steps: Warm beans and tortillas. Chop tomato and dress with lime juice. Fill tortillas with beans, tomato and yogurt.\nSunday pancakes, base servings 4, 25 minutes: Flour 240 g; Milk 300 ml; Egg 2 whole; Baking powder 8 g; Butter 30 g. Steps: Whisk flour and baking powder. Mix in milk and eggs. Cook spoonfuls in a buttered skillet until set, turning once. Use the same ingredient order everywhere.\nThese are illustrative meal ideas, not dietary or food-safety advice; label them 'Sample recipes. Adjust seasoning to taste.' No nutrition, allergen-free or health claims.\n\nBEHAVIOR\nStart Lemon pasta at 2 people. Native Minus and Plus buttons and a visibly labeled integer People number input control serving count from 1 through 12. Give minus and plus accessible names 'Fewer people' and 'More people'. Plus/minus step the committed value and disable at limits. The number input commits on change; empty, fractional, nonfinite or out-of-range entries show a polite visible error and aria-invalid, retain previous quantities and checklist, and leave text editable; valid input clears error. On recipe selection retain the last valid people count, normalize input, clear all checks/errors and render its dish/ingredients/steps. Same recipe selection may reset checks. A committed serving change clears ingredient checks because quantities changed. No-op commit at the same value preserves checks. Quantities are base amount times people divided by base servings; show up to two decimal places without trailing zeros; whole items may have fractions, labeled singular/plural sensibly. Never round whole items up silently. Show 'Shopping list', checked count out of five, and each scaled amount beside a labeled native checkbox. Checking changes only that row's state; checked rows have strikethrough plus checkmark. Include Clear checks and Reset menu; reset selects Lemon pasta at 2 people and clears checks/errors.\n\nEXPORT\nMaintain a labeled readonly Shopping list text textarea containing Supper Club, selected recipe, people count and all five amounts in order with [ ] or [x]. Copy list uses guarded navigator.clipboard.writeText then guarded document.execCommand('copy'); only show Copied after actual success. Restore focus to Copy after fallback. Select list explicitly focuses and selects textarea when copy is unavailable. No download from inside iframe; host supplies the build prompt download. Render dynamic strings using textContent/value, not interpolated user HTML.\n\nACCESSIBILITY AND CHECKS\n44px touch controls, visible keyboard focus, at least 16px inputs, normal page flow at 320/375/768/1440px and 200% root text. No horizontal page overflow. Keep keyboard focus stable while recalculating. Announce explicit action outcomes politely. Controls must work without pointer gestures. Test pasta 2\u21926 gives 600g pasta, 3 lemons, 90ml oil, 150g Parmesan, 30g basil; pancakes at 1 gives 60g flour, 75ml milk, 0.5 egg, 2g baking powder, 7.5g butter. Test 1/12 limits, invalid empty/0/13/fraction input, recipe switch retaining people, checks clearing on quantity changes, export reflecting checks, reset, and safe copy failure. Deliver working HTML and honest verification notes."
+        }
+      ],
+      "files": [],
+      "setup": "Start with an empty folder in Codex. Paste the full build prompt, then open the resulting supper-club.html in a modern browser or serve it with a local static server. No packages, accounts, API keys or paid services are needed.",
+      "customize": "Swap the three sample recipes, ingredient amounts, menu copy and plate illustration. Keep base servings explicit and scale every ingredient with the same rule.",
+      "limits": "Session only: reload clears selections and checkmarks. Sample meal ideas; no dietary analysis or automated ordering. Whole ingredients can scale to fractions. Copy may require manual selection in restricted browsers.",
+      "tool": "Codex",
+      "demo": {
+        "url": "/demos/supper-club",
+        "build": "supper-club-v1-a204b89ef3f5",
+        "images": [
+          "/previews/supper-club-desktop.png",
+          "/previews/supper-club-tacos.png"
+        ],
+        "reviewed": true
+      },
+      "proof": {
+        "builtAt": "2026-09-10",
+        "model": "GPT-6 Astra",
+        "startingPoint": "Empty standalone HTML file; requirements written before implementation in the complete build prompt.",
+        "interventions": "One authored build prompt implemented with inline HTML/CSS/JavaScript and original vector/CSS art. Host gallery integration and real browser screenshots were added separately; these are not part of the standalone app prompt.",
+        "checks": "Recipe scaling at 1/2/6/12 people; fractional ingredients; invalid, empty and out-of-range input; recipe switches; checkboxes and exported text; copy fallback; reset; layouts at 320/375/768/1440px.",
+        "reproduction": "passed",
+        "reproductionNotes": "A separate source implementation was authored from the recipe in a clean rebuild directory and exercised in Chromium. Core flows, exports, input errors and four responsive widths passed. The same agent authored both implementations; this was not a blind rebuild by another model or person. Layout and illustration details differ, so pixel-identical output is not promised."
+      }
+    }
+  },
+  {
+    "id": "editorial-window-seat",
+    "slug": "window-seat",
+    "recipe": {
+      "title": "Window Seat",
+      "summary": "Find a good time to get together, wherever your people are.",
+      "category": "Mini app",
+      "format": "single",
+      "tags": [
+        "travel",
+        "timezones",
+        "meetings",
+        "friends"
+      ],
+      "steps": [
+        {
+          "title": "Build Window Seat",
+          "text": "Build Window Seat, a standalone world-time hangout planner in window-seat.html with inline HTML/CSS/JavaScript only. No packages, fetched images, maps, accounts, storage, calendars, messaging or external calls. Use native Intl.DateTimeFormat with IANA timezones. Runs in opaque iframe sandbox=\"allow-scripts\"; notify parent with {type:'pls-demo-ready'} after initialization. Add viewport and restrictive inline-only CSP. All interaction is session-only.\n\nDESIGN\nAn optimistic airport window onto the world. Electric cobalt #183ecb, sky blue #c8def7, butter yellow #ffe692, dark navy #142044. Rounded system sans title 'Different places. Same moment.' large friendly type, white pill controls, three tall aircraft-window clock cards in a row on desktop, stacked on mobile. Each window contains a geometric sun/moon scene made with inline CSS/SVG, a 12-hour analog clock face with hands and a readable exact 24-hour digital time. Day scenes pale yellow, night scenes navy; sunrise/sunset shoulders light blue. Clock hands derive from local time. No live ticking or auto-animation. Compact flight-board style strip beneath windows shows the selected UTC moment and whether all three cities fall inside the preferred hours. Show local calendar dates, timezone abbreviations or GMT offsets supplied by Intl, and explicit 'In preferred hours'/'Outside preferred hours' labels; color never carries meaning alone.\n\nINPUTS AND TIME CONTRACT\nStart date September 10, 2026, 16:00 UTC. A labeled UTC date native date input accepts only real YYYY-MM-DD dates from 2020-01-01 to 2035-12-31. Empty/invalid/out-of-range changes display an error, aria-invalid, retain last committed date and clock/report values; valid change commits and clears error. UTC time is a labeled range input 0..1425 step 15 minutes; initial 960. Provide Earlier (minus 15) and Later (plus 15) buttons, disabled at 0/1425, never wrap to another date. Time actions normalize any invalid pending date field to the committed date and clear its error. Show exact UTC HH:mm beside range. Dates/times are a selected moment, not the current time.\n\nThree labeled city selects (City 1/2/3) use these options: Los Angeles (America/Los_Angeles), New York (America/New_York), London (Europe/London), Paris (Europe/Paris), Tokyo (Asia/Tokyo), Sydney (Australia/Sydney). Initial LA/London/Tokyo. Duplicate selections are allowed. Each select updates only its card plus global preferred-hours summary/report. Convert committed UTC timestamp with Intl.DateTimeFormat('en-GB', {timeZone, hourCycle:'h23', year:'numeric', month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',timeZoneName:'short'}). Use formatToParts rather than parsing localized strings. Browser timezone must not affect calculation. Use UTC date creation deliberately, validate round trip, and rely on Intl for daylight saving; never hardcode city offsets. Display local date and previous day/next day when different from selected UTC date. Analog hour hand degrees=(hour%12)*30+minute/2; minute hand=minute*6. Mark 06:00\u201317:59 as daytime for illustration only, not astronomical sunrise data. Clock illustration aria-hidden; visible digital text gives full information.\n\nPreferred hours are fixed 09:00 inclusive to 18:00 exclusive in each selected city. Show how many of the three are inside this window. Include Find overlap: examine 96 quarter-hour slots on the selected UTC date from 00:00 through 23:45, select the first slot where all three cities qualify. If none, leave selected time unchanged and announce 'No shared 09:00\u201318:00 slot on this UTC date. Try other cities.' Do not claim a later date or a calendar invitation. Also show buttons Atlantic (LA/New York/London) and Pacific (LA/Tokyo/Sydney) that replace all city selections but retain date/time. Reset trip restores original date/time/LA/London/Tokyo.\n\nSHARE\nA labeled readonly Meeting note textarea contains Window Seat, selected UTC ISO moment, three city/local date/local 24h time/zone lines and the fixed preferred-hours rule. Copy note tries guarded Clipboard API, then guarded execCommand copy fallback, announces success only if copy succeeded, and restores button focus. Select note gives manual copy access. No sending, calendar integration, download or fake confirmation. Render user-facing dynamic strings as inert text. Footer: 'Session only. Preferred hours: 09:00\u201318:00. Daylight art is illustrative.'\n\nVERIFY\nAccessible native controls, 44px targets, 16px inputs, clear focus, polite action feedback, stable focus on updates, no horizontal page overflow at 320/375/768/1440px and 200% root text, and no required motion. Initial Sep 10 16:00 UTC gives LA 09:00 same day, London 17:00 same day, Tokyo 01:00 Sep 11 and 2/3 preferred. At 00:00 UTC LA is Sep 9 17:00. Atlantic overlap first slot Sep 10 is 16:00 UTC. Original three have no overlap that date. Check Jan 15 16:00 UTC LA08/London16/Tokyo01 next day, and March 15 16:00 UTC LA09/London16 (different DST schedules). Check slider endpoints, invalid/empty dates, duplicate zones, presets, reset, export and copy fallback. Deliver working HTML and accurate verification notes."
+        }
+      ],
+      "files": [],
+      "setup": "Start with an empty folder in Codex. Paste the full build prompt, then open the resulting window-seat.html in a modern browser or serve it with a local static server. No packages, accounts, API keys or paid services are needed.",
+      "customize": "Change the initial cities, planning date, preferred hours and window artwork. Use real IANA timezone names; keep UTC as the planning reference and Intl for daylight saving.",
+      "limits": "Session only, with dates from 2020 through 2035. Preferred hours are fixed at 09:00\u201318:00, with 15-minute planning slots. No calendar invitations or messages are sent. Daylight artwork is illustrative; timezone rules depend on the browser. Copy may require manual selection.",
+      "tool": "Codex",
+      "demo": {
+        "url": "/demos/window-seat",
+        "build": "window-seat-v1-ce4ca86d625e",
+        "images": [
+          "/previews/window-seat-desktop.png",
+          "/previews/window-seat-atlantic.png"
+        ],
+        "reviewed": true
+      },
+      "proof": {
+        "builtAt": "2026-09-10",
+        "model": "GPT-6 Astra",
+        "startingPoint": "Empty standalone HTML file; requirements written before implementation in the complete build prompt.",
+        "interventions": "One authored build prompt implemented with inline HTML/CSS/JavaScript and original vector/CSS art. Host gallery integration and real browser screenshots were added separately; these are not part of the standalone app prompt.",
+        "checks": "UTC conversion, previous/next-day rollover, winter and mixed DST schedules, exact Atlantic overlap and no-overlap retention, invalid dates, duplicate cities, timeline limits, export and reset; layouts at 320/375/768/1440px.",
+        "reproduction": "passed",
+        "reproductionNotes": "A separate source implementation was authored from the recipe in a clean rebuild directory and exercised in Chromium. Core flows, exports, input errors and four responsive widths passed. The same agent authored both implementations; this was not a blind rebuild by another model or person. Layout and illustration details differ, so pixel-identical output is not promised."
+      }
+    }
+  }
+]

@@ -7,9 +7,6 @@ import { ArrowLeft, ArrowUpRight, Clock3, GitFork } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { CopyButton } from "@/components/copy-button";
 import { getPromptBySlug } from "@/lib/data";
-import { getActor } from "@/lib/access";
-import { SavePromptButton } from "@/components/save-prompt-button";
-import { chatGPTSignInPath } from "@/app/chatgpt-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -21,19 +18,17 @@ export default async function PromptPage({ params, searchParams }: { params: Pro
   const { slug } = await params;
   const { from } = await searchParams;
   const returnTo = from && /^\/(?:\?[^#]*)?#(?:prompts|project-[a-z0-9-]+)$/.test(from) ? from : "/#prompts";
-  const actor = await getActor();
-  const prompt = await getPromptBySlug(slug, actor);
-  if (!prompt) notFound();
+  const prompt = await getPromptBySlug(slug);
+  if (!prompt?.accessible) notFound();
   const store = await repository();
   const published = await store.publishedRecipe(prompt.id);
   if (published) {
     const recipe = published.recipe;
-    const saved = actor ? await store.libraryItemForPrompt(actor, prompt.id) : null;
-    return <main><SiteHeader /><article className="project-page project-page-minimal">
+    return <main className="editorial-site"><SiteHeader /><article className="project-page project-page-minimal">
       <Link className="project-back" href={returnTo}><ArrowLeft /> Back to collection</Link>
       <header className="project-heading"><div><h1>{recipe.title}</h1><p>{recipe.summary}</p></div><span className="recipe-version-label">{recipe.category} · v{published.version}</span></header>
       <ProjectDemo demo={recipe.demo} title={recipe.title} />
-      <RecipePanel recipe={recipe} promptId={prompt.id} slug={slug} versionId={published.id} signIn={actor ? null : chatGPTSignInPath(`/prompts/${slug}`)} savedId={saved?.id} />
+      <RecipePanel recipe={recipe} slug={slug} versionId={published.id} />
       <details className="recipe-build-record"><summary>How it was made</summary><p>{recipe.proof.startingPoint}</p><p>{recipe.tool}{recipe.proof.model ? ` · ${recipe.proof.model}` : ""} · {recipe.proof.builtAt}</p><h3>Build record</h3><p>{recipe.demo.build}</p><h3>Steps & interventions</h3><p>{recipe.proof.interventions}</p><h3>What was checked</h3><p>{recipe.proof.checks}</p><h3>Recipe reproduction</h3><p>{recipe.proof.reproductionNotes}</p></details>
     </article></main>;
   }
@@ -54,14 +49,14 @@ export default async function PromptPage({ params, searchParams }: { params: Pro
           <span className="project-type">Original collection</span>
         </header>
         <div className="proof-bar">
-          <span className={prompt.verified ? "verified" : "community"}>{prompt.access_mode === "earned" ? "Previously collected recipe" : "Original prompt"}</span>
+          <span className={prompt.verified ? "verified" : "community"}>{"Original prompt"}</span>
           <span><Clock3 aria-hidden="true" /> Tested {prompt.tested_at || "awaiting review"}</span>
           <span>{models.join(" · ")}</span>
         </div>
         <div className="detail-grid">
           <section className="prompt-panel">
-            <div className="panel-heading"><span>PROMPT</span><span>{!prompt.accessible ? "EXISTING COLLECTIONS ONLY" : prompt.github_url ? "EXTERNAL SOURCE" : "READY TO COPY"}</span></div>
-            {!prompt.accessible ? <div className="locked-recipe"><h2>This recipe is no longer available to collect.</h2><p>Previously collected copies remain in your library.</p><Link className="zine-action" href="/#prompts">Explore recipes →</Link></div> : prompt.prompt_text ? <pre>{prompt.prompt_text}</pre> : (
+            <div className="panel-heading"><span>PROMPT</span><span>{prompt.github_url ? "EXTERNAL SOURCE" : "READY TO COPY"}</span></div>
+            {prompt.prompt_text ? <pre>{prompt.prompt_text}</pre> : (
               <div className="external-prompt">
                 <GitFork aria-hidden="true" />
                 <h2>{prompt.github_url ? "This prompt lives on GitHub." : "This prompt is an attachment."}</h2>
@@ -69,7 +64,7 @@ export default async function PromptPage({ params, searchParams }: { params: Pro
               </div>
             )}
             <div className="prompt-actions">
-              {prompt.accessible && <SavePromptButton promptId={prompt.id} signIn={actor ? null : chatGPTSignInPath(`/prompts/${slug}`)} />}
+              <a className="secondary-action" href={`/api/recipes/${slug}/download`}>Download Markdown</a>
               {prompt.prompt_text && <CopyButton text={prompt.prompt_text} />}
               {prompt.github_url && <a className="github-button" href={prompt.github_url} target="_blank" rel="noreferrer"><GitFork aria-hidden="true" /> Open on GitHub <ArrowUpRight aria-hidden="true" /></a>}
               {prompt.asset_key && <a className="secondary-action" href={`/assets/${prompt.asset_key}`}>Download attachment</a>}

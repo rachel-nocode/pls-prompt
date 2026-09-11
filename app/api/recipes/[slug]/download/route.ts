@@ -1,5 +1,4 @@
 import { recordRecipeDownload } from "@/lib/download-analytics";
-import { getActor } from "@/lib/access";
 import { db, repository } from "@/lib/data";
 import { recipeDownload } from "@/lib/recipe-export";
 import { apiError, privateHeaders } from "@/lib/api";
@@ -11,12 +10,15 @@ async function respond(request: Request, { params }: { params: Promise<{ slug: s
     if (!prompt?.accessible) throw new AppError(404, "Recipe unavailable.");
     const versionId = new URL(request.url).searchParams.get("version") ?? undefined;
     const version = await store.publishedRecipe(prompt.id, versionId);
-    if (!version) throw new AppError(404, "Recipe version unavailable.");
+    if (!version) {
+      if (versionId || await store.hasRecipeProject(prompt.id)) throw new AppError(404, "Recipe version unavailable.");
+      const source = prompt.prompt_text || (prompt.github_url ? `Original source: ${prompt.github_url}` : prompt.asset_key ? `Attachment: /assets/${prompt.asset_key}` : prompt.promise);
+      return new Response(request.method === "HEAD" ? null : `# ${prompt.title}\n\n${source}\n`, { headers: { ...privateHeaders, "Content-Type": "text/markdown; charset=utf-8", "Content-Disposition": `attachment; filename="${slug}.md"`, "X-Content-Type-Options": "nosniff" } });
+    }
     const download = recipeDownload(version.recipe, version.id, slug);
     if (request.method === "GET") {
       try {
-        const actor = await getActor();
-        if (!actor?.isCreator && !/bot|crawler|spider|preview/i.test(request.headers.get("user-agent") ?? "")) {
+        if (!/bot|crawler|spider|preview/i.test(request.headers.get("user-agent") ?? "")) {
           await recordRecipeDownload(db(), prompt.id, version.id);
         }
       } catch { console.error("Download analytics unavailable"); }

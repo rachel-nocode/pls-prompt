@@ -8,7 +8,11 @@ import glyphLoom from "../demo-assets/glyph-loom.html?raw";
 import curveCabinet from "../demo-assets/curve-cabinet.html?raw";
 import chanceDrawer from "../demo-assets/chance-drawer.html?raw";
 import revisionLens from "../demo-assets/revision-lens.html?raw";
+import supperClub from "../demo-assets/supper-club.html?raw";
+import windowSeat from "../demo-assets/window-seat.html?raw";
 export const demoBundles: Record<string,string> = {
+  "supper-club": supperClub,
+  "window-seat": windowSeat,
   "tempo-lab": demo0,
   "studio-desk": demo1,
   "pixel-garden": demo2,

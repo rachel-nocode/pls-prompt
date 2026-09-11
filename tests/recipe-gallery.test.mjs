@@ -1,3 +1,5 @@
+import { seedEditorialRelease, retiredEditorialSlugs } from "../lib/seed-editorial-release.ts";
+import editorialContent from "../lib/editorial-project-content.json" with { type: "json" };
 import { copyText } from "../lib/copy-text.ts";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
@@ -196,4 +198,53 @@ test("every daily recipe has matching demo, real previews and ordered recipe-onl
   let previous=-1;for(const [i,step] of version.recipe.steps.entries()){const index=body.indexOf(`## ${i+1}. ${step.title}`);assert.ok(index>previous);assert.ok(body.includes(step.text));previous=index}
   assert.ok(!body.includes("<!doctype html>"));
  }
+});
+
+
+test("editorial replacement retires exactly four and preserves private copies and history", async t => {
+  const { store, db, sqlite } = await setup(t);
+  await seedGallery(db); await seedDailyProjects(db);
+  const id = "daily-revision-lens";
+  const released = await store.publishedRecipe(id);
+  const saved = await store.savePrompt(member,id,released.id);
+  await store.updateItem(member,saved.id,1,{...input,title:"My comparison",recipe:{...released.recipe,title:"My comparison"}});
+  const privateBefore = await store.libraryItemForPrompt(member,id);
+  const historyBefore = await store.itemVersions(member,saved.id);
+  const promptsBefore = sqlite.prepare("SELECT * FROM prompts ORDER BY id").all();
+  const versionsBefore = sqlite.prepare("SELECT * FROM recipe_versions ORDER BY id").all();
+  await seedEditorialRelease(db);
+  const gallery = await store.gallery();
+  assert.equal(gallery.length,8);
+  assert.deepEqual(editorialContent.map(x=>x.slug).sort(),["supper-club","window-seat"]);
+  for (const slug of retiredEditorialSlugs) {
+    assert.equal(gallery.some(x=>x.slug===slug),false);
+    assert.equal(await store.promptBySlug(slug,null),null);
+    assert.equal(await store.publishedRecipe("daily-"+slug),null);
+    assert.equal(await store.canReadRecipeMedia("/demos/"+slug),false);
+    assert.equal(sqlite.prepare("SELECT status FROM prompts WHERE slug=?").get(slug).status,"draft");
+  }
+  for (const row of promptsBefore.filter(x=>!retiredEditorialSlugs.includes(x.slug))) assert.deepEqual(sqlite.prepare("SELECT * FROM prompts WHERE id=?").get(row.id),row);
+  for (const row of versionsBefore) assert.deepEqual(sqlite.prepare("SELECT * FROM recipe_versions WHERE id=?").get(row.id),row);
+  assert.deepEqual(await store.libraryItemForPrompt(member,id),privateBefore);
+  assert.deepEqual(await store.itemVersions(member,saved.id),historyBefore);
+  for (const entry of editorialContent) {
+    assert.deepEqual(publicationProblems(entry.recipe),[]);
+    assert.equal(entry.recipe.steps[0].text,readFileSync(new URL("../docs/recipes/"+entry.slug+".md",import.meta.url),"utf8").trim());
+    assert.deepEqual((await store.publishedRecipe(entry.id)).recipe,entry.recipe);
+    assert.ok(recipeDownload(entry.recipe,entry.id+"-v1",entry.slug).bytes.length>1000);
+  }
+  const after=sqlite.prepare("SELECT * FROM prompts ORDER BY id").all();
+  await seedDailyProjects(db); await seedEditorialRelease(db);
+  assert.deepEqual(sqlite.prepare("SELECT * FROM prompts ORDER BY id").all(),after);
+});
+
+test("editorial release is atomic and retries without partial retirement or duplicate additions",async t=>{
+  const { store, db, sqlite }=await setup(t); await seedGallery(db);await seedDailyProjects(db);
+  const before=sqlite.prepare("SELECT * FROM prompts ORDER BY id").all();
+  db.failBatchAt=8;
+  await assert.rejects(seedEditorialRelease(db),/Simulated/);
+  assert.deepEqual(sqlite.prepare("SELECT * FROM prompts ORDER BY id").all(),before);
+  assert.equal(sqlite.prepare("SELECT count(*) n FROM content_revisions WHERE id='editorial-release-2026-09-10-v1'").get().n,0);
+  await seedEditorialRelease(db);assert.equal((await store.gallery()).length,8);
+  assert.equal(sqlite.prepare("SELECT count(*) n FROM prompts WHERE id LIKE 'editorial-%'").get().n,2);
 });

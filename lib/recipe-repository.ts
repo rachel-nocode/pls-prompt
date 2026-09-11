@@ -8,6 +8,9 @@ export function createRecipeRepository(db: SqlDatabase) {
   const all = async <T>(sql: string, ...values: unknown[]) => (await q(sql, ...values).all<T>()).results ?? [];
   const requireCreator = (actor: Actor) => { if (!actor.isCreator) throw new AppError(403, "Creator access is required."); };
   return {
+    async hasRecipeProject(promptId: string) {
+      return !!await q("SELECT prompt_id FROM recipe_projects WHERE prompt_id=?", promptId).first();
+    },
     async canReadRecipeMedia(url: string) {
       return !!await q("SELECT v.id FROM recipe_versions v JOIN recipe_projects r ON r.prompt_id=v.prompt_id JOIN prompts p ON p.id=v.prompt_id WHERE r.published_version_id IS NOT NULL AND p.status='published' AND p.access_mode='free' AND (json_extract(v.payload,'$.demo.url')=? OR EXISTS(SELECT 1 FROM json_each(v.payload,'$.demo.images') WHERE value=?)) LIMIT 1", url, url).first();
     },

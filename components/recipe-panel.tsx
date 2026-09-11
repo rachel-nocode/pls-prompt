@@ -5,10 +5,9 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { MarkdownPreview } from "./markdown-preview";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "./copy-button";
-import { SavePromptButton } from "./save-prompt-button";
 import { formatNames, type Recipe } from "@/lib/recipe-types";
 import { recipeMarkdown, recipeText } from "@/lib/recipe-export";
-export function RecipePanel({ recipe, promptId, slug, versionId, signIn, savedId }: { recipe: Recipe; promptId: string; slug: string; versionId: string; signIn: string | null; savedId?: string }) {
+export function RecipePanel({ recipe, slug, versionId }: { recipe: Recipe; slug: string; versionId: string }) {
   const [busy, setBusy] = useState(false), [error, setError] = useState("");
   const label = recipe.format === "skill" ? "Download skill" : recipe.format === "pack" ? "Download pack" : "Download recipe";
   async function download() {
@@ -20,9 +19,9 @@ export function RecipePanel({ recipe, promptId, slug, versionId, signIn, savedId
   return <section className="recipe-document" aria-label="Build recipe">
     <Tabs defaultValue="preview">
       <div className="recipe-document-toolbar">
-        <div className="recipe-document-title"><h2>{recipe.format === "skill" ? "Skill" : "Recipe"}</h2><span>{formatNames[recipe.format]}</span></div>
-        <TabsList variant="line" aria-label="Recipe view"><TabsTrigger value="preview">Preview</TabsTrigger><TabsTrigger value="markdown">Markdown</TabsTrigger></TabsList>
-        <div className="recipe-document-actions"><CopyButton text={recipeText(recipe)} label={recipe.format === "skill" ? "Copy skill" : recipe.format === "pack" ? "Copy all prompts" : "Copy prompt"} /><Button variant="ghost" onClick={download} disabled={busy}><Download />{busy ? "Preparing…" : label}</Button><SavePromptButton promptId={promptId} versionId={versionId} signIn={signIn} initialItemId={savedId} /></div>
+        <div className="recipe-document-title"><h2>{recipe.format === "skill" ? "Skill" : "Build prompt"}</h2><span>{formatNames[recipe.format]}</span></div>
+        <TabsList variant="line" aria-label="Recipe view"><TabsTrigger value="preview">Preview</TabsTrigger><TabsTrigger value="markdown">PROMPT.md</TabsTrigger></TabsList>
+        <div className="recipe-document-actions"><CopyButton text={recipeText(recipe)} label={recipe.format === "skill" ? "Copy skill" : recipe.format === "pack" ? "Copy all prompts" : "Copy prompt"} /><Button variant="ghost" onClick={download} disabled={busy}><Download />{busy ? "Preparing…" : label}</Button></div>
       </div>
       {error && <p className="form-error" role="alert">{error}</p>}
       <TabsContent value="preview"><MarkdownPreview text={markdown} /></TabsContent>

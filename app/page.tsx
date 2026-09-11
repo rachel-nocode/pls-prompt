@@ -5,5 +5,5 @@ export const dynamic = "force-dynamic";
 export default async function Home({ searchParams }: { searchParams: Promise<{ q?: string; category?: string }> }) {
   const { q, category } = await searchParams; const store = await repository();
   const projects = await store.gallery();
-  return <main><SiteHeader /><ProjectGallery projects={projects} initialQuery={q ?? ""} initialCategory={category && ["Game","Web app","Mini app"].includes(category) ? category : "All projects"} /></main>;
+  return <main className="editorial-site home-gallery"><SiteHeader /><ProjectGallery projects={projects} initialQuery={q ?? ""} initialCategory={category && ["Game","Web app","Mini app"].includes(category) ? category : "All projects"} /></main>;
 }
