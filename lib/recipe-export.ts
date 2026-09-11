@@ -3,7 +3,7 @@ import type { Recipe } from "./recipe-types";
 export function recipeText(recipe: Recipe): string {
   if (recipe.format === "skill") return recipe.files.map(file => `## ${file.name}\n\n${file.content}`).join("\n\n");
   if (recipe.format === "single") return recipe.steps[0]?.text ?? "";
-  return recipe.steps.map((step, index) => `## ${index + 1}. ${step.title}\n\n${step.text}`).join("\n\n");
+  return recipe.steps.map(step => step.text).join("\n\n");
 }
 export function recipeMarkdown(recipe: Recipe, version: string): string {
   return `# ${recipe.title}\n\n${recipe.summary}\n\nRecipe version: ${version}\nTool: ${recipe.tool}\n\n## Before you start\n\n${recipe.setup}\n\n${recipeText(recipe)}\n\n## Make it yours\n\n${recipe.customize}\n\n## Known limits\n\n${recipe.limits}\n`;
