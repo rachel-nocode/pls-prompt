@@ -8,7 +8,7 @@ The user supplied DESIGN.md and three Monopo Saigon screenshots on September 10.
 
 ## Composition
 
-- Full-viewport atmospheric hero with smooth dark sage/amber smoked-glass texture, fine grain and deep black pools; fades to black at the bottom.
+- Full-viewport atmospheric hero with smooth dark forest-green/vermillion smoked-glass texture, fine grain and deep black pools; fades to black at the bottom.
 - Small floating PlsPrompt wordmark and a subtle pill-shaped search input only. No rounded outer frame.
 - One restrained centered white title: “Ideas, brought to life.” Roughly 54px at 1440px, not the oversized 225px value from generated documentation.
 - Circular typographic scroll cue at lower left, aligned to body container.
@@ -26,7 +26,7 @@ Search supports project title, summary and tags; category controls remain availa
 
 ## Asset provenance
 
-public/monopo-liquid-v2.png is an imagegen asset generated for this redesign using the supplied screenshot as a style reference; it contains no copied logo, UI or text. Supper Club and Window Seat previews are real screenshots of the implemented HTML demos. The app art is authored SVG/CSS and is independent of the gallery visual system.
+public/hero-liquid-vermillion-v1.png is a built-in imagegen color-only edit of the approved monopo-liquid-v2.png composition. The user requested keeping dark green and replacing amber/gold with vivid red-orange to distinguish the site from its inspiration. No logo, UI, text, crop or geometry was added. The new asset filename prevents reuse of the previous amber image from caches. Supper Club and Window Seat previews are real screenshots of the implemented HTML demos. The app art is authored SVG/CSS and is independent of the gallery visual system.
 
 ## Release state
 
